@@ -65,22 +65,36 @@ function randPin(c,mi){const r=mi*M_PER_MI*Math.sqrt(0.15+0.85*Math.random()),t=
 let curCtl=null,cancelTok={c:false};
 function ask(msg,btns){return new Promise(res=>{$('askmsg').textContent=msg;$('askbtns').innerHTML='';btns.forEach(([label,val,cls])=>{const b=document.createElement('button');b.textContent=label;b.className=cls||'sec';b.onclick=()=>{$('ask').classList.add('hidden');res(val)};$('askbtns').appendChild(b)});$('ask').classList.remove('hidden')})}
 function hideAsk(){$('ask').classList.add('hidden')}
-const OVP=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter','https://maps.mail.ru/osm/tools/overpass/api/interpreter'];
-async function osmCheck(p){const L=p.lat.toFixed(6)+','+p.lng.toFixed(6);
-const q='[out:json][timeout:8];(way(around:40,'+L+')[railway~"^(rail|light_rail|subway|tram|narrow_gauge|monorail|funicular|disused|abandoned|preserved)$"];way(around:40,'+L+')[highway~"^(motorway|trunk|primary|motorway_link|trunk_link|primary_link)$"];nwr(around:40,'+L+')[natural=water];way(around:40,'+L+')[waterway];nwr(around:40,'+L+')[landuse~"^(military|industrial|railway)$"];nwr(around:40,'+L+')[access~"^(private|no)$"];way(around:30,'+L+')[highway~"^(path|footway|track|bridleway|cycleway)$"];way(around:30,'+L+')[leisure=park];);out tags;is_in('+L+')->.a;(area.a[natural=water];area.a[landuse~"^(military|industrial|railway)$"];area.a[access~"^(private|no)$"];area.a[leisure~"^(park|nature_reserve)$"];area.a[boundary=protected_area];);out tags;';
-let lastErr;for(const u of OVP){try{const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),8000);if(cancelTok.c)throw new Error('cancelled');curCtl=ctl;
-const r=await fetch(u,{method:'POST',body:'data='+encodeURIComponent(q),headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ctl.signal});clearTimeout(tm);
-if(!r.ok)throw new Error('HTTP '+r.status);const j=await r.json();let bad=false,good=false;
-for(const e of j.elements){const t=e.tags||{};
-if(t.railway||t.natural==='water'||t.waterway||/^(military|industrial|railway)$/.test(t.landuse||'')||/^(private|no)$/.test(t.access||'')||/^(motorway|trunk|primary)/.test(t.highway||''))bad=true;
-else if(/^(path|footway|track|bridleway|cycleway)$/.test(t.highway||'')||t.leisure||t.boundary)good=true}
-return{bad,good}}catch(e){lastErr=e}}throw lastErr||new Error('Overpass unreachable')}
-async function safePin(c,mi,msgEl){let fallback=null;cancelTok={c:false};const tok=cancelTok;
-for(let i=1;i<=15;i++){if(tok.c)return null;const p=randPin(c,mi);if(msgEl)msgEl.textContent='Checking pin safety ('+i+'/15)… tap Start fresh to cancel';let r;
-try{r=await osmCheck(p)}catch(e){if(tok.c)return null;const ch=await ask('Could not reach the map safety check. Place the pin unchecked (be extra careful and reroll if it looks unsafe), or try again?',[['Try again','retry'],['Place unchecked','place','primary'],['Cancel','cancel']]);
-if(ch==='place')return p;if(ch==='cancel')return null;i--;continue}
-if(!r.bad){if(r.good)return p;if(!fallback)fallback=p}}
-if(fallback)return fallback;await ask('Could not find a clearly safe spot after 15 tries. Try a different radius or location.',[['OK','ok','primary']]);return null}
+const OVP=['https://overpass-api.de/api/interpreter','https://overpass.private.coffee/api/interpreter','https://maps.mail.ru/osm/tools/overpass/api/interpreter'];
+let osmCache=null;
+async function fetchArea(c,mi){const key=c.lat.toFixed(3)+','+c.lng.toFixed(3)+','+mi;if(osmCache&&osmCache.key===key)return osmCache;
+const r=mi*M_PER_MI+60,dLa=r/111320,dLo=r/(111320*Math.cos(rad(c.lat)));const bb=[c.lat-dLa,c.lng-dLo,c.lat+dLa,c.lng+dLo].map(x=>x.toFixed(5)).join(',');
+const q='[out:json][timeout:25][bbox:'+bb+'];(way[railway];way[highway~"^(motorway|trunk|primary|motorway_link|trunk_link|primary_link|path|footway|track|bridleway)$"];way[waterway];nwr[natural=water];nwr[landuse~"^(military|industrial|railway)$"];way[access~"^(private|no)$"];nwr[leisure~"^(park|nature_reserve)$"];);out geom qt;';
+const errs=[];for(const u of OVP){if(cancelTok.c)throw new Error('cancelled');const ctl=new AbortController();curCtl=ctl;const tm=setTimeout(()=>ctl.abort(),20000);
+try{const res=await fetch(u,{method:'POST',body:new URLSearchParams({data:q}),signal:ctl.signal,referrerPolicy:'strict-origin-when-cross-origin',mode:'cors',credentials:'omit'});
+if(!res.ok)throw new Error('HTTP '+res.status);const j=await res.json();osmCache={key,feats:parseFeats(j.elements||[])};return osmCache}
+catch(e){errs.push(u.split('/')[2]+': '+(e.name==='AbortError'?'timeout':e.message))}finally{clearTimeout(tm)}}
+throw new Error(errs.join('; '))}
+function classify(t){if(t.railway&&t.railway!=='platform')return'bad';const h=t.highway||'';if(/^(motorway|trunk|primary)/.test(h))return'bad';
+if(t.waterway||t.natural==='water'||/^(military|industrial|railway)$/.test(t.landuse||'')||/^(private|no)$/.test(t.access||''))return'bad';
+if(/^(path|footway|track|bridleway)$/.test(h)||t.leisure)return'good';return null}
+function parseFeats(els){const out=[];for(const e of els){const k=classify(e.tags||{});if(!k)continue;
+const lines=e.type==='way'?[e.geometry||[]]:e.type==='relation'?(e.members||[]).filter(m=>m.geometry).map(m=>m.geometry):[];
+if(e.type==='node'){out.push({k,pts:[{lat:e.lat,lon:e.lon}],area:false});continue}
+for(const g of lines){if(g.length<1)continue;const closed=g.length>3&&g[0].lat===g[g.length-1].lat&&g[0].lon===g[g.length-1].lon;
+const area=closed&&!(e.tags.highway||e.tags.railway||e.tags.waterway);out.push({k,pts:g,area})}}return out}
+function segDist(p,a,b){const kx=111320*Math.cos(rad(p.lat)),ky=111320;const ax=(a.lon-p.lng)*kx,ay=(a.lat-p.lat)*ky,bx=(b.lon-p.lng)*kx,by=(b.lat-p.lat)*ky;
+const dx=bx-ax,dy=by-ay,l=dx*dx+dy*dy;let t=l?-(ax*dx+ay*dy)/l:0;t=Math.max(0,Math.min(1,t));return Math.hypot(ax+t*dx,ay+t*dy)}
+function inPoly(p,g){let ins=false;for(let i=0,j=g.length-1;i<g.length;j=i++){const a=g[i],b=g[j];if((a.lat>p.lat)!==(b.lat>p.lat)&&p.lng<(b.lon-a.lon)*(p.lat-a.lat)/(b.lat-a.lat)+a.lon)ins=!ins}return ins}
+function judge(p,feats){let bad=false,good=false;for(const f of feats){const lim=f.k==='bad'?40:30;let d=f.area&&inPoly(p,f.pts)?0:Infinity;
+if(d)for(let i=0;i<f.pts.length;i++){d=Math.min(d,i?segDist(p,f.pts[i-1],f.pts[i]):segDist(p,f.pts[0],f.pts[0]));if(d<lim)break}
+if(d<lim){if(f.k==='bad'){bad=true;break}good=true}}return{bad,good}}
+async function safePin(c,mi,msgEl){cancelTok={c:false};const tok=cancelTok;let area;
+while(true){if(tok.c)return null;if(msgEl)msgEl.textContent='Loading trail safety map… (tap Start fresh to cancel)';
+try{area=await fetchArea(c,mi);break}catch(e){if(tok.c)return null;const ch=await ask('Could not load the map safety check ('+e.message+'). Place the pin unchecked (be extra careful and reroll if it looks unsafe), or try again?',[['Try again','retry'],['Place unchecked','place','primary'],['Cancel','cancel']]);
+if(ch==='place')return randPin(c,mi);if(ch==='cancel')return null}}
+let fallback=null;for(let i=0;i<60;i++){const p=randPin(c,mi),r=judge(p,area.feats);if(!r.bad){if(r.good)return p;if(!fallback)fallback=p}}
+if(fallback)return fallback;await ask('Could not find a clearly safe spot nearby. Try a different radius or location.',[['OK','ok','primary']]);return null}
 const fmt=m=>m<300?Math.round(m*3.281)+' ft':(m/M_PER_MI).toFixed(2)+' mi';
 function save(){try{S.v=SCHEMA;localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
 function getPos(){return new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(p=>res({lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy}),rej,{enableHighAccuracy:true,timeout:20000}))}
