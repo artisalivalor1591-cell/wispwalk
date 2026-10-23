@@ -7,7 +7,7 @@ main{max-width:480px;margin:0 auto;padding:12px}.card{background:#fffdf7;border-
 h2{margin:0 0 10px;font-size:1.1rem}.radii{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
 button{font:inherit;border:0;border-radius:12px;padding:12px;font-weight:600;cursor:pointer}
 .r{background:#e3eee6;color:#1f4d3a}.r.sel{background:#1f4d3a;color:#fff}.primary{background:#e07a2f;color:#fff;width:100%;font-size:1.1rem;padding:15px}
-.primary:disabled{background:#c9c2b2;color:#776}.sec{background:#e3eee6;color:#1f4d3a}.row{display:flex;gap:8px}.row button{flex:1}
+.primary:disabled{background:#c9c2b2;color:#776}.sec{background:#e3eee6;color:#1f4d3a}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1}
 #temp{font-size:2.2rem;font-weight:800;text-align:center;padding:18px;border-radius:16px;color:#fff;transition:background .6s}
 .big{text-align:center;font-size:1.1rem;margin:10px 0}.muted{color:#6b6b5e;font-size:.88rem}.hint{background:#f1ecdd;border-radius:10px;padding:10px;margin:6px 0}
 .hint.locked{opacity:.6}.safety{background:#fff4e0;border-left:5px solid #e07a2f}.hidden{display:none}
@@ -22,7 +22,17 @@ a{color:#1f4d3a;font-weight:600}
 <section id="setup" class="card"><h2>Start a hunt</h2>
 <div class="muted">Choose how far away the treasure can be hidden.</div>
 <div class="radii"><button class="r" data-mi="0.25">¼ mi</button><button class="r sel" data-mi="0.5">½ mi</button><button class="r" data-mi="1">1 mi</button><button class="r" data-mi="2">2 mi</button></div>
-<button id="start" class="primary">Hide my treasure 🌲</button><p id="gpsmsg" class="muted"></p></section>
+<div class="card safety" style="box-shadow:none;margin:12px 0"><b>⚠️ Play at your own risk</b>
+<ul style="padding-left:18px;margin:8px 0;font-size:.9rem">
+<li>Participation is voluntary and entirely at your own risk.</li>
+<li>Obey all laws, posted signs, and park rules.</li>
+<li>Never enter railroad tracks, roads, water, private property, or closed areas.</li>
+<li>Pins are auto-generated and may be inaccessible. Reroll rather than trespass.</li>
+<li>The creator is not liable for any injury or property damage.</li>
+<li>Minors must play with parental supervision.</li></ul>
+<label style="display:flex;gap:8px;align-items:flex-start;font-weight:600"><input type="checkbox" id="agree" style="width:22px;height:22px"> I have read and agree to play at my own risk for this hunt.</label>
+<p class="muted" style="margin:8px 0 0">Prototype only. This agreement is not legal advice.</p></div>
+<button id="start" class="primary" disabled>Hide my treasure 🌲</button><p id="gpsmsg" class="muted"></p></section>
 
 <section id="hunt" class="card hidden">
 <div id="temp" style="background:#5a8bb0">Locating…</div>
@@ -32,7 +42,7 @@ a{color:#1f4d3a;font-weight:600}
 <p class="muted" style="text-align:center">Claim unlocks within ~20 m of the treasure.</p>
 <h2>Trail tasks → hints</h2><div id="hints"></div>
 <p class="muted">Walked so far: <b id="walked">0</b></p>
-<div class="row"><button id="reroll" class="sec">🎲 Reroll pin</button><button id="giveup" class="sec">🏳️ Give up / reveal</button></div>
+<div class="row"><button id="reroll" class="sec">🎲 Reroll pin</button><button id="unsafe" class="sec">🚫 Report unsafe pin</button><button id="giveup" class="sec">🏳️ Give up / reveal</button></div>
 <p id="reveal" class="hidden"></p></section>
 
 <section id="win" class="card hidden"><div class="badge" id="badge">🏅</div>
@@ -49,12 +59,28 @@ function dist(a,b){const R=6371000,dLa=rad(b.lat-a.lat),dLo=rad(b.lng-a.lng);con
 function bearing(a,b){const y=Math.sin(rad(b.lng-a.lng))*Math.cos(rad(b.lat)),x=Math.cos(rad(a.lat))*Math.sin(rad(b.lat))-Math.sin(rad(a.lat))*Math.cos(rad(b.lat))*Math.cos(rad(b.lng-a.lng));return (Math.atan2(y,x)*180/Math.PI+360)%360}
 const dirs=['north','northeast','east','southeast','south','southwest','west','northwest'];
 function randPin(c,mi){const r=mi*M_PER_MI*Math.sqrt(0.15+0.85*Math.random()),t=Math.random()*2*Math.PI;return{lat:c.lat+(r*Math.cos(t))/111320,lng:c.lng+(r*Math.sin(t))/(111320*Math.cos(rad(c.lat)))}}
+
+const OVP=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter','https://maps.mail.ru/osm/tools/overpass/api/interpreter'];
+async function osmCheck(p){const L=p.lat.toFixed(6)+','+p.lng.toFixed(6);
+const q='[out:json][timeout:15];(way(around:40,'+L+')[railway~"^(rail|light_rail|subway|tram|narrow_gauge|monorail|funicular|disused|abandoned|preserved)$"];way(around:40,'+L+')[highway~"^(motorway|trunk|primary|motorway_link|trunk_link|primary_link)$"];nwr(around:40,'+L+')[natural=water];way(around:40,'+L+')[waterway];nwr(around:40,'+L+')[landuse~"^(military|industrial|railway)$"];nwr(around:40,'+L+')[access~"^(private|no)$"];way(around:30,'+L+')[highway~"^(path|footway|track|bridleway|cycleway)$"];way(around:30,'+L+')[leisure=park];);out tags;is_in('+L+')->.a;(area.a[natural=water];area.a[landuse~"^(military|industrial|railway)$"];area.a[access~"^(private|no)$"];area.a[leisure~"^(park|nature_reserve)$"];area.a[boundary=protected_area];);out tags;';
+let lastErr;for(const u of OVP){try{const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),15000);
+const r=await fetch(u,{method:'POST',body:'data='+encodeURIComponent(q),headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ctl.signal});clearTimeout(tm);
+if(!r.ok)throw new Error('HTTP '+r.status);const j=await r.json();let bad=false,good=false;
+for(const e of j.elements){const t=e.tags||{};
+if(t.railway||t.natural==='water'||t.waterway||/^(military|industrial|railway)$/.test(t.landuse||'')||/^(private|no)$/.test(t.access||'')||/^(motorway|trunk|primary)/.test(t.highway||''))bad=true;
+else if(/^(path|footway|track|bridleway|cycleway)$/.test(t.highway||'')||t.leisure||t.boundary)good=true}
+return{bad,good}}catch(e){lastErr=e}}throw lastErr||new Error('Overpass unreachable')}
+async function safePin(c,mi,msgEl){let fallback=null;
+for(let i=1;i<=15;i++){const p=randPin(c,mi);if(msgEl)msgEl.textContent='Checking pin safety ('+i+'/15)…';let r;
+try{r=await osmCheck(p)}catch(e){if(confirm('Could not reach the map safety check ('+e.message+').\nOK = place the pin unchecked (be extra careful, reroll if unsafe)\nCancel = try again'))return p;i--;continue}
+if(!r.bad){if(r.good)return p;if(!fallback)fallback=p}}
+if(fallback)return fallback;alert('Could not find a clearly safe spot after 15 tries. Try a different radius or location.');return null}
 const fmt=m=>m<300?Math.round(m*3.281)+' ft':(m/M_PER_MI).toFixed(2)+' mi';
 function save(){localStorage.setItem(K,JSON.stringify(S))}
 function getPos(){return new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(p=>res({lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy}),rej,{enableHighAccuracy:true,timeout:20000}))}
 function makeHints(){const m=S.radiusMi*M_PER_MI;return[{at:m*0.25,type:'dir',label:'Walk '+fmt(m*0.25)+' → compass direction'},{at:m*0.5,type:'half',label:'Walk '+fmt(m*0.5)+' → north or south half?'},{at:m*0.9,type:'exact',label:'Walk '+fmt(m*0.9)+' → exact distance'}]}
 async function start(){if(!navigator.geolocation){$('gpsmsg').textContent='Geolocation not supported.';return}
-$('gpsmsg').textContent='Getting your location…';try{const c=await getPos();S={radiusMi:miSel,start:c,pin:randPin(c,miSel),t0:Date.now(),walked:0};S.hints=makeHints();save();prevD=null;last=c;run()}catch(e){$('gpsmsg').textContent='Location needed: '+e.message+'. Allow location access and try again.'}}
+$('gpsmsg').textContent='Getting your location…';try{const c=await getPos();const pin=await safePin(c,miSel,$('gpsmsg'));if(!pin)return;$('gpsmsg').textContent='';S={radiusMi:miSel,start:c,pin,t0:Date.now(),walked:0};S.hints=makeHints();save();prevD=null;last=c;run()}catch(e){$('gpsmsg').textContent='Location needed: '+e.message+'. Allow location access and try again.'}}
 function run(){$('setup').classList.add('hidden');$('win').classList.add('hidden');$('hunt').classList.remove('hidden');$('reveal').classList.add('hidden');
 if(watch!==null)navigator.geolocation.clearWatch(watch);watch=navigator.geolocation.watchPosition(onPos,e=>$('acc').textContent='GPS: '+e.message,{enableHighAccuracy:true,maximumAge:3000,timeout:30000});renderHints(null)}
 function onPos(p){const c={lat:p.coords.latitude,lng:p.coords.longitude},acc=p.coords.accuracy;
@@ -75,8 +101,10 @@ const prizes=['Golden Pinecone','Trailblazer Patch','Summit Sticker Pack','Explo
 function claim(){navigator.geolocation.clearWatch(watch);const ms=Date.now()-S.t0,m=Math.floor(ms/60000),s=Math.floor(ms/1000)%60;
 $('badge').textContent=badges[Math.floor(Math.random()*badges.length)];$('prize').textContent=prizes[Math.floor(Math.random()*prizes.length)]+' (mock)';
 $('wtime').textContent=m+'m '+s+'s';$('wdist').textContent=fmt(S.walked);localStorage.removeItem(K);$('hunt').classList.add('hidden');$('win').classList.remove('hidden')}
-$('start').onclick=start;$('claim').onclick=claim;$('again').onclick=()=>{$('win').classList.add('hidden');$('setup').classList.remove('hidden')};
-$('reroll').onclick=()=>{if(!confirm('Reroll the treasure to a new spot?'))return;const c=S.lastC||S.start;S.pin=randPin(c,S.radiusMi);S.start=c;save();prevD=null;$('trend').textContent='New pin hidden!'};
+$('agree').onchange=e=>$('start').disabled=!e.target.checked;$('start').onclick=start;$('claim').onclick=claim;$('again').onclick=()=>{$('agree').checked=false;$('start').disabled=true;$('win').classList.add('hidden');$('setup').classList.remove('hidden')};
+async function reroll(msg){if(!confirm(msg))return;const c=S.lastC||S.start;$('trend').textContent='Finding a safe new spot…';const p=await safePin(c,S.radiusMi,$('trend'));if(!p){$('trend').textContent='Reroll failed, try again.';return}S.pin=p;S.start=c;save();prevD=null;$('trend').textContent='New pin hidden!'}
+$('reroll').onclick=()=>reroll('Reroll the treasure to a new spot?');
+$('unsafe').onclick=()=>reroll('Report this pin as unsafe or inaccessible and move it to a new spot? Do not approach it.');
 $('giveup').onclick=()=>{if(!confirm('Give up and reveal the treasure?'))return;navigator.geolocation.clearWatch(watch);const u='https://www.openstreetmap.org/?mlat='+S.pin.lat.toFixed(6)+'&mlon='+S.pin.lng.toFixed(6)+'#map=17/'+S.pin.lat.toFixed(6)+'/'+S.pin.lng.toFixed(6);
 $('reveal').innerHTML='The treasure was here: <a href="'+u+'" target="_blank">open in OpenStreetMap</a><br><button class="sec" onclick="localStorage.removeItem(K);location.reload()">Start over</button>';$('reveal').classList.remove('hidden')};
 try{S=JSON.parse(localStorage.getItem(K));if(S&&S.pin){last=S.lastC||S.start;run()}}catch(e){}
