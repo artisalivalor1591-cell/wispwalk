@@ -920,20 +920,146 @@ const T={haunted:[
 "Wisconsin has more than 800 miles of Great Lakes shoreline.",
 "Water is densest at about 39°F, which is why lakes freeze from the top down."],story:[
 "Old mapmakers sometimes added fake 'trap streets' to catch copycats."]};
+const CTX=[
+// seasons
+['b','fall',"Many birds migrate at night, navigating partly by the stars and Earth's magnetic field."],
+['n','fall',"Squirrels may bury thousands of nuts each fall, and the forgotten ones grow into trees."],
+['n','fall',"Canada geese fly in a V so each bird gets lift from the wingtip swirl of the one ahead."],
+['n','fall',"Black bears can eat around 20,000 calories a day in fall to fatten up for winter."],
+['f','fall',"Medieval villages slaughtered and salted much of their livestock in November, since there wasn't enough feed for winter."],
+['f','fall',"The harvest moon is the full moon closest to the autumn equinox; its early evening light helped farmers work late."],
+['n','winter',"Wood frogs survive winter with up to about two-thirds of their body water frozen."],
+['n','winter',"Ruffed grouse dive into soft snow to sleep, using it as an insulated burrow."],
+['n','winter',"Snowshoe hares turn white in winter and brown in summer, triggered by day length."],
+['n','winter',"Chickadees can lower their body temperature at night to save energy, a state called torpor."],
+['f','winter',"In the 1600s and 1700s the Thames froze often enough that Londoners held 'frost fairs' on the ice."],
+['f','winter',"Norse lore tells of Fimbulwinter, three winters in a row with no summer, before Ragnarok."],
+['n','spring',"The spring 'dawn chorus' is mostly male birds singing to claim territory and attract mates."],
+['n','spring',"Maple syrup takes about 40 gallons of sap to make one gallon of syrup."],
+['n','spring',"Morel mushrooms often pop up in spring around dead elms and old apple trees."],
+['f','spring',"Maypole dancing comes from old European spring festivals celebrating fertility and new growth."],
+['f','spring',"Many Native peoples of the Great Lakes tapped maple trees long before Europeans arrived."],
+['n','summer',"Fireflies flash in species-specific patterns, like a Morse code for finding mates."],
+['n','summer',"You can estimate temperature from snowy tree cricket chirps: count chirps in 14 seconds and add 40 for °F."],
+['n','summer',"Loon chicks often ride on their parents' backs for their first weeks."],
+['f','summer',"The 'dog days' of summer are named for Sirius, the Dog Star, which rises with the sun in late summer."],
+['f','summer',"Midsummer bonfires were lit across old Europe on the shortest night of the year."],
+// weather
+['n','rain',"Raindrops aren't teardrop shaped; small ones are round and larger ones flatten like a bun."],
+['n','rain',"Earthworms come to the surface in rain, possibly because moving above ground is easier when it's wet."],
+['n','rain',"Many plants release oils during dry spells; rain knocks them loose, part of the smell of petrichor."],
+['f','rain',"Sailors read the sky with rhymes like 'Red sky at night, sailor's delight; red sky at morning, sailors take warning.'"],
+['f','rain',"In Norse myth, rain and good harvests were linked to Freyr, and thunder to Thor."],
+['n','snow',"A typical snowflake falls at only about 1 to 4 miles per hour."],
+['n','snow',"Fresh snow can be over 90% trapped air, which is why it insulates so well."],
+['n','snow',"Wilson Bentley of Vermont took the first known photos of single snowflakes in 1885."],
+['f','snow',"Old Russian and Scandinavian folk tales feature snow maidens and frost spirits like Father Frost."],
+['n','fog',"Fog is simply a cloud touching the ground."],
+['n','fog',"Fog often forms on clear, calm nights as the ground cools and chills the air above it."],
+['f','fog',"Before radar, lighthouses used foghorns, bells, and even cannons to warn ships in fog."],
+['f','fog',"Ancient mariners dreaded fog so much that many cultures had myths of ghost ships appearing out of it."],
+['n','storm',"Count the seconds between lightning and thunder and divide by five to estimate the distance in miles."],
+['n','storm',"A lightning bolt can be about five times hotter than the surface of the sun."],
+['n','storm',"Thunder is the sound of air expanding explosively as lightning heats it."],
+['f','storm',"Sailors called the glowing plasma on masts during storms 'St. Elmo's fire' and took it as a sign of protection."],
+['f','storm',"Benjamin Franklin's lightning rod was one of the first inventions to tame a force once blamed on angry gods."],
+['n','clear',"On a clear dark night, the human eye can see a few thousand stars."],
+['n','clear',"The sky is blue because air scatters blue sunlight more than red light."],
+['f','clear',"Polynesian navigators memorized the rising points of dozens of stars to steer across the Pacific."],
+['n','cloudy',"Clouds look white because their droplets scatter all colors of light equally."],
+['n','cloudy',"Even on cloudy days, much of the sun's UV light still gets through."],
+// time of day
+['n','dawn',"Robins are among the first birds to sing at dawn, often before sunrise."],
+['n','dawn',"Deer are most active at dawn and dusk, which scientists call being crepuscular."],
+['f','dawn',"Roman soldiers and sailors divided the night into watches, and the last watch ended at dawn."],
+['n','dusk',"Bats leave their roosts at dusk; a single little brown bat can eat hundreds of insects an hour."],
+['n','dusk',"The pink-purple band above the horizon after sunset is called the Belt of Venus."],
+['f','dusk',"Medieval monks timed evening prayers, called Vespers, to the lighting of the lamps at dusk."],
+['n','night',"Owls fly almost silently thanks to soft, comb-like edges on their feathers."],
+['n','night',"Your eyes take about 20 to 30 minutes to fully adjust to the dark."],
+['n','night',"Barred owls in Wisconsin woods call 'Who cooks for you? Who cooks for you-all?'"],
+['n','night',"The light from some stars you see left them before your great-grandparents were born."],
+['f','night',"Ancient peoples grouped stars into constellations to tell stories and track planting seasons."],
+['f','night',"Town watchmen once walked the streets at night calling out the hour and the weather."],
+// holidays
+['b','halloween',"Trick-or-treating has roots in old customs like 'souling' and 'guising', going door to door for food."],
+['n','halloween',"Illinois grows more pumpkins than any other U.S. state."],
+['f','halloween',"In Celtic belief, the boundary between worlds was thinnest at Samhain, letting spirits pass through."],
+['n','thanksgiving',"Benjamin Franklin once wrote that he considered the turkey a more respectable bird than the bald eagle."],
+['n','thanksgiving',"Thanksgiving became a national holiday in 1863 under Abraham Lincoln."],
+['f','thanksgiving',"Harvest festivals of thanks are ancient; England's Harvest Home dates back centuries."],
+['n','christmas',"Wisconsin is one of the top Christmas tree producing states."],
+['n','christmas',"Reindeer are the same species as caribou."],
+['n','christmas',"Reindeer eyes change color from gold in summer to blue in winter, helping them see in the dark months."],
+['f','christmas',"Yule was a midwinter festival in old Germanic lands, and the Yule log tradition comes from it."],
+['f','christmas',"Mistletoe was sacred to ancient Druids, and Norse myth links it to the god Baldur."],
+['b','newyear',"The Babylonians celebrated the new year about 4,000 years ago, in spring."],
+['f','newyear',"January is named for Janus, the two-faced Roman god who looks both back and forward."],
+['n','valentine',"Prairie voles are one of the few mammals that usually pair for life."],
+['f','valentine',"Chaucer was one of the first writers to link St. Valentine's Day with romance, in the 1300s."],
+['n','stpatrick',"There are no native snakes in Ireland, though the reason is the Ice Age, not St. Patrick."],
+['f','stpatrick',"The shamrock was reportedly used by St. Patrick to explain the Christian Trinity."],
+['n','easter',"Eggs were often decorated in spring festivals long before modern Easter traditions."],
+['f','easter',"The word Easter may come from Eostre, a spring goddess mentioned by the monk Bede in the 700s."],
+['n','july4',"John Adams and Thomas Jefferson both died on July 4, 1826, the 50th anniversary of the Declaration."],
+['n','july4',"Fireworks colors come from metal salts: strontium for red, barium for green, copper for blue."],
+['f','july4',"Fireworks were invented in China over a thousand years ago, using gunpowder in bamboo."],
+// location
+['n','water',"Lakes 'turn over' in spring and fall as surface water sinks and mixes oxygen to the depths."],
+['n','water',"Dragonfly larvae can live underwater for years before emerging as adults."],
+['n','water',"Ice on a lake should be at least 4 inches of clear ice to walk on safely."],
+['f','water',"Ojibwe tradition tells of Mishipeshu, an underwater panther said to guard copper in the Great Lakes."],
+['n','forest',"A single mature tree can be home to hundreds of species of insects, birds, and fungi."],
+['n','forest',"Pine needles come in bundles; red pines have two per bundle and white pines five."],
+['f','forest',"In medieval England, 'forest' was a legal term for royal hunting land, not necessarily woods."],
+['n','trail',"Many hiking trails follow paths first worn by animals or Native travel routes."],
+['n','trail',"The Ice Age National Scenic Trail winds roughly 1,200 miles across Wisconsin along glacial landforms."],
+['f','trail',"Roman roads were so well built that some are still used as paths today."],
+['n','park',"Wisconsin's first state park, Interstate Park, was established in 1900."],
+['f','park',"Many old European parks began as private deer parks walled off for nobles' hunting."],
+['n','wi',"Wisconsin's state animal is the badger, named after lead miners who dug into hillsides like badgers."],
+['n','wi',"The first practical typewriter was developed in Milwaukee in the 1860s."],
+['n','wi',"Wisconsin was the first state to number its highways."],
+['f','wi',"French fur traders and voyageurs gave many Wisconsin places their names, like Eau Claire and Fond du Lac."],
+['n','northwoods',"Northern Wisconsin was heavily logged in the late 1800s; much of today's forest regrew after that."],
+['n','northwoods',"The Northwoods has one of the highest concentrations of freshwater lakes in the world."],
+['n','northwoods',"Gray wolves returned to Wisconsin on their own from Minnesota in the 1970s."],
+['f','northwoods',"Lumberjack camps had cooks called 'cookees' and tall tales like Paul Bunyan grew from them."],
+['n','birnamwood',"Birnamwood, Wisconsin is named after Birnam Wood from Shakespeare's Macbeth."],
+['f','birnamwood',"In Macbeth, the witches promise Macbeth he's safe until Birnam Wood comes to Dunsinane, and then soldiers carry its branches."]];
+
+const LBL={fall:'🍂 Autumn note',winter:'❄️ Winter note',spring:'🌱 Spring note',summer:'☀️ Summer note',rain:'🌧 Rainy-day note',snow:'🌨 Snowy-day note',fog:'🌫 Foggy-day note',storm:'⛈ Stormy-day note',clear:'✨ Clear-sky note',cloudy:'☁️ Cloudy-day note',dawn:'🌅 Dawn note',dusk:'🌇 Dusk note',night:'🌙 Night note',halloween:'🎃 Halloween note',thanksgiving:'🦃 Thanksgiving note',christmas:'🎄 Christmas note',newyear:'🎆 New Year note',valentine:'💌 Valentine note',stpatrick:'☘️ St. Patrick\'s note',easter:'🥚 Spring holiday note',july4:'🎇 Fourth of July note',water:'💧 Waterside note',forest:'🌲 Forest note',trail:'🥾 Trail note',park:'🏞 Park note',wi:'🧀 Wisconsin note',northwoods:'🌲 Northwoods note',birnamwood:'🏡 Local note'};
+const dq=new URLSearchParams(location.search).get('date');
+const now=()=>{if(dq&&/^\d{4}-\d\d-\d\d$/.test(dq)){const d=new Date(dq+'T12:00:00');return d}return new Date()};
+function here(){try{if(typeof last!=='undefined'&&last&&last.lat)return last}catch(e){}try{const l=JSON.parse(localStorage.getItem('ttu_profile_lastloc'));if(l&&l.lat)return l}catch(e){}return null}
+let ZN=null;function zones(){if(ZN)return ZN;try{if(typeof DATA!=='undefined'&&DATA&&DATA.z)return ZN=DATA.z}catch(e){}ZN=[];fetch('zones.json').then(r=>r.json()).then(j=>ZN=j.z||[]).catch(()=>{});return ZN}
+function ctxNow(){const a=new Set(),d=now(),m=d.getMonth()+1,dd=d.getDate(),md=m*100+dd,l=here();
+ let ss=m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'fall':'winter';if(l&&l.lat<0)ss={spring:'fall',fall:'spring',summer:'winter',winter:'summer'}[ss];a.add(ss);
+ const H=[['halloween',1015,1101],['thanksgiving',1115,1130],['christmas',1210,1226],['valentine',207,215],['stpatrick',310,318],['easter',320,425],['july4',628,706]];H.forEach(([k,s,e])=>{if(md>=s&&md<=e)a.add(k)});if(md>=1228||md<=103)a.add('newyear');
+ try{const S2=window.TTU_SKY;if(S2&&localStorage.getItem('ttu_profile_sky')!=='off'||(S2&&/[?&]sky=/.test(location.search))){a.add(S2.tod());a.add(S2.wx())}else if(S2)a.add(S2.tod())}catch(e){}
+ if(l){if(l.lat>42.49&&l.lat<47.1&&l.lng>-92.9&&l.lng<-86.8){a.add('wi');if(l.lat>44.8)a.add('northwoods')}
+  if(Math.abs(l.lat-44.93)<.35&&Math.abs(l.lng+89.21)<.5)a.add('birnamwood');
+  let best=null,bd=400;zones().forEach(z=>{const g=z.t==='p'?z.g:[(z.b[0]+z.b[2])/2,(z.b[1]+z.b[3])/2],dx=(g[0]-l.lng)*78000,dy=(g[1]-l.lat)*111000,dd2=Math.hypot(dx,dy);if(dd2<bd){bd=dd2;best=z}});
+  if(best){const n=(best.n||'').toLowerCase();if(/lake|river|creek|pond|flowage|marsh|spring|falls|beach/.test(n))a.add('water');if(/forest|woods|pine|wood/.test(n)||best.k==='nature_reserve')a.add('forest');if(best.k==='trail')a.add('trail');if(best.k==='park'||best.k==='picnic_site')a.add('park')}}
+ return a}
+window.TTU_FACTCTX=()=>[...ctxNow()];
 const K='ttu_profile_facts',$q=id=>document.getElementById(id);
 let st={on:1,fq:'normal',seen:[],j:[]};try{Object.assign(st,JSON.parse(localStorage.getItem(K)||'{}'))}catch(e){}
 const save=()=>{try{localStorage.setItem(K,JSON.stringify(st))}catch(e){}};
 const fan=()=>{try{return !!(P&&P.fan)}catch(e){return false}};
 function deck(){const th=document.body.dataset.th,base=fan()?F.map((t,i)=>'f'+i):N.map((t,i)=>'n'+i);return base.concat((T[th]||[]).map((t,i)=>th+':'+i))}
-const txt=id=>id[0]==='f'&&!id.includes(':')?F[+id.slice(1)]:id[0]==='n'&&!id.includes(':')?N[+id.slice(1)]:T[id.split(':')[0]][+id.split(':')[1]];
-function pick(){let d=deck(),left=d.filter(x=>!st.seen.includes(x));if(!left.length){st.seen=st.seen.filter(x=>!d.includes(x));left=d}
+const txt=id=>id[0]==='c'?CTX[+id.slice(1)][2]:id[0]==='f'&&!id.includes(':')?F[+id.slice(1)]:id[0]==='n'&&!id.includes(':')?N[+id.slice(1)]:T[id.split(':')[0]][+id.split(':')[1]];
+let lastCtx=null;function pick(){lastCtx=null;const A=ctxNow(),fl=fan()?'f':'n',cm=CTX.map((c,i)=>(c[0]==='b'||c[0]===fl)&&A.has(c[1])?'c'+i:null).filter(Boolean);
+ let cl=cm.filter(x=>!st.seen.includes(x));if(!cl.length&&cm.length){st.seen=st.seen.filter(x=>!cm.includes(x));cl=cm}
+ if(cl.length&&Math.random()<.5){const id=cl[Math.floor(Math.random()*cl.length)];lastCtx=CTX[+id.slice(1)][1];return id}
+ let d=deck(),left=d.filter(x=>!st.seen.includes(x));if(!left.length){st.seen=st.seen.filter(x=>!d.includes(x));left=d}
  const th=left.filter(x=>x.includes(':')),pool=th.length&&Math.random()<.35?th:left;return pool[Math.floor(Math.random()*pool.length)]}
 let el,hideT=0,lastShow=0;
 function card(){if(el)return el;el=document.createElement('div');el.id='fct';el.setAttribute('role','status');el.innerHTML='<i>✕</i><b></b><p></p>';document.body.appendChild(el);
  let y0=null;el.addEventListener('click',hide);el.addEventListener('touchstart',e=>{y0=e.touches[0].clientY},{passive:true});el.addEventListener('touchend',e=>{if(y0!==null&&Math.abs(e.changedTouches[0].clientY-y0)>20)hide();y0=null});return el}
 function hide(){if(el)el.classList.remove('on');clearTimeout(hideT)}
 function show(where,force){if(!st.on&&!force)return;const id=pick();if(!id)return;card();st.seen.push(id);if(!st.j.includes(id))st.j.push(id);save();lastShow=Date.now();
- el.querySelector('b').textContent=fan()?'📜 From the old tomes':'🌿 Field note';el.querySelector('p').textContent=txt(id);el.classList.toggle('low',where==='low');
+ el.querySelector('b').textContent=lastCtx?LBL[lastCtx]:fan()?'📜 From the old tomes':'🌿 Field note';el.querySelector('p').textContent=txt(id);el.classList.toggle('low',where==='low');
  requestAnimationFrame(()=>el.classList.add('on'));clearTimeout(hideT);hideT=setTimeout(hide,Math.max(9000,txt(id).length*90));paintJ()}
 // hooks: hunt start, periodic while hunting, treasure found
 let hunting=false,nextAt=0;const gap=()=>(st.fq==='rare'?12:6)*6e4*(0.8+Math.random()*.5);
@@ -947,7 +1073,7 @@ function mountUI(){const anchor=$q('skTog')?$q('skTog').closest('label'):$q('thG
  const fb=[...document.querySelectorAll('[data-fq]')],pf=()=>fb.forEach(b=>b.classList.toggle('sel',b.dataset.fq===st.fq));fb.forEach(b=>b.onclick=()=>{st.fq=b.dataset.fq;save();pf()});pf();
  $q('fctNow').onclick=()=>show('low',true);paintJ()}
 const _a=window.applyTheme;window.applyTheme=function(){const r=_a.apply(this,arguments);try{mountUI()}catch(e){}return r};
-mountUI();window.TTU_FACTS={show,hide,count:()=>({n:N.length,f:F.length,t:Object.values(T).flat().length})};
+mountUI();window.TTU_FACTS={show,hide,count:()=>({c:CTX.length,n:N.length,f:F.length,t:Object.values(T).flat().length})};
 })();
 </script>
 
