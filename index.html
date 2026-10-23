@@ -16,10 +16,10 @@ button{font:inherit;border:0;border-radius:12px;padding:12px;font-weight:600;cur
 .badge{font-size:5rem;text-align:center;animation:pop .8s}@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:center}.stats div{background:#e3eee6;border-radius:12px;padding:10px}.stats b{display:block;font-size:1.3rem}
 a{color:#1f4d3a;font-weight:600}
-</style></head><body>
+.pl{display:block;margin:10px 0 4px;font-weight:600}.pl input,.pl select,.pl textarea{display:block;width:100%;box-sizing:border-box;margin-top:4px;padding:8px;font-size:1rem;border-radius:8px;border:1px solid #bbb}.pl input[type=checkbox]{display:inline;width:22px}</style></head><body>
 <button id="resetAll" style="position:fixed;top:10px;right:10px;z-index:50;background:#fffdf7;color:#1f4d3a;padding:8px 10px;font-size:.85rem">↺ Start fresh</button>
 <div id="ask" class="hidden" style="position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fffdf7;padding:16px;box-shadow:0 -6px 18px rgba(0,0,0,.25)"><p id="askmsg" style="margin:0 0 10px"></p><div class="row" id="askbtns"></div></div>
-<header><h1>🥾 Trail Trade-Up</h1><p>Solo Hunt · Tier 1 prototype</p></header>
+<header><h1>🥾 Trail Trade-Up</h1><p>Solo Hunt · Tier 1 prototype</p><button id="profBtn" class="sec" style="margin-top:8px;padding:6px 12px;font-size:.9rem">👤 Profile</button></header>
 <main>
 <div class="card safety"><b>Stay safe out there:</b> stay on marked trails, respect private property and closed areas, and watch your step instead of your screen. If the pin lands somewhere you can't reach safely, just hit <b>Reroll</b>.</div>
 
@@ -58,6 +58,18 @@ a{color:#1f4d3a;font-weight:600}
 <div class="row"><button id="reroll" class="sec">🎲 Reroll pin</button><button id="unsafe" class="sec">🚫 Report unsafe pin</button><button id="giveup" class="sec">🏳️ Give up / reveal</button></div>
 <p id="reveal" class="hidden"></p></section>
 
+<section id="prof" class="card hidden"><h2 id="pTitle">👤 Player profile</h2>
+<div id="charCard" style="border:2px solid #1f4d3a;border-radius:14px;padding:12px;text-align:center;background:#f4f9f2"></div>
+<label class="pl">Name <input id="pName" maxlength="24" placeholder="Explorer"></label>
+<label class="pl">Avatar <select id="pAv"></select></label>
+<label class="pl">Getting around <select id="pMove"><option value="walk">🚶 Walk</option><option value="drive">🚗 Drive to start</option></select></label>
+<label class="pl">Preferred radius <select id="pRad"><option>0.25</option><option>0.5</option><option>1</option><option>2</option><option>5</option><option>10</option><option>25</option></select> mi</label>
+<label class="pl">Fitness / skill (1 easy-going – 5 very fit) <input id="pFit" type="range" min="1" max="5"></label>
+<label class="pl">Accessibility notes <textarea id="pAcc" rows="2" placeholder="e.g. prefer paved paths, no steep hills"></textarea></label>
+<div class="muted">Favorite places</div><div id="pZt" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+<label class="pl" style="display:flex;gap:8px;align-items:center;font-weight:700;margin-top:10px"><input type="checkbox" id="pFan" style="width:22px;height:22px"> 🐉 Fantasy mode (XP, levels, gear)</label>
+<div id="pStats"></div><div id="pBadges"></div><div id="pGear"></div>
+<div class="row"><button id="pSave" class="primary">Save</button><button id="pClose" class="sec">Back</button></div></section>
 <section id="win" class="card hidden"><div class="badge" id="badge">🏅</div>
 <h2 style="text-align:center" id="wintitle">Treasure found!</h2><p style="text-align:center">Your mock prize: <b id="prize"></b></p>
 <p style="text-align:center" id="wdiff"></p><div class="stats"><div><b id="wtime"></b>time</div><div><b id="wdist"></b>walked</div></div><br>
@@ -190,12 +202,65 @@ $('unsafe').onclick=()=>reroll('Report this pin as unsafe or inaccessible and mo
 $('giveup').onclick=async()=>{if(await ask('Give up and reveal the treasure?',[['Reveal','y','primary'],['Keep hunting','n']])!=='y')return;navigator.geolocation.clearWatch(watch);const u='https://www.openstreetmap.org/?mlat='+S.pin.lat.toFixed(6)+'&mlon='+S.pin.lng.toFixed(6)+'#map=17/'+S.pin.lat.toFixed(6)+'/'+S.pin.lng.toFixed(6);
 $('reveal').innerHTML='The treasure was here: <a href="'+u+'" target="_blank">open in OpenStreetMap</a><br><button class="sec" onclick="resetAll()">Start over</button>';$('reveal').classList.remove('hidden')};
 function resetAll(){cancelTok.c=true;hideAsk();if(watch!==null)try{navigator.geolocation.clearWatch(watch)}catch(e){}
-try{Object.keys(localStorage).filter(k=>k.startsWith('ttu_')).forEach(k=>localStorage.removeItem(k))}catch(e){}location.replace(location.pathname)}
+try{Object.keys(localStorage).filter(k=>k.startsWith('ttu_')&&!k.startsWith('ttu_profile')).forEach(k=>localStorage.removeItem(k))}catch(e){}location.replace(location.pathname)}
 $('resetAll').onclick=resetAll;
 (function boot(){try{localStorage.removeItem('ttu_hunt');localStorage.removeItem('ttu_hunt_v2')}catch(e){}
-if(/[?&]reset=1/.test(location.search)){try{Object.keys(localStorage).filter(k=>k.startsWith('ttu_')).forEach(k=>localStorage.removeItem(k))}catch(e){}history.replaceState(null,'',location.pathname);return}
+if(/[?&]reset=1/.test(location.search)){try{Object.keys(localStorage).filter(k=>k.startsWith('ttu_')&&!k.startsWith('ttu_profile')).forEach(k=>localStorage.removeItem(k))}catch(e){}history.replaceState(null,'',location.pathname);return}
 let saved=null;try{saved=JSON.parse(localStorage.getItem(K))}catch(e){}
 const okNum=x=>typeof x==='number'&&isFinite(x);
 if(saved&&saved.v===SCHEMA&&saved.pin&&okNum(saved.pin.lat)&&okNum(saved.pin.lng)&&saved.start&&okNum(saved.start.lat)&&Array.isArray(saved.hints)&&okNum(saved.radiusMi)&&saved.region&&saved.zone&&okNum(saved.t0)){S=saved;S.walked=+S.walked||0;last=S.lastC||S.start;try{run()}catch(e){try{localStorage.removeItem(K)}catch(_){}location.replace(location.pathname)}}
 else{try{localStorage.removeItem(K)}catch(e){}}})();
-</script></body></html>
+</script><script>
+/* Player profile + progression (separate key, survives "Start fresh") */
+const PK='ttu_profile_v1';
+const PDEF={v:1,name:'',av:'🧭',move:'walk',rad:0.5,fit:3,acc:'',zt:[],fan:false,hist:[],walkedM:0,xp:0,badges:[]};
+function pLoad(){try{const p=JSON.parse(localStorage.getItem(PK)||'null');if(p&&p.v===1)return Object.assign({},PDEF,p,{hist:Array.isArray(p.hist)?p.hist.slice(-50):[],badges:Array.isArray(p.badges)?p.badges:[],zt:Array.isArray(p.zt)?p.zt:[]})}catch(e){}return Object.assign({},PDEF,{hist:[],badges:[],zt:[]})}
+let P=pLoad();function pSave(){try{localStorage.setItem(PK,JSON.stringify(P))}catch(e){}}
+const AVS=['🧭','🦊','🐻','🦉','🦌','🐺','🧙','🧝','🏹','🌲'],ZTS=[['trail','🥾 Trails'],['park','🌳 Parks'],['nature_reserve','🦋 Nature areas'],['viewpoint','🔭 Viewpoints'],['picnic_site','🧺 Picnic sites'],['memorial','🗿 Landmarks']];
+const LEVELS=[[0,'Wanderer','Wanderer'],[100,'Scout','Trail Scout'],[250,'Pathfinder','Pathfinder of the Pines'],[500,'Ranger','Ranger of the Northwoods'],[900,'Trailblazer','Trailblazer'],[1500,'Legend','Legend of the Wilds']];
+function lvl(xp){let i=0;LEVELS.forEach((l,j)=>{if(xp>=l[0])i=j});return{n:i+1,t:LEVELS[i][P.fan?2:1],next:LEVELS[i+1]?LEVELS[i+1][0]:null,cur:LEVELS[i][0]}}
+const BADGES={first:['🏅','First find','Find your first treasure'],mi5:['👣','5 miles','Walk 5 miles total'],hard:['🔥','Hard find','Find a treasure on Hard'],variety:['🗺️','Trail variety','Find treasure at 3 kinds of places'],streak:['📅','Streak','Hunt 3 days in a row'],ten:['💎','Ten finds','Find 10 treasures']};
+const GEAR=[['boots','🥾',"Wanderer's Boots",'Reach level 2',p=>lvl(p.xp).n>=2],['lantern','🏮','Lantern','Earn 3 badges',p=>p.badges.length>=3],['cloak','🧥',"Explorer's Cloak",'Find a treasure on Hard',p=>p.badges.includes('hard')]];
+function dayKey(t){const d=new Date(t);return d.getFullYear()*400+d.getMonth()*32+d.getDate()}
+function evalBadges(){const wins=P.hist.filter(h=>h.r==='win'),nb=[],add=k=>{if(!P.badges.includes(k)){P.badges.push(k);nb.push(k)}};
+if(wins.length)add('first');if(wins.length>=10)add('ten');if(P.walkedM>=5*1609.34)add('mi5');if(wins.some(h=>h.d==='hard'))add('hard');
+if(new Set(wins.map(h=>h.k).filter(Boolean)).size>=3)add('variety');
+const days=[...new Set(P.hist.map(h=>{const d=new Date(h.t);d.setHours(0,0,0,0);return d.getTime()}))].sort((a,b)=>a-b);let run=1,best=1;for(let i=1;i<days.length;i++){run=(Math.round((days[i]-days[i-1])/864e5)===1)?run+1:1;best=Math.max(best,run)}if(best>=3)add('streak');return nb}
+/* Suggest difficulty + radius: profile baseline, nudged gently by last 5 results */
+function suggest(){const order=['easy','medium','hard'],R=[0.25,0.5,1,2,5,10,25];let di=P.fit<=2?0:P.fit>=5?2:1;let ri=Math.max(0,R.indexOf(+P.rad));if(ri<0)ri=1;
+const rec=P.hist.slice(-5);let score=0;rec.forEach(h=>{if(h.r==='giveup')score-=1;else if(h.r==='win'){const per=h.ms/60000/Math.max(.25,h.mi);score+=per<25?1:per>60?-0.5:0.25}});
+let why='Based on your profile';if(rec.length>=2){if(score>=2.5){di=Math.min(2,di+1);why='You have been finding treasure quickly'}else if(score<=-1.5){di=Math.max(0,di-1);why='Recent hunts were tough, so easing up a bit'}}
+if(P.move==='walk'&&P.fit<=2)ri=Math.min(ri,1);return{d:order[di],mi:R[ri],why}}
+function applySuggest(){const s=suggest();const db=document.querySelector('.dd[data-d="'+s.d+'"]'),rb=document.querySelector('.rr[data-mi="'+s.mi+'"]');if(db)db.click();if(rb)rb.click();return s}
+function showSuggest(){let el=$('sugg');if(!el){el=document.createElement('p');el.id='sugg';el.className='muted';$('diffHelp').after(el)}const s=suggest();el.innerHTML='💡 Suggested for '+(P.name||'you')+': <b>'+DLAB[s.d]+' · '+s.mi+' mi</b> <span style="opacity:.8">('+s.why+')</span> <button class="sec" id="useSugg" style="padding:4px 8px;font-size:.8rem">Use</button>';$('useSugg').onclick=applySuggest}
+const FLAV={clue:['The forest spirits whisper: ','An old map fragment reads: ','Your lantern flickers and reveals: ','A friendly raven caws: '],
+win:['The chest creaks open — the quest is complete!','Legends will sing of this find, ','The Northwoods reward the bold.','Another tale for the campfire.']};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function record(res){if(!S||S._rec)return null;S._rec=1;const h={t:Date.now(),r:res,d:S.diff||'easy',mi:S.radiusMi||0.5,ms:Date.now()-S.t0,m:Math.round(S.walked||0),k:S.zone&&S.zone.k||''};
+P.hist.push(h);P.hist=P.hist.slice(-50);P.walkedM+=h.m;const before=lvl(P.xp).n;let gain=Math.round(h.m/1609.34*40);if(res==='win')gain+=({easy:20,medium:40,hard:70})[h.d]||20;P.xp+=gain;const nb=evalBadges();pSave();return{gain,nb,up:lvl(P.xp).n>before}}
+function winExtra(r){let el=$('wprog');if(!el){el=document.createElement('div');el.id='wprog';el.style.textAlign='center';$('wdiff').after(el)}if(!r){el.innerHTML='';return}const L=lvl(P.xp);
+const bl=r.nb.map(k=>BADGES[k][0]+' '+BADGES[k][1]).join(', ');
+el.innerHTML=P.fan?('<p><i>'+pick(FLAV.win)+'</i></p><p>✨ +'+r.gain+' XP · Level '+L.n+' '+L.t+(r.up?' — <b>LEVEL UP!</b>':'')+'</p>'+(bl?'<p>New badge: '+bl+'</p>':'')+gearUnlockedHtml()):('<p>+'+r.gain+' points · Level '+L.n+(r.up?' (new level!)':'')+'</p>'+(bl?'<p>New badge: '+bl+'</p>':''))}
+function gearUnlockedHtml(){const g=GEAR.filter(x=>x[4](P));return g.length?'<p>Gear: '+g.map(x=>x[1]+' '+x[2]).join(' · ')+'</p>':''}
+function renderProf(){const L=lvl(P.xp),wins=P.hist.filter(h=>h.r==='win'),gu=P.hist.filter(h=>h.r==='giveup').length,gear=GEAR.filter(x=>x[4](P));
+const bar=L.next?Math.round((P.xp-L.cur)/(L.next-L.cur)*100):100;
+$('pTitle').textContent=P.fan?'🐉 Character sheet':'👤 Player profile';
+$('charCard').innerHTML='<div style="font-size:3rem">'+P.av+(P.fan?gear.map(x=>x[1]).join(''):'')+'</div><b>'+(P.name||'Explorer')+'</b><div>Level '+L.n+' · '+L.t+'</div><div style="background:#ddd;border-radius:8px;height:10px;margin:6px 0"><div style="background:#2e7d4f;height:10px;border-radius:8px;width:'+bar+'%"></div></div><div class="muted">'+P.xp+(P.fan?' XP':' points')+(L.next?' / '+L.next:'')+'</div>';
+const bt=wins.length?Math.min(...wins.map(h=>h.ms)):0;
+$('pStats').innerHTML='<h3>Stats</h3><div class="muted">Finds: <b>'+wins.length+'</b> · Give-ups: <b>'+gu+'</b> · Walked: <b>'+(P.walkedM/1609.34).toFixed(2)+' mi</b>'+(bt?' · Fastest: <b>'+Math.floor(bt/60000)+'m '+Math.floor(bt/1000)%60+'s</b>':'')+'</div>';
+$('pBadges').innerHTML='<h3>Badges</h3>'+Object.entries(BADGES).map(([k,b])=>'<div style="opacity:'+(P.badges.includes(k)?1:.35)+'">'+b[0]+' <b>'+b[1]+'</b> <span class="muted">'+b[2]+'</span></div>').join('');
+$('pGear').innerHTML=P.fan?'<h3>Gear <span class="muted">(cosmetic only)</span></h3>'+GEAR.map(x=>'<div style="opacity:'+(x[4](P)?1:.35)+'">'+x[1]+' <b>'+x[2]+'</b> <span class="muted">'+(x[4](P)?'Unlocked':x[3])+'</span></div>').join(''):''}
+function fillProf(){$('pName').value=P.name;$('pAv').innerHTML=AVS.map(a=>'<option'+(a===P.av?' selected':'')+'>'+a+'</option>').join('');$('pMove').value=P.move;$('pRad').value=String(P.rad);$('pFit').value=P.fit;$('pAcc').value=P.acc;$('pFan').checked=P.fan;
+$('pZt').innerHTML=ZTS.map(z=>'<button class="r pz'+(P.zt.includes(z[0])?' sel':'')+'" data-k="'+z[0]+'" style="padding:6px 10px">'+z[1]+'</button>').join('');document.querySelectorAll('.pz').forEach(b=>b.onclick=()=>b.classList.toggle('sel'));renderProf()}
+let profFrom=null;function openProf(){const cur=['setup','hunt','win'].find(id=>!$(id).classList.contains('hidden'));profFrom=cur||'setup';if(cur)$(cur).classList.add('hidden');fillProf();$('prof').classList.remove('hidden');window.scrollTo(0,0)}
+function closeProf(){$('prof').classList.add('hidden');$(profFrom||'setup').classList.remove('hidden');showSuggest();hdr()}
+function hdr(){$('profBtn').textContent=P.av+' '+(P.name||'Profile')+' · Lv '+lvl(P.xp).n}
+$('pSave').onclick=()=>{P.name=$('pName').value.trim().slice(0,24);P.av=$('pAv').value;P.move=$('pMove').value;P.rad=+$('pRad').value;P.fit=+$('pFit').value;P.acc=$('pAcc').value.slice(0,300);P.fan=$('pFan').checked;P.zt=[...document.querySelectorAll('.pz.sel')].map(b=>b.dataset.k);pSave();if($('setup')&&profFrom==='setup')applySuggest();renderProf();hdr();$('pSave').textContent='Saved ✓';setTimeout(()=>$('pSave').textContent='Save',1200)};
+$('pClose').onclick=closeProf;$('profBtn').onclick=openProf;$('pFan').onchange=()=>{P.fan=$('pFan').checked;renderProf()};
+/* hooks */
+const _claim=claim;$('claim').onclick=()=>{const r=record('win');_claim();winExtra(r)};
+const _gu=$('giveup').onclick;$('giveup').onclick=async()=>{await _gu();if(!$('reveal').classList.contains('hidden')){record('giveup')}};
+const _rh=renderHints;renderHints=function(c){_rh(c);if(P.fan&&S){document.querySelectorAll('#hints li,#hints div').forEach(el=>{if(!el.dataset.fl&&/[🧭🗺️📏📛🏷️]/u.test(el.textContent)&&!/🔒/.test(el.textContent)){el.dataset.fl=1;el.insertAdjacentHTML('afterbegin','<i>'+FLAV.clue[(el.textContent.length)%FLAV.clue.length]+'</i>')}})}};
+hdr();if(!S){applySuggest()}showSuggest();
+</script>
+</body></html>
