@@ -753,7 +753,7 @@ function paint(){build();const fx=on();document.body.classList.toggle('skNoFx',!
 function mountToggle(){const g=document.getElementById('thG');if(!g||document.getElementById('skTog'))return;
  g.insertAdjacentHTML('afterend','<label style="display:flex;align-items:center;gap:10px;margin:4px 0 12px;font-size:.92rem"><input type="checkbox" id="skTog" style="width:22px;height:22px"> Sky effects · time of day &amp; local weather</label>');
  const c=document.getElementById('skTog');c.checked=on();c.onchange=()=>{try{localStorage.setItem(SK,c.checked?'on':'off')}catch(e){}paint();fetchWx()}}
-const _a=window.applyTheme;window.applyTheme=function(){const r=_a.apply(this,arguments);try{paint();mountToggle()}catch(e){}return r};
+const _a=window.applyTheme;if(_a)window.applyTheme=function(){const r=_a.apply(this,arguments);try{paint();mountToggle()}catch(e){}return r};
 window.TTU_SKY={paint,fetchWx,sun,tod:()=>tod(),wx:()=>dbgW||wx};
 paint();mountToggle();fetchWx();setInterval(()=>{paint();fetchWx()},5*6e4);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){paint();fetchWx()}});
@@ -1072,7 +1072,7 @@ function mountUI(){const anchor=$q('skTog')?$q('skTog').closest('label'):$q('thG
  const c=$q('fctTog');c.checked=!!st.on;c.onchange=()=>{st.on=c.checked?1:0;save();if(!st.on)hide()};
  const fb=[...document.querySelectorAll('[data-fq]')],pf=()=>fb.forEach(b=>b.classList.toggle('sel',b.dataset.fq===st.fq));fb.forEach(b=>b.onclick=()=>{st.fq=b.dataset.fq;save();pf()});pf();
  $q('fctNow').onclick=()=>show('low',true);paintJ()}
-const _a=window.applyTheme;window.applyTheme=function(){const r=_a.apply(this,arguments);try{mountUI()}catch(e){}return r};
+const _a=window.applyTheme;if(_a)window.applyTheme=function(){const r=_a.apply(this,arguments);try{mountUI()}catch(e){}return r};
 mountUI();window.TTU_FACTS={show,hide,count:()=>({c:CTX.length,n:N.length,f:F.length,t:Object.values(T).flat().length})};
 })();
 </script>
@@ -1106,7 +1106,7 @@ function mountUI(){const a=$q('thG');if(!a||$q('fsSec'))return;const box=documen
  else box.innerHTML='<h3 class="sxH" style="margin-top:4px">Screen</h3><p id="fsHint">For full screen, tap Share → <b>Add to Home Screen</b>, then open Trail Trade-Up from your home screen.</p>';
  const anchor=a.parentNode.querySelector('#skTog')?.closest('label')||a;anchor.after(box);
  if($q('fsNow'))$q('fsNow').onclick=toggle;const c=$q('fsAuto');if(c){c.checked=auto();c.onchange=()=>{try{localStorage.setItem(K,c.checked?'1':'0')}catch(e){}if(!c.checked&&isFs()){userExit=true;exit()}}}paint()}
-const _a=window.applyTheme;window.applyTheme=function(){const r=_a.apply(this,arguments);try{mountUI()}catch(e){}return r};mountUI();
+const _a=window.applyTheme;if(_a)window.applyTheme=function(){const r=_a.apply(this,arguments);try{mountUI()}catch(e){}return r};mountUI();
 window.TTU_FS={enter,exit,can,standalone};
 })();
 </script>
@@ -1135,8 +1135,89 @@ new MutationObserver(mark).observe(b,{childList:true,subtree:true});mark();arm(f
 function mountUI(){const a=document.getElementById('thG');if(!a||document.getElementById('uiKeep'))return;
  const anchor=document.getElementById('fsSec')||a;anchor.insertAdjacentHTML('afterend','<label style="display:flex;align-items:center;gap:10px;margin:4px 0 10px;font-size:.92rem"><input type="checkbox" id="uiKeep" style="width:22px;height:22px"> Keep controls visible</label>');
  const c=document.getElementById('uiKeep');c.checked=keep();c.onchange=()=>{try{localStorage.setItem(K,c.checked?'keep':'fade')}catch(e){}reveal()}}
-const _a=window.applyTheme;window.applyTheme=function(){const r=_a.apply(this,arguments);try{mountUI()}catch(e){}return r};mountUI();
+const _a=window.applyTheme;if(_a)window.applyTheme=function(){const r=_a.apply(this,arguments);try{mountUI()}catch(e){}return r};mountUI();
 window.TTU_UI={reveal,hide:()=>b.classList.add('uiHide')};
+})();
+</script>
+
+<style>
+#crit{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#crit>.cr{position:absolute;will-change:transform,opacity}
+#crit svg{display:block}
+</style>
+<script>
+/* Little surprises: rare, quirky ambient critters per theme */
+(function(){
+const K='ttu_profile_crit',RM=matchMedia('(prefers-reduced-motion: reduce)'),W=()=>innerWidth,H=()=>innerHeight,R=(a,b)=>a+Math.random()*(b-a);
+const on=()=>{try{return localStorage.getItem(K)!=='off'&&localStorage.getItem('ttu_profile_sky')!=='off'}catch(e){return true}};
+let layer;function L(){if(!layer){layer=document.createElement('div');layer.id='crit';layer.setAttribute('aria-hidden','true');}const sk=document.getElementById('tSky')||document.getElementById('tScene');if(sk&&layer.previousSibling!==sk)sk.after(layer);else if(!layer.parentNode)document.body.prepend(layer);return layer}
+function put(svg,x,y,w){const d=document.createElement('div');d.className='cr';d.style.left=x+'px';d.style.top=y+'px';d.style.width=w+'px';d.innerHTML=svg;L().appendChild(d);return d}
+function anim(el,kf,o){const a=el.animate(kf,Object.assign({fill:'forwards',easing:'ease-in-out'},o));a.onfinish=()=>el.remove();return a}
+const side=()=>Math.random()<.5;
+// art
+const SQ='<svg viewBox="0 0 60 60"><path d="M40 56 C58 50 60 22 46 14 C38 10 34 22 40 30 C46 38 44 48 36 50Z" fill="#8a5a34"/><ellipse cx="28" cy="44" rx="12" ry="13" fill="#9b6a40"/><circle cx="24" cy="28" r="9" fill="#9b6a40"/><path d="M20 20 l-2 -7 l6 5Z" fill="#9b6a40"/><circle cx="21" cy="27" r="1.8" fill="#1b0f06"/><circle cx="16" cy="30" r="1.3" fill="#3b2414"/></svg>';
+const CHIP='<svg viewBox="0 0 40 40"><ellipse cx="22" cy="28" rx="10" ry="9" fill="#a46a3c"/><path d="M15 26 h14 M15 30 h14" stroke="#5a3418" stroke-width="1.5"/><circle cx="16" cy="18" r="7" fill="#b07444"/><circle cx="14" cy="17" r="1.4" fill="#1b0f06"/><path d="M12 13 l-1 -4 l4 3Z" fill="#b07444"/><path d="M32 30 C40 26 38 14 33 16" stroke="#8a5a34" stroke-width="3" fill="none"/></svg>';
+const BAT='<svg viewBox="0 0 34 16"><path d="M17 5 C15 3 13 2 11 3 C8 0 4 1 0 4 C4 5 5 8 6 10 C8 8 11 9 12 11 C13 9 15 9 17 10 C19 9 21 9 22 11 C23 9 26 8 28 10 C29 8 30 5 34 4 C30 1 26 0 23 3 C21 2 19 3 17 5Z" fill="#0b0514"/></svg>';
+const EYES='<svg viewBox="0 0 40 16"><circle cx="10" cy="8" r="5" fill="#ffd34d"/><circle cx="30" cy="8" r="5" fill="#ffd34d"/><circle cx="10" cy="8" r="2" fill="#140a00"/><circle cx="30" cy="8" r="2" fill="#140a00"/></svg>';
+const GLOW='<svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="38" fill="url(#cg)"/><defs><radialGradient id="cg"><stop offset="0" stop-color="#ffb347" stop-opacity=".75"/><stop offset="1" stop-color="#ff7a1a" stop-opacity="0"/></radialGradient></defs></svg>';
+const LEAF=c=>'<svg viewBox="0 0 20 20"><path d="M10 1 L12 7 L18 5 L15 10 L19 13 L12 13 L11 19 L9 19 L8 13 L1 13 L5 10 L2 5 L8 7Z" fill="'+c+'"/></svg>';
+const DEER='<svg viewBox="0 0 60 40"><path d="M10 22 C14 16 34 16 40 18 L46 10 L44 4 M46 10 L50 4 M46 10 L52 12 L50 16 L44 18 L42 24 L40 38 L38 38 L37 26 L18 26 L16 38 L14 38 L13 26 C10 26 8 24 10 22Z" fill="rgba(40,20,10,.55)" stroke="rgba(40,20,10,.55)" stroke-width="1.5"/></svg>';
+const BFLY='<svg viewBox="0 0 30 24"><g class="w"><path d="M15 12 C8 0 0 4 4 12 C0 20 10 22 15 13Z" fill="#f39c3d"/><path d="M15 12 C22 0 30 4 26 12 C30 20 20 22 15 13Z" fill="#f39c3d"/></g><rect x="14" y="6" width="2" height="13" rx="1" fill="#2a1a0a"/></svg>';
+const BEE='<svg viewBox="0 0 24 18"><ellipse cx="9" cy="5" rx="5" ry="4" fill="rgba(255,255,255,.75)"/><ellipse cx="12" cy="11" rx="8" ry="5.5" fill="#f5c518"/><path d="M10 6 v10 M14 6 v10" stroke="#2a1a00" stroke-width="2"/><circle cx="19" cy="10" r="1.2" fill="#2a1a00"/></svg>';
+const BIRD='<svg viewBox="0 0 30 24"><ellipse cx="14" cy="14" rx="9" ry="7" fill="#7a4a2a"/><circle cx="22" cy="9" r="5" fill="#7a4a2a"/><path d="M26 9 l4 1 l-4 1Z" fill="#e0a030"/><circle cx="23" cy="8" r="1" fill="#000"/><path d="M14 14 C18 18 22 20 26 18" fill="#c4401e"/><path d="M5 12 l-5 -3 l2 5Z" fill="#5a3418"/><path d="M12 21 v3 M16 21 v3" stroke="#3a2010"/></svg>';
+const LOON='<svg viewBox="0 0 50 20"><path d="M4 14 C10 8 30 8 38 12 L44 6 C46 4 50 5 49 7 L44 9 L40 14 C30 18 10 18 4 14Z" fill="#111"/><path d="M14 11 h16" stroke="#fff" stroke-dasharray="1.5 2" stroke-width="1.5"/><circle cx="45.5" cy="6.5" r=".9" fill="#c00"/></svg>';
+const DFLY='<svg viewBox="0 0 40 16"><rect x="4" y="7" width="30" height="2.4" rx="1.2" fill="#1f7a8c"/><circle cx="35" cy="8" r="2.6" fill="#155e6b"/><ellipse cx="22" cy="4" rx="9" ry="2.4" fill="rgba(220,240,255,.7)"/><ellipse cx="22" cy="12" rx="9" ry="2.4" fill="rgba(220,240,255,.7)"/></svg>';
+const RING='<svg viewBox="0 0 60 20"><ellipse cx="30" cy="10" rx="28" ry="8" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.5"/></svg>';
+const FFLY='<svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="5.5" fill="rgba(230,255,120,.35)"/><circle cx="6" cy="6" r="2" fill="#f4ff9a"/></svg>';
+const SHIP='<svg viewBox="0 0 60 44" fill="none" stroke="#3b2414" stroke-width="1.4" stroke-linecap="round"><path d="M6 32 L54 32 L46 40 L14 40Z"/><path d="M30 32 V4 M30 6 C42 12 42 22 30 28 M30 8 C20 14 20 22 30 26"/><path d="M2 42 q6 -3 12 0 t12 0 t12 0 t12 0 t12 0" opacity=".6"/></svg>';
+const ROSE='<svg viewBox="0 0 40 40" fill="none" stroke="#3b2414" stroke-width="1.2"><circle cx="20" cy="20" r="14" opacity=".5"/><path d="M20 2 L23 20 L20 38 L17 20Z M2 20 L20 17 L38 20 L20 23Z" fill="rgba(59,36,20,.25)"/></svg>';
+const PUFF='<svg viewBox="0 0 40 20"><circle cx="10" cy="12" r="6" fill="#fff"/><circle cx="20" cy="8" r="7" fill="#fff"/><circle cx="30" cy="12" r="6" fill="#fff"/></svg>';
+// critters (positions keep to edges, top band, or bottom band; never the compass centre)
+const C={
+squirrel(){const l=side(),y=H()*R(.68,.8),w=54,x=l?-w:W();const e=put(SQ,x,y,w);if(l)e.style.transform='scaleX(-1)';const dx=l?34:-34,f=l?' scaleX(-1)':'';
+ anim(e,[{transform:'translateX(0)'+f},{transform:'translateX('+dx+'px)'+f,offset:.25},{transform:'translateX('+dx+'px) rotate('+(l?4:-4)+'deg)'+f,offset:.55},{transform:'translateX('+dx+'px)'+f,offset:.7},{transform:'translateX(0)'+f}],{duration:4200})},
+chipmunk(){const l=side(),y=H()*R(.8,.88),w=34,x=l?-w:W();const e=put(CHIP,x,y,w);const f=l?' scaleX(-1)':'',dx=l?26:-26;
+ anim(e,[{transform:'translate(0,0)'+f},{transform:'translate('+dx+'px,0)'+f,offset:.2},{transform:'translate('+dx+'px,-4px)'+f,offset:.4},{transform:'translate('+dx+'px,0)'+f,offset:.6},{transform:'translate(0,0)'+f}],{duration:3200})},
+snowclump(){const l=side(),x=l?R(8,40):W()-R(30,62),y0=H()*R(.6,.66),e=put('<svg viewBox="0 0 20 16"><ellipse cx="10" cy="8" rx="9" ry="7" fill="#fff"/></svg>',x,y0,16);
+ const drop=H()*R(.1,.16);anim(e,[{transform:'translateY(0)',opacity:1},{transform:'translateY('+drop+'px)',opacity:1,offset:.85},{transform:'translateY('+drop+'px) scale(1.4,.4)',opacity:0}],{duration:1100,easing:'cubic-bezier(.5,0,1,1)'}).finished.then(()=>{const p=put(PUFF,x-12,y0+drop-4,40);anim(p,[{transform:'scale(.4)',opacity:.9},{transform:'scale(1.4) translateY(-6px)',opacity:0}],{duration:900,easing:'ease-out'})})},
+bat(){const y=H()*R(.06,.2),l=side(),e=put(BAT,l?-40:W(),y,34),dx=(l?1:-1)*(W()+80);
+ anim(e,[0,.2,.4,.6,.8,1].map((o,i)=>({transform:'translate('+dx*o+'px,'+(i%2?-18:10)+'px)',offset:o})),{duration:R(3500,5000),easing:'linear'})},
+lantern(){const x=side()?R(0,40):W()-R(60,100),y=H()*R(.84,.9),e=put(GLOW,x,y,80);anim(e,[{opacity:0},{opacity:.9,offset:.15},{opacity:.4,offset:.25},{opacity:1,offset:.35},{opacity:.6,offset:.5},{opacity:.95,offset:.65},{opacity:0}],{duration:3200})},
+owl(){const x=side()?R(6,40):W()-R(46,80),y=H()*R(.72,.82),e=put(EYES,x,y,34);
+ anim(e,[{opacity:0},{opacity:1,offset:.15,transform:'scaleY(1)'},{transform:'scaleY(.1)',offset:.35},{transform:'scaleY(1)',offset:.4},{transform:'scaleY(1)',offset:.7},{transform:'scaleY(.1)',offset:.75},{transform:'scaleY(1)',offset:.8},{opacity:1,offset:.88},{opacity:0}],{duration:4500})},
+leaf(){const x=side()?R(4,40):W()-R(30,60),e=put(LEAF(['#e8a33a','#d8692a','#c4401e'][Math.floor(R(0,3))]),x,-20,20);
+ anim(e,[0,.25,.5,.75,1].map((o,i)=>({transform:'translate('+(i%2?18:-10)+'px,'+H()*o*.95+'px) rotate('+i*80+'deg)',offset:o})),{duration:R(7000,9000),easing:'linear'})},
+deer(){const l=side(),y=H()*R(.73,.77),e=put(DEER,l?-60:W(),y,54);const f=l?'':' scaleX(-1)',dx=(l?1:-1)*(W()+120);
+ anim(e,[{transform:'translateX(0)'+f,opacity:0},{opacity:1,offset:.1},{transform:'translateX('+dx*.5+'px)'+f,offset:.5},{transform:'translateX('+dx*.5+'px) translateY(-2px)'+f,offset:.6},{opacity:1,offset:.9},{transform:'translateX('+dx+'px)'+f,opacity:0}],{duration:R(12000,16000),easing:'linear'})},
+butterfly(){const y=H()*R(.1,.22),l=side(),e=put(BFLY,l?-30:W(),y,26),dx=(l?1:-1)*(W()+60);e.querySelector('.w').animate([{transform:'scaleX(1)'},{transform:'scaleX(.3)'}],{duration:180,iterations:Infinity,direction:'alternate'});e.querySelector('.w').style.transformOrigin='15px 12px';
+ anim(e,[0,.2,.4,.6,.8,1].map((o,i)=>({transform:'translate('+dx*o+'px,'+Math.sin(i*1.7)*22+'px)',offset:o})),{duration:R(7000,9000),easing:'ease-in-out'})},
+bee(){const x0=side()?R(20,80):W()-R(60,120),y0=H()*R(.82,.88),e=put(BEE,x0,y0,20),pts=[];for(let i=0;i<=12;i++)pts.push({transform:'translate('+Math.cos(i/12*6.283)*28+'px,'+Math.sin(i/12*12.56)*10+'px)',offset:i/12});
+ anim(e,[{opacity:0},...pts.slice(1,-1),{opacity:0}],{duration:4200,easing:'linear'})},
+bird(){const l=side(),x=l?-30:W(),y=H()*R(.86,.9),e=put(BIRD,x,y,28),f=l?'':' scaleX(-1)',s=l?1:-1,k=[];for(let i=0;i<=8;i++)k.push({transform:'translate('+s*i*18+'px,'+(i%2?-10:0)+'px)'+f,offset:i/8});
+ anim(e,k,{duration:3600,easing:'ease-out'})},
+loon(){const l=side(),y=H()*R(.72,.76),e=put(LOON,l?-50:W(),y,46),f=l?'':' scaleX(-1)',dx=(l?1:-1)*W()*.45;
+ anim(e,[{transform:'translateX(0)'+f},{transform:'translateX('+dx+'px)'+f,offset:.8},{transform:'translateX('+dx*1.05+'px) translateY(10px)'+f,opacity:0}],{duration:9000,easing:'linear'})},
+dragonfly(){const y=H()*R(.1,.22),l=side(),e=put(DFLY,l?-40:W(),y,32),s=l?1:-1,f=l?'':' scaleX(-1)';
+ anim(e,[{transform:'translate(0,0)'+f},{transform:'translate('+s*W()*.3+'px,8px)'+f,offset:.3},{transform:'translate('+s*W()*.3+'px,8px)'+f,offset:.5},{transform:'translate('+s*W()*.7+'px,-12px)'+f,offset:.75},{transform:'translate('+s*(W()+80)+'px,0)'+f}],{duration:3800})},
+splash(){const x=side()?R(20,90):W()-R(80,150),y=H()*R(.76,.8);for(let i=0;i<3;i++){const e=put(RING,x,y,60);anim(e,[{transform:'scale(.1)',opacity:.9},{transform:'scale(1.3)',opacity:0}],{duration:2200,delay:i*350,easing:'ease-out'})}},
+firefly(){for(let i=0;i<5;i++){const x=R(10,W()-20),y=H()*R(.78,.92),e=put(FFLY,x,y,10);anim(e,[{opacity:0},{opacity:1,offset:.2,transform:'translate(4px,-6px)'},{opacity:.2,offset:.45},{opacity:1,offset:.65,transform:'translate(-6px,-12px)'},{opacity:0,transform:'translate(0,-18px)'}],{duration:R(3000,4500),delay:i*400})}},
+ship(){const y=H()*R(.07,.13),e=put(SHIP,-60,y,48);anim(e,[{transform:'translateX(0) rotate(-2deg)'},{transform:'translateX('+(W()*.5+30)+'px) rotate(2deg)',offset:.5},{transform:'translateX('+(W()+60)+'px) rotate(-2deg)'}],{duration:16000,easing:'linear'})},
+rose(){const x=side()?14:W()-54,y=H()*R(.82,.88),e=put(ROSE,x,y,40);anim(e,[{opacity:0},{opacity:.9,transform:'rotate(0)',offset:.15},{transform:'rotate(-12deg)',offset:.3},{transform:'rotate(10deg)',offset:.45},{transform:'rotate(-6deg)',offset:.6},{transform:'rotate(0)',opacity:.9,offset:.8},{opacity:0}],{duration:3500})}};
+const BY={winter:['snowclump','squirrel','owl','deer'],haunted:['bat','lantern','owl','bat'],golden:['leaf','deer','chipmunk','squirrel'],spring:['butterfly','bee','bird','chipmunk'],summer:['loon','dragonfly','splash','firefly'],story:['ship','rose','bird']};
+function ok(n){const t=document.body.dataset.tod||'day',w=document.body.dataset.wx||'clear',wet=/rain|storm/.test(w),dark=t==='night';
+ if(/butterfly|bee|dragonfly/.test(n)&&(wet||dark||t==='dusk'))return false;if(n==='firefly'&&(!/night|dusk/.test(t)||wet))return false;
+ if(/deer|bird|chipmunk|squirrel/.test(n)&&dark)return false;if(n==='owl'&&!/night|dusk/.test(t)&&document.body.dataset.th!=='haunted')return false;
+ if(n==='leaf'&&w==='snow')return false;return true}
+function busy(){const f=document.getElementById('fct');return document.hidden||(f&&f.classList.contains('on'))}
+function play(n){if(C[n])try{C[n]()}catch(e){}}
+const force=new URLSearchParams(location.search).get('critter');
+function tick(){const th=document.body.dataset.th,list=(BY[th]||[]).filter(ok);if(on()&&!RM.matches&&!busy()&&list.length)play(list[Math.floor(Math.random()*list.length)]);setTimeout(tick,R(40000,120000))}
+if(force){const go=()=>{if(!busy())play(force);setTimeout(go,7000)};setTimeout(go,1000)}else setTimeout(tick,R(25000,60000));
+function mountUI(){const a=document.getElementById('thG');if(!a||document.getElementById('critTog'))return;const sk=document.getElementById('skTog');const anchor=sk?sk.closest('label'):a;
+ anchor.insertAdjacentHTML('afterend','<label style="display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:.92rem"><input type="checkbox" id="critTog" style="width:22px;height:22px"> Little surprises · rare critter moments</label>');
+ const c=document.getElementById('critTog');try{c.checked=localStorage.getItem(K)!=='off'}catch(e){c.checked=true}c.onchange=()=>{try{localStorage.setItem(K,c.checked?'on':'off')}catch(e){}}}
+const _a=window.applyTheme;if(_a)window.applyTheme=function(){const r=_a.apply(this,arguments);try{mountUI();L()}catch(e){}return r};mountUI();L();
+window.TTU_CRIT={play,list:Object.keys(C)};
 })();
 </script>
 
