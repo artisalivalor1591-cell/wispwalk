@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a">
+<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -1074,6 +1074,40 @@ function mountUI(){const anchor=$q('skTog')?$q('skTog').closest('label'):$q('thG
  $q('fctNow').onclick=()=>show('low',true);paintJ()}
 const _a=window.applyTheme;window.applyTheme=function(){const r=_a.apply(this,arguments);try{mountUI()}catch(e){}return r};
 mountUI();window.TTU_FACTS={show,hide,count:()=>({c:CTX.length,n:N.length,f:F.length,t:Object.values(T).flat().length})};
+})();
+</script>
+
+<style>
+#fsBtn{position:fixed;top:max(14px,env(safe-area-inset-top));right:14px;z-index:65;width:40px;height:40px;min-height:0;padding:0;border-radius:50%;border:0;display:flex;align-items:center;justify-content:center;background:var(--chipbg,rgba(0,0,0,.4));color:var(--chipfg,#fff);box-shadow:inset 0 0 0 1px var(--line,rgba(255,255,255,.2));opacity:.8;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+#fsBtn svg{width:18px;height:18px}body.hunting #fsBtn{display:none}
+#fsHint{font-size:.85rem;opacity:.8;margin:2px 0 10px}
+</style>
+<script>
+/* Fullscreen toggle + Add-to-Home-Screen hint */
+(function(){
+const de=document.documentElement,K='ttu_profile_fsauto',$q=id=>document.getElementById(id);
+const can=!!(de.requestFullscreen||de.webkitRequestFullscreen)&&document.fullscreenEnabled!==false;
+const standalone=matchMedia('(display-mode: fullscreen),(display-mode: standalone)').matches||navigator.standalone;
+const isFs=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
+function enter(){try{const r=(de.requestFullscreen||de.webkitRequestFullscreen).call(de,{navigationUI:'hide'});if(r&&r.catch)r.catch(()=>{})}catch(e){}}
+function exit(){try{(document.exitFullscreen||document.webkitExitFullscreen).call(document)}catch(e){}}
+const toggle=()=>{if(isFs()){userExit=true;exit()}else{userExit=false;enter()}};
+const ICO={o:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>'};
+let b;function paint(){if(b){b.innerHTML=isFs()?ICO.x:ICO.o;b.setAttribute('aria-label',isFs()?'Exit full screen':'Full screen')}const t=$q('fsNow');if(t)t.textContent=isFs()?'Exit full screen':'Go full screen'}
+if(can&&!standalone){b=document.createElement('button');b.id='fsBtn';b.onclick=toggle;document.body.appendChild(b);paint()}
+['fullscreenchange','webkitfullscreenchange'].forEach(e=>document.addEventListener(e,paint));
+const auto=()=>{try{return localStorage.getItem(K)!=='0'}catch(e){return true}};let userExit=false;
+const tap=e=>{if(!can||standalone||!auto()||isFs())return;const go=e.target.closest&&e.target.closest('#sxGo,#start');if(userExit&&!go)return;if(e.target.closest&&e.target.closest('#fsBtn,#fsNow,#fsAuto'))return;userExit=false;enter()};
+['click','touchend'].forEach(t=>document.addEventListener(t,tap,true));
+document.addEventListener('visibilitychange',()=>{if(document.hidden)userExit=false});
+function mountUI(){const a=$q('thG');if(!a||$q('fsSec'))return;const box=document.createElement('div');box.id='fsSec';
+ if(standalone)box.innerHTML='';
+ else if(can)box.innerHTML='<h3 class="sxH" style="margin-top:4px">Screen</h3><div style="display:flex;gap:8px;margin:4px 0 6px"><button class="sec" id="fsNow">Go full screen</button></div><label style="display:flex;align-items:center;gap:10px;margin:0 0 6px;font-size:.92rem"><input type="checkbox" id="fsAuto" style="width:22px;height:22px"> Full screen by default (turns on with your first tap)</label><p id="fsHint">Tip: for a true app feel, tap ⋮ → <b>Add to Home screen</b> / <b>Install app</b> in Chrome.</p>';
+ else box.innerHTML='<h3 class="sxH" style="margin-top:4px">Screen</h3><p id="fsHint">For full screen, tap Share → <b>Add to Home Screen</b>, then open Trail Trade-Up from your home screen.</p>';
+ const anchor=a.parentNode.querySelector('#skTog')?.closest('label')||a;anchor.after(box);
+ if($q('fsNow'))$q('fsNow').onclick=toggle;const c=$q('fsAuto');if(c){c.checked=auto();c.onchange=()=>{try{localStorage.setItem(K,c.checked?'1':'0')}catch(e){}if(!c.checked&&isFs()){userExit=true;exit()}}}paint()}
+const _a=window.applyTheme;window.applyTheme=function(){const r=_a.apply(this,arguments);try{mountUI()}catch(e){}return r};mountUI();
+window.TTU_FS={enter,exit,can,standalone};
 })();
 </script>
 
