@@ -1,6 +1,8 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
+.map{height:300px;border-radius:14px;margin:10px 0;z-index:1}.modes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:8px 0}.modes button{font-size:.85rem;padding:10px 6px}.where{background:#e3eee6;border-radius:12px;padding:10px;margin:10px 0}
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#1f4d3a,#2f6b4f 40%,#e9e3d3 40%);color:#1d2b23;min-height:100vh}
 header{color:#fff;text-align:center;padding:22px 16px 8px}header h1{margin:0;font-size:1.6rem}header p{margin:4px 0 0;opacity:.85}
 main{max-width:480px;margin:0 auto;padding:12px}.card{background:#fffdf7;border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:0 6px 18px rgba(0,0,0,.12)}
@@ -22,8 +24,14 @@ a{color:#1f4d3a;font-weight:600}
 <div class="card safety"><b>Stay safe out there:</b> stay on marked trails, respect private property and closed areas, and watch your step instead of your screen. If the pin lands somewhere you can't reach safely, just hit <b>Reroll</b>.</div>
 
 <section id="setup" class="card"><h2>Start a hunt</h2>
-<div class="muted">Choose how far away the treasure can be hidden.</div>
-<div class="radii"><button class="r" data-mi="0.25">¼ mi</button><button class="r sel" data-mi="0.5">½ mi</button><button class="r" data-mi="1">1 mi</button><button class="r" data-mi="2">2 mi</button></div>
+<div class="modes"><button class="r m sel" data-mode="radius">📍 Near me</button><button class="r m" data-mode="public">✏️ Draw public area</button><button class="r m" data-mode="property">🏡 My property</button></div>
+<div id="radiusBox"><div class="muted">Treasure drops only in approved public spots (parks, nature areas, viewpoints, picnic sites, named trails) within:</div>
+<div class="radii"><button class="r rr" data-mi="0.25">¼ mi</button><button class="r rr sel" data-mi="0.5">½ mi</button><button class="r rr" data-mi="1">1 mi</button><button class="r rr" data-mi="2">2 mi</button></div>
+<div class="radii" style="grid-template-columns:repeat(3,1fr)"><button class="r rr" data-mi="5">5 mi</button><button class="r rr" data-mi="10">10 mi</button><button class="r rr" data-mi="25">25 mi</button></div></div>
+<div id="drawBox" class="hidden"><div class="muted" id="drawHelp">Tap the map to add corners of your hunt area (at least 3).</div>
+<div id="drawmap" class="map"></div><div class="row"><button id="undoPt" class="sec">↶ Undo point</button><button id="clearPts" class="sec">✕ Clear</button><button id="meBtn" class="sec">◎ My location</button></div>
+<label id="ownBox" class="hidden" style="display:flex;gap:8px;align-items:flex-start;font-weight:600;margin-top:10px"><input type="checkbox" id="own" style="width:22px;height:22px"> I own this property or have the owner's permission to use it for this hunt.</label></div>
+<p class="muted">Map data © OpenStreetMap contributors. Approved zones cover roughly 40 mi around Birnamwood (Wausau, Antigo, Shawano, Wittenberg…).</p>
 <div class="card safety" style="box-shadow:none;margin:12px 0"><b>⚠️ Play at your own risk</b>
 <ul style="padding-left:18px;margin:8px 0;font-size:.9rem">
 <li>Participation is voluntary and entirely at your own risk.</li>
@@ -37,6 +45,7 @@ a{color:#1f4d3a;font-weight:600}
 <button id="start" class="primary" disabled>Hide my treasure 🌲</button><p id="gpsmsg" class="muted"></p></section>
 
 <section id="hunt" class="card hidden">
+<div class="where" id="where"></div><div id="huntmap" class="map"></div>
 <div id="temp" style="background:#5a8bb0">Locating…</div>
 <div class="big" id="band">—</div><div class="big" id="trend"></div>
 <p class="muted" id="acc"></p>
@@ -53,58 +62,85 @@ a{color:#1f4d3a;font-weight:600}
 <button id="again" class="primary">New hunt</button></section>
 </main>
 <script>
-const K='ttu_hunt_v2',SCHEMA=2,M_PER_MI=1609.34;let miSel=0.5,watch=null,last=null,prevD=null,S=null;
+const K='ttu_hunt_v3',SCHEMA=3,M_PER_MI=1609.34;let miSel=0.5,mode='radius',watch=null,last=null,prevD=null,S=null,DATA=null,drawPts=[],dmap=null,dpoly=null,dmarks=[],hmap=null,hme=null;
 const $=id=>document.getElementById(id);
-document.querySelectorAll('.r').forEach(b=>b.onclick=()=>{document.querySelectorAll('.r').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');miSel=+b.dataset.mi});
 const rad=d=>d*Math.PI/180;
 function dist(a,b){const R=6371000,dLa=rad(b.lat-a.lat),dLo=rad(b.lng-a.lng);const h=Math.sin(dLa/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h))}
 function bearing(a,b){const y=Math.sin(rad(b.lng-a.lng))*Math.cos(rad(b.lat)),x=Math.cos(rad(a.lat))*Math.sin(rad(b.lat))-Math.sin(rad(a.lat))*Math.cos(rad(b.lat))*Math.cos(rad(b.lng-a.lng));return (Math.atan2(y,x)*180/Math.PI+360)%360}
 const dirs=['north','northeast','east','southeast','south','southwest','west','northwest'];
-function randPin(c,mi){const r=mi*M_PER_MI*Math.sqrt(0.15+0.85*Math.random()),t=Math.random()*2*Math.PI;return{lat:c.lat+(r*Math.cos(t))/111320,lng:c.lng+(r*Math.sin(t))/(111320*Math.cos(rad(c.lat)))}}
-
-let curCtl=null,cancelTok={c:false};
+let cancelTok={c:false},curCtl=null;
 function ask(msg,btns){return new Promise(res=>{$('askmsg').textContent=msg;$('askbtns').innerHTML='';btns.forEach(([label,val,cls])=>{const b=document.createElement('button');b.textContent=label;b.className=cls||'sec';b.onclick=()=>{$('ask').classList.add('hidden');res(val)};$('askbtns').appendChild(b)});$('ask').classList.remove('hidden')})}
 function hideAsk(){$('ask').classList.add('hidden')}
-const OVP=['https://overpass-api.de/api/interpreter','https://overpass.private.coffee/api/interpreter','https://maps.mail.ru/osm/tools/overpass/api/interpreter'];
-let osmCache=null;
-async function fetchArea(c,mi){const key=c.lat.toFixed(3)+','+c.lng.toFixed(3)+','+mi;if(osmCache&&osmCache.key===key)return osmCache;
-const r=mi*M_PER_MI+60,dLa=r/111320,dLo=r/(111320*Math.cos(rad(c.lat)));const bb=[c.lat-dLa,c.lng-dLo,c.lat+dLa,c.lng+dLo].map(x=>x.toFixed(5)).join(',');
-const q='[out:json][timeout:25][bbox:'+bb+'];(way[railway];way[highway~"^(motorway|trunk|primary|motorway_link|trunk_link|primary_link|path|footway|track|bridleway)$"];way[waterway];nwr[natural=water];nwr[landuse~"^(military|industrial|railway)$"];way[access~"^(private|no)$"];nwr[leisure~"^(park|nature_reserve)$"];);out geom qt;';
-const errs=[];for(const u of OVP){if(cancelTok.c)throw new Error('cancelled');const ctl=new AbortController();curCtl=ctl;const tm=setTimeout(()=>ctl.abort(),20000);
-try{const res=await fetch(u,{method:'POST',body:new URLSearchParams({data:q}),signal:ctl.signal,referrerPolicy:'strict-origin-when-cross-origin',mode:'cors',credentials:'omit'});
-if(!res.ok)throw new Error('HTTP '+res.status);const j=await res.json();osmCache={key,feats:parseFeats(j.elements||[])};return osmCache}
-catch(e){errs.push(u.split('/')[2]+': '+(e.name==='AbortError'?'timeout':e.message))}finally{clearTimeout(tm)}}
-throw new Error(errs.join('; '))}
-function classify(t){if(t.railway&&t.railway!=='platform')return'bad';const h=t.highway||'';if(/^(motorway|trunk|primary)/.test(h))return'bad';
-if(t.waterway||t.natural==='water'||/^(military|industrial|railway)$/.test(t.landuse||'')||/^(private|no)$/.test(t.access||''))return'bad';
-if(/^(path|footway|track|bridleway)$/.test(h)||t.leisure)return'good';return null}
-function parseFeats(els){const out=[];for(const e of els){const k=classify(e.tags||{});if(!k)continue;
-const lines=e.type==='way'?[e.geometry||[]]:e.type==='relation'?(e.members||[]).filter(m=>m.geometry).map(m=>m.geometry):[];
-if(e.type==='node'){out.push({k,pts:[{lat:e.lat,lon:e.lon}],area:false});continue}
-for(const g of lines){if(g.length<1)continue;const closed=g.length>3&&g[0].lat===g[g.length-1].lat&&g[0].lon===g[g.length-1].lon;
-const area=closed&&!(e.tags.highway||e.tags.railway||e.tags.waterway);out.push({k,pts:g,area})}}return out}
-function segDist(p,a,b){const kx=111320*Math.cos(rad(p.lat)),ky=111320;const ax=(a.lon-p.lng)*kx,ay=(a.lat-p.lat)*ky,bx=(b.lon-p.lng)*kx,by=(b.lat-p.lat)*ky;
-const dx=bx-ax,dy=by-ay,l=dx*dx+dy*dy;let t=l?-(ax*dx+ay*dy)/l:0;t=Math.max(0,Math.min(1,t));return Math.hypot(ax+t*dx,ay+t*dy)}
-function inPoly(p,g){let ins=false;for(let i=0,j=g.length-1;i<g.length;j=i++){const a=g[i],b=g[j];if((a.lat>p.lat)!==(b.lat>p.lat)&&p.lng<(b.lon-a.lon)*(p.lat-a.lat)/(b.lat-a.lat)+a.lon)ins=!ins}return ins}
-function judge(p,feats){let bad=false,good=false;for(const f of feats){const lim=f.k==='bad'?40:30;let d=f.area&&inPoly(p,f.pts)?0:Infinity;
-if(d)for(let i=0;i<f.pts.length;i++){d=Math.min(d,i?segDist(p,f.pts[i-1],f.pts[i]):segDist(p,f.pts[0],f.pts[0]));if(d<lim)break}
-if(d<lim){if(f.k==='bad'){bad=true;break}good=true}}return{bad,good}}
-async function safePin(c,mi,msgEl){cancelTok={c:false};const tok=cancelTok;let area;
-while(true){if(tok.c)return null;if(msgEl)msgEl.textContent='Loading trail safety map… (tap Start fresh to cancel)';
-try{area=await fetchArea(c,mi);break}catch(e){if(tok.c)return null;const ch=await ask('Could not load the map safety check ('+e.message+'). Place the pin unchecked (be extra careful and reroll if it looks unsafe), or try again?',[['Try again','retry'],['Place unchecked','place','primary'],['Cancel','cancel']]);
-if(ch==='place')return randPin(c,mi);if(ch==='cancel')return null}}
-let fallback=null;for(let i=0;i<60;i++){const p=randPin(c,mi),r=judge(p,area.feats);if(!r.bad){if(r.good)return p;if(!fallback)fallback=p}}
-if(fallback)return fallback;await ask('Could not find a clearly safe spot nearby. Try a different radius or location.',[['OK','ok','primary']]);return null}
+// ---- geometry (coords are [lng,lat]) ----
+function inRing(p,r){let ins=false;for(let i=0,j=r.length-1;i<r.length;j=i++){const a=r[i],b=r[j];if((a[1]>p.lat)!==(b[1]>p.lat)&&p.lng<(b[0]-a[0])*(p.lat-a[1])/(b[1]-a[1])+a[0])ins=!ins}return ins}
+function inPolys(p,ps){for(const pl of ps){if(inRing(p,pl[0])&&!pl.slice(1).some(h=>inRing(p,h)))return true}return false}
+function segD(p,a,b){const kx=111320*Math.cos(rad(p.lat)),ky=110574;const ax=(a[0]-p.lng)*kx,ay=(a[1]-p.lat)*ky,bx=(b[0]-p.lng)*kx,by=(b[1]-p.lat)*ky,dx=bx-ax,dy=by-ay,l=dx*dx+dy*dy;let t=l?-(ax*dx+ay*dy)/l:0;t=Math.max(0,Math.min(1,t));return Math.hypot(ax+t*dx,ay+t*dy)}
+function lineD(p,l){let d=Infinity;for(let i=1;i<l.length;i++)d=Math.min(d,segD(p,l[i-1],l[i]));return d}
+function nearB(p,b,m){const dy=m/110574,dx=m/(111320*Math.cos(rad(p.lat)));return p.lng>=b[0]-dx&&p.lng<=b[2]+dx&&p.lat>=b[1]-dy&&p.lat<=b[3]+dy}
+const SAFE_M=40;
+function unsafeAt(p){for(const u of DATA.u){if(!nearB(p,u.b,SAFE_M))continue;
+if(u.t==='a'){if(inPolys(p,u.g))return u.k;for(const pl of u.g)for(const r of pl)if(lineD(p,r)<SAFE_M)return u.k}else{for(const l of u.g)if(lineD(p,l)<SAFE_M)return u.k}}return null}
+function regionBox(rg){if(rg.type==='circle'){const dy=rg.r/110574,dx=rg.r/(111320*Math.cos(rad(rg.c.lat)));return[rg.c.lng-dx,rg.c.lat-dy,rg.c.lng+dx,rg.c.lat+dy]}
+const xs=rg.ring.map(q=>q[0]),ys=rg.ring.map(q=>q[1]);return[Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)]}
+function inRegion(p,rg){return rg.type==='circle'?dist(p,rg.c)<=rg.r:inRing(p,rg.ring)}
+const boxHit=(a,b)=>a[0]<=b[2]&&a[2]>=b[0]&&a[1]<=b[3]&&a[3]>=b[1];
+function rndIn(b){return{lng:b[0]+Math.random()*(b[2]-b[0]),lat:b[1]+Math.random()*(b[3]-b[1])}}
+function samplePt(z,rb){if(z.t==='p'){const r=15*Math.sqrt(Math.random()),t=Math.random()*6.283;return{lat:z.g[1]+r*Math.cos(t)/110574,lng:z.g[0]+r*Math.sin(t)/(111320*Math.cos(rad(z.g[1])))}}
+if(z.t==='l'){const l=z.g[Math.floor(Math.random()*z.g.length)];if(l.length<2)return null;const i=1+Math.floor(Math.random()*(l.length-1)),f=Math.random();return{lng:l[i-1][0]+f*(l[i][0]-l[i-1][0]),lat:l[i-1][1]+f*(l[i][1]-l[i-1][1])}}
+const b=[Math.max(z.b[0],rb[0]),Math.max(z.b[1],rb[1]),Math.min(z.b[2],rb[2]),Math.min(z.b[3],rb[3])];for(let i=0;i<40;i++){const p=rndIn(b);if(inPolys(p,z.g))return p}return null}
+const KIND={park:'park',nature_reserve:'nature reserve',protected_area:'protected natural area',national_park:'park',picnic_site:'picnic site',viewpoint:'viewpoint',attraction:'attraction',camp_site:'campground',rest_area:'wayside',trail:'public trail','historic memorial':'memorial','historic monument':'monument','historic marker':'historic marker',property:'your property'};
+// returns {pin, zone} or null
+function placePin(rg,prop){const rb=regionBox(rg);
+if(prop){for(let i=0;i<800;i++){const p=rndIn(rb);if(inRegion(p,rg)&&!unsafeAt(p))return{pin:p,zone:{n:'Your property',k:'property',t:'r'}}}return null}
+const cand=DATA.z.filter(z=>boxHit(z.b,rb));if(!cand.length)return null;
+for(let i=0;i<4000;i++){const z=cand[Math.floor(Math.random()*cand.length)],p=samplePt(z,rb);if(!p||!inRegion(p,rg)||unsafeAt(p))continue;return{pin:p,zone:{n:z.n,k:z.k,t:z.t,g:z.g}}}return null}
+async function loadData(){if(DATA)return DATA;for(let i=0;i<3;i++){try{const r=await fetch('zones.json?v=1');if(!r.ok)throw new Error('HTTP '+r.status);DATA=await r.json();return DATA}catch(e){if(i==2)throw e;await new Promise(r=>setTimeout(r,1500))}}}
+// ---- setup UI ----
+document.querySelectorAll('.rr').forEach(b=>b.onclick=()=>{document.querySelectorAll('.rr').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');miSel=+b.dataset.mi});
+document.querySelectorAll('.m').forEach(b=>b.onclick=()=>{document.querySelectorAll('.m').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');mode=b.dataset.mode;
+$('radiusBox').classList.toggle('hidden',mode!=='radius');$('drawBox').classList.toggle('hidden',mode==='radius');$('ownBox').classList.toggle('hidden',mode!=='property');
+$('drawHelp').textContent=mode==='property'?'Tap the map to outline your property (at least 3 corners). The pin can land anywhere inside, away from roads, rails and water.':'Tap the map to outline the part of a public area you want to search (at least 3 corners). The pin lands only on approved spots inside it.';
+initDraw();updStart()});
+function updStart(){$('start').disabled=!($('agree').checked&&(mode==='radius'||(drawPts.length>=3&&(mode!=='property'||$('own').checked))))}
+function initDraw(){if(!window.L){$('drawHelp').textContent='Map failed to load. Check your connection and reload.';return}
+if(!dmap){dmap=L.map('drawmap').setView([44.9311,-89.2104],13);L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(dmap);
+dmap.on('click',e=>{drawPts.push([e.latlng.lng,e.latlng.lat]);redraw()});locateDraw()}setTimeout(()=>dmap.invalidateSize(),50)}
+function locateDraw(){navigator.geolocation&&navigator.geolocation.getCurrentPosition(p=>dmap.setView([p.coords.latitude,p.coords.longitude],16),()=>{},{enableHighAccuracy:true,timeout:10000})}
+function redraw(){dmarks.forEach(m=>m.remove());dmarks=drawPts.map(q=>L.circleMarker([q[1],q[0]],{radius:5,color:'#e07a2f',interactive:false}).addTo(dmap));if(dpoly)dpoly.remove();
+if(drawPts.length>=2)dpoly=L.polygon(drawPts.map(q=>[q[1],q[0]]),{color:'#1f4d3a',dashArray:'6',interactive:false}).addTo(dmap);updStart()}
+$('undoPt').onclick=()=>{drawPts.pop();redraw()};$('clearPts').onclick=()=>{drawPts=[];redraw()};$('meBtn').onclick=()=>dmap&&locateDraw();$('own').onchange=updStart;
 const fmt=m=>m<300?Math.round(m*3.281)+' ft':(m/M_PER_MI).toFixed(2)+' mi';
 function save(){try{S.v=SCHEMA;localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
 function getPos(){return new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(p=>res({lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy}),rej,{enableHighAccuracy:true,timeout:20000}))}
 function makeHints(){const m=S.radiusMi*M_PER_MI;return[{at:m*0.25,type:'dir',label:'Walk '+fmt(m*0.25)+' → compass direction'},{at:m*0.5,type:'half',label:'Walk '+fmt(m*0.5)+' → north or south half?'},{at:m*0.9,type:'exact',label:'Walk '+fmt(m*0.9)+' → exact distance'}]}
 async function start(){if(!navigator.geolocation){$('gpsmsg').textContent='Geolocation not supported.';return}
-$('gpsmsg').textContent='Getting your location…';try{const c=await getPos();const pin=await safePin(c,miSel,$('gpsmsg'));if(!pin){$('gpsmsg').textContent='Hunt not started.';return}$('gpsmsg').textContent='';S={radiusMi:miSel,start:c,pin,t0:Date.now(),walked:0};S.hints=makeHints();save();prevD=null;last=c;run()}catch(e){$('gpsmsg').textContent='Location problem: '+e.message+'. Allow location access and try again.'}}
-function run(){$('setup').classList.add('hidden');$('win').classList.add('hidden');$('hunt').classList.remove('hidden');$('reveal').classList.add('hidden');
+$('start').disabled=true;try{$('gpsmsg').textContent='Loading approved zones…';await loadData();
+$('gpsmsg').textContent='Getting your location…';let c;try{c=await getPos()}catch(e){if(mode==='radius')throw e;c=null}
+const rg=mode==='radius'?{type:'circle',c:{lat:c.lat,lng:c.lng},r:miSel*M_PER_MI}:{type:'poly',ring:drawPts.slice()};
+const res=placePin(rg,mode==='property');
+if(!res){$('gpsmsg').textContent='';await ask(mode==='radius'?'No approved public spots within '+miSel+' mi of you. Try a bigger radius.':mode==='property'?'Could not find a spot in that outline that is at least 40 m from roads, rails and water. Try a larger outline.':'No approved public spots inside the area you drew. Draw over a park, nature area, or trail, or make it bigger.',[['OK','ok','primary']]);return}
+const st=c||{lat:res.pin.lat,lng:res.pin.lng};
+S={mode,region:rg,zone:res.zone,pin:res.pin,start:st,t0:Date.now(),walked:0,radiusMi:Math.max(0.25,mode==='radius'?miSel:dist(st,res.pin)/M_PER_MI)};S.hints=makeHints();save();prevD=null;last=c;$('gpsmsg').textContent='';run()}
+catch(e){$('gpsmsg').textContent='Problem: '+e.message+'. Allow location access and try again.'}finally{updStart()}}
+function zoneLabel(z){return(z.k==='property'?'🏡 ':'🌲 ')+z.n+' <span class="muted">('+(KIND[z.k]||z.k)+')</span>'}
+function drawHunt(){$('where').innerHTML='<b>Where to look:</b> '+zoneLabel(S.zone)+'<div class="muted">The treasure is somewhere inside the highlighted outline. Stay on trails and public ground.</div>';
+if(!window.L){$('huntmap').classList.add('hidden');return}
+if(hmap){hmap.remove();hmap=null;hme=null}hmap=L.map('huntmap');L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(hmap);
+const rg=S.region,z=S.zone,ls=[];
+if(rg.type==='poly')ls.push(L.polygon(rg.ring.map(q=>[q[1],q[0]]),{color:'#e07a2f',dashArray:'6',fill:false}));
+if(z.t==='a')ls.push(L.polygon(z.g.map(pl=>pl.map(r=>r.map(q=>[q[1],q[0]]))),{color:'#1f8a4c',weight:3,fillOpacity:.15}));
+else if(z.t==='l')ls.push(L.polyline(z.g.map(l=>l.map(q=>[q[1],q[0]])),{color:'#1f8a4c',weight:6}));
+else if(z.t==='p')ls.push(L.circle([z.g[1],z.g[0]],{radius:60,color:'#1f8a4c'}));
+else if(rg.type==='circle')ls.push(L.circle([rg.c.lat,rg.c.lng],{radius:rg.r,color:'#1f8a4c',fill:false}));
+const fg=L.featureGroup(ls).addTo(hmap);let bb=fg.getBounds();
+if(z.t==='a'&&rg.type==='circle'){const c=L.circle([rg.c.lat,rg.c.lng],{radius:rg.r}).addTo(hmap);bb=c.getBounds();c.setStyle({color:'#e07a2f',dashArray:'6',fill:false})}
+if(z.t==='a'&&rg.type==='poly')bb=ls[0].getBounds();
+hmap.fitBounds(bb.pad(0.1));setTimeout(()=>hmap.invalidateSize(),50)}
+function run(){$('setup').classList.add('hidden');$('win').classList.add('hidden');$('hunt').classList.remove('hidden');$('reveal').classList.add('hidden');try{drawHunt()}catch(e){}
 if(watch!==null)navigator.geolocation.clearWatch(watch);watch=navigator.geolocation.watchPosition(onPos,e=>$('acc').textContent='GPS: '+e.message,{enableHighAccuracy:true,maximumAge:3000,timeout:30000});renderHints(null)}
 function onPos(p){const c={lat:p.coords.latitude,lng:p.coords.longitude},acc=p.coords.accuracy;
 if(last&&acc<40){const step=dist(last,c);if(step>Math.max(3,acc*0.3)&&step<200){S.walked+=step;last=c}}else if(!last)last=c;
+if(hmap){if(!hme)hme=L.circleMarker([c.lat,c.lng],{radius:7,color:'#fff',fillColor:'#2a7de1',fillOpacity:1,weight:2}).addTo(hmap);else hme.setLatLng([c.lat,c.lng])}
 const d=dist(c,S.pin);let t,col;
 if(d<30){t='🔥 ON FIRE';col='#d62828'}else if(d<120){t='♨️ HOT';col='#e07a2f'}else if(d<350){t='🌤️ WARM';col='#e9b44c'}else if(d<800){t='🍃 COLD';col='#5a8bb0'}else{t='❄️ FREEZING';col='#3a5a80'}
 $('temp').textContent=t;$('temp').style.background=col;
@@ -121,19 +157,21 @@ const prizes=['Golden Pinecone','Trailblazer Patch','Summit Sticker Pack','Explo
 function claim(){navigator.geolocation.clearWatch(watch);const ms=Date.now()-S.t0,m=Math.floor(ms/60000),s=Math.floor(ms/1000)%60;
 $('badge').textContent=badges[Math.floor(Math.random()*badges.length)];$('prize').textContent=prizes[Math.floor(Math.random()*prizes.length)]+' (mock)';
 $('wtime').textContent=m+'m '+s+'s';$('wdist').textContent=fmt(S.walked);localStorage.removeItem(K);$('hunt').classList.add('hidden');$('win').classList.remove('hidden')}
-$('agree').onchange=e=>$('start').disabled=!e.target.checked;$('start').onclick=start;$('claim').onclick=claim;$('again').onclick=()=>{$('agree').checked=false;$('start').disabled=true;$('win').classList.add('hidden');$('setup').classList.remove('hidden')};
-async function reroll(msg){if(await ask(msg,[['Yes, move it','y','primary'],['Cancel','n']])!=='y')return;const c=S.lastC||S.start;$('trend').textContent='Finding a safe new spot…';const p=await safePin(c,S.radiusMi,$('trend'));if(!p){$('trend').textContent='Reroll failed, try again.';return}S.pin=p;S.start=c;save();prevD=null;$('trend').textContent='New pin hidden!'}
+$('agree').onchange=updStart;$('start').onclick=start;$('claim').onclick=claim;$('again').onclick=()=>{$('agree').checked=false;$('own').checked=false;updStart();$('win').classList.add('hidden');$('setup').classList.remove('hidden')};
+async function reroll(msg){if(await ask(msg,[['Yes, move it','y','primary'],['Cancel','n']])!=='y')return;try{await loadData()}catch(e){$('trend').textContent='Could not load zones, try again.';return}
+const res=placePin(S.region,S.mode==='property');if(!res){await ask('No other approved spot found in this area. Start a new hunt with a bigger area.',[['OK','ok','primary']]);return}
+S.pin=res.pin;S.zone=res.zone;S.start=S.lastC||S.start;save();prevD=null;drawHunt();$('trend').textContent='New pin hidden!'}
 $('reroll').onclick=()=>reroll('Reroll the treasure to a new spot?');
 $('unsafe').onclick=()=>reroll('Report this pin as unsafe or inaccessible and move it to a new spot? Do not approach it.');
 $('giveup').onclick=async()=>{if(await ask('Give up and reveal the treasure?',[['Reveal','y','primary'],['Keep hunting','n']])!=='y')return;navigator.geolocation.clearWatch(watch);const u='https://www.openstreetmap.org/?mlat='+S.pin.lat.toFixed(6)+'&mlon='+S.pin.lng.toFixed(6)+'#map=17/'+S.pin.lat.toFixed(6)+'/'+S.pin.lng.toFixed(6);
 $('reveal').innerHTML='The treasure was here: <a href="'+u+'" target="_blank">open in OpenStreetMap</a><br><button class="sec" onclick="resetAll()">Start over</button>';$('reveal').classList.remove('hidden')};
-function resetAll(){cancelTok.c=true;try{curCtl&&curCtl.abort()}catch(e){}hideAsk();if(watch!==null)try{navigator.geolocation.clearWatch(watch)}catch(e){}
+function resetAll(){cancelTok.c=true;hideAsk();if(watch!==null)try{navigator.geolocation.clearWatch(watch)}catch(e){}
 try{Object.keys(localStorage).filter(k=>k.startsWith('ttu_')).forEach(k=>localStorage.removeItem(k))}catch(e){}location.replace(location.pathname)}
 $('resetAll').onclick=resetAll;
-(function boot(){try{localStorage.removeItem('ttu_hunt')}catch(e){}
+(function boot(){try{localStorage.removeItem('ttu_hunt');localStorage.removeItem('ttu_hunt_v2')}catch(e){}
 if(/[?&]reset=1/.test(location.search)){try{Object.keys(localStorage).filter(k=>k.startsWith('ttu_')).forEach(k=>localStorage.removeItem(k))}catch(e){}history.replaceState(null,'',location.pathname);return}
 let saved=null;try{saved=JSON.parse(localStorage.getItem(K))}catch(e){}
 const okNum=x=>typeof x==='number'&&isFinite(x);
-if(saved&&saved.v===SCHEMA&&saved.pin&&okNum(saved.pin.lat)&&okNum(saved.pin.lng)&&saved.start&&okNum(saved.start.lat)&&Array.isArray(saved.hints)&&okNum(saved.radiusMi)&&okNum(saved.t0)){S=saved;S.walked=+S.walked||0;last=S.lastC||S.start;try{run()}catch(e){try{localStorage.removeItem(K)}catch(_){}location.replace(location.pathname)}}
+if(saved&&saved.v===SCHEMA&&saved.pin&&okNum(saved.pin.lat)&&okNum(saved.pin.lng)&&saved.start&&okNum(saved.start.lat)&&Array.isArray(saved.hints)&&okNum(saved.radiusMi)&&saved.region&&saved.zone&&okNum(saved.t0)){S=saved;S.walked=+S.walked||0;last=S.lastC||S.start;try{run()}catch(e){try{localStorage.removeItem(K)}catch(_){}location.replace(location.pathname)}}
 else{try{localStorage.removeItem(K)}catch(e){}}})();
 </script></body></html>
