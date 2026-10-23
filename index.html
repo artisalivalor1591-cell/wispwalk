@@ -683,4 +683,81 @@ window.TTU_THEMES=TH;mount();
 })();
 </script>
 
+<style>
+#tSky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#tSky>*{position:absolute;inset:0}
+#skTint{transition:background 2s,opacity 2s;opacity:0}
+#skStars{opacity:0;transition:opacity 2s;background-image:radial-gradient(1.2px 1.2px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 28% 8%,#fff,transparent),radial-gradient(1.4px 1.4px at 47% 22%,#fff,transparent),radial-gradient(1px 1px at 63% 12%,#fff,transparent),radial-gradient(1.3px 1.3px at 81% 26%,#fff,transparent),radial-gradient(1px 1px at 91% 6%,#fff,transparent),radial-gradient(1px 1px at 6% 34%,#fff,transparent),radial-gradient(1.2px 1.2px at 38% 36%,#fff,transparent),radial-gradient(1px 1px at 72% 40%,#fff,transparent),radial-gradient(1px 1px at 55% 4%,#fff,transparent),radial-gradient(1.1px 1.1px at 20% 44%,#fff,transparent),radial-gradient(1px 1px at 86% 46%,#fff,transparent);animation:skTw 6s ease-in-out infinite alternate}
+@keyframes skTw{to{filter:brightness(.6)}}
+#skDim{background:linear-gradient(180deg,rgba(90,100,115,.38),rgba(70,80,95,.18) 60%,transparent);opacity:0;transition:opacity 2s}
+#skFog{opacity:0;transition:opacity 2s;background:linear-gradient(180deg,transparent 25%,rgba(225,228,235,.45) 62%,rgba(225,228,235,.6));}
+#skFog::before,#skFog::after{content:'';position:absolute;left:-50%;width:200%;height:30%;background:radial-gradient(ellipse at 30% 50%,rgba(235,238,245,.55),transparent 60%),radial-gradient(ellipse at 75% 50%,rgba(235,238,245,.45),transparent 55%);animation:skDrift 38s linear infinite alternate}
+#skFog::before{top:48%}#skFog::after{top:66%;animation-duration:52s;animation-direction:alternate-reverse}
+@keyframes skDrift{to{transform:translateX(22%)}}
+#skFlash{background:rgba(235,240,255,.0)}
+#skFlash.on{animation:skFl 1.1s ease-out}
+@keyframes skFl{0%,100%{background:rgba(235,240,255,0)}8%{background:rgba(235,240,255,.35)}16%{background:rgba(235,240,255,.05)}24%{background:rgba(235,240,255,.22)}}
+#skCv{width:100%;height:100%}
+body.skNoFx #tSky{display:none}
+@media (prefers-reduced-motion:reduce){#skStars,#skFog::before,#skFog::after{animation:none!important}#skCv,#skFlash{display:none}}
+</style>
+<script>
+/* Sky: time of day (local sun calc) + live weather (Open-Meteo) layered over the theme scene */
+(function(){
+const SK='ttu_profile_sky',WK='ttu_profile_wx',LK='ttu_profile_lastloc',RM=matchMedia('(prefers-reduced-motion: reduce)');
+const LIGHT={golden:1,story:1,spring:1,summer:1};
+const q=new URLSearchParams(location.search).get('sky');let dbgT=null,dbgW=null;
+if(q)q.split(',').forEach(s=>{s=s.trim();if(/^(dawn|day|dusk|night)$/.test(s))dbgT=s;else if(/^(clear|cloudy|fog|rain|snow|storm)$/.test(s))dbgW=s});
+const on=()=>{try{return localStorage.getItem(SK)!=='off'}catch(e){return true}};
+function loc(){try{if(typeof last!=='undefined'&&last&&last.lat){localStorage.setItem(LK,JSON.stringify({lat:last.lat,lng:last.lng}));return last}}catch(e){}
+ try{const l=JSON.parse(localStorage.getItem(LK));if(l&&l.lat)return l}catch(e){}return{lat:44.93,lng:-89.21}}
+// NOAA-style sunrise/sunset; returns minutes from local midnight
+function sun(d,lat,lng){const rad=Math.PI/180,J=Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5+2440587.5,n=J-2451545+.0008;
+ const Js=n-lng/360,M=(357.5291+.98560028*Js)%360,C=1.9148*Math.sin(M*rad)+.02*Math.sin(2*M*rad)+.0003*Math.sin(3*M*rad),L=(M+C+282.9372)%360;
+ const Jt=2451545+Js+.0053*Math.sin(M*rad)-.0069*Math.sin(2*L*rad),dec=Math.asin(Math.sin(L*rad)*Math.sin(23.44*rad));
+ const cw=(Math.sin(-.833*rad)-Math.sin(lat*rad)*Math.sin(dec))/(Math.cos(lat*rad)*Math.cos(dec));if(cw>1)return null;if(cw<-1)return{rise:0,set:1440};
+ const w=Math.acos(cw)/rad,tm=j=>{const t=new Date((j-2440587.5)*864e5);return t.getHours()*60+t.getMinutes()};return{rise:tm(Jt-w/360),set:tm(Jt+w/360)}}
+function tod(){if(dbgT)return dbgT;const d=new Date(),l=loc(),s=sun(d,l.lat,l.lng),m=d.getHours()*60+d.getMinutes();if(!s)return 'night';
+ if(m>=s.rise-35&&m<s.rise+40)return 'dawn';if(m>=s.set-50&&m<s.set+30)return 'dusk';return m>s.rise&&m<s.set?'day':'night'}
+function codeWx(c){if(c==null)return 'clear';if(c>=95)return 'storm';if(c===45||c===48)return 'fog';if((c>=71&&c<=77)||c===85||c===86)return 'snow';if(c>=51&&c<=82)return 'rain';if(c>=2)return 'cloudy';return 'clear'}
+let wx='clear';try{const c=JSON.parse(localStorage.getItem(WK));if(c&&Date.now()-c.t<3*36e5)wx=c.w}catch(e){}
+async function fetchWx(){if(dbgW||!on())return;try{const c=JSON.parse(localStorage.getItem(WK)||'null');if(c&&Date.now()-c.t<15*6e4){wx=c.w;return}}catch(e){}
+ if(!navigator.onLine)return;const l=loc();try{const ctl=new AbortController();setTimeout(()=>ctl.abort(),8000);
+ const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+l.lat.toFixed(3)+'&longitude='+l.lng.toFixed(3)+'&current=weather_code,is_day,temperature_2m',{signal:ctl.signal});
+ const j=await r.json();wx=codeWx(j.current&&j.current.weather_code);localStorage.setItem(WK,JSON.stringify({t:Date.now(),w:wx,c:j.current}));paint()}catch(e){}}
+const TINT={dawn:'linear-gradient(180deg,rgba(255,170,190,.35),rgba(255,200,150,.18) 55%,transparent)',
+ day:'none',dusk:'linear-gradient(180deg,rgba(120,60,140,.38),rgba(255,120,60,.30) 55%,rgba(255,170,90,.12))',
+ night:'linear-gradient(180deg,rgba(6,10,40,.72),rgba(10,16,50,.55) 60%,rgba(5,8,25,.6))'};
+let el,cv,ctx,raf=0,parts=[],kind='',lastF=0,flashT=0;
+function build(){el=document.getElementById('tSky');if(!el){el=document.createElement('div');el.id='tSky';el.setAttribute('aria-hidden','true');
+ el.innerHTML='<div id="skTint"></div><div id="skStars"></div><div id="skDim"></div><div id="skFog"></div><canvas id="skCv"></canvas><div id="skFlash"></div>';}
+ const sc=document.getElementById('tScene');if(sc&&el.previousSibling!==sc)sc.after(el);else if(!sc&&!el.parentNode)document.body.prepend(el);cv=document.getElementById('skCv');ctx=cv.getContext('2d')}
+function seedParts(k){kind=k;parts=[];const n=k==='snow'?55:k?70:0,W=innerWidth,H=innerHeight;
+ for(let i=0;i<n;i++)parts.push({x:Math.random()*W,y:Math.random()*H,v:k==='snow'?.4+Math.random()*.9:7+Math.random()*5,r:k==='snow'?1+Math.random()*2.4:9+Math.random()*9,o:Math.random()*6})}
+function loop(t){raf=requestAnimationFrame(loop);if(document.hidden||t-lastF<33)return;lastF=t;const W=cv.width=innerWidth,H=cv.height=innerHeight;ctx.clearRect(0,0,W,H);
+ if(kind==='snow'){ctx.fillStyle='rgba(255,255,255,.85)';parts.forEach(p=>{p.y+=p.v;p.x+=Math.sin(t/1500+p.o)*.5;if(p.y>H){p.y=-4;p.x=Math.random()*W}ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.283);ctx.fill()})}
+ else{ctx.strokeStyle='rgba(210,225,245,.42)';ctx.lineWidth=1.1;ctx.beginPath();parts.forEach(p=>{p.y+=p.v;p.x-=p.v*.18;if(p.y>H){p.y=-p.r;p.x=Math.random()*W*1.2}ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+p.r*.18,p.y-p.r)});ctx.stroke()}
+ if(kind==='storm'&&t>flashT){flashT=t+9000+Math.random()*14000;const f=document.getElementById('skFlash');f.classList.remove('on');void f.offsetWidth;f.classList.add('on')}}
+function paint(){build();const fx=on();document.body.classList.toggle('skNoFx',!fx);
+ const T=fx?tod():'day',W=fx?(dbgW||wx):'clear',th=document.body.dataset.th;document.body.dataset.tod=T;document.body.dataset.wx=W;
+ const g=id=>document.getElementById(id);g('skTint').style.background=TINT[T];g('skTint').style.opacity=T==='day'?0:1;
+ g('skStars').style.opacity=T==='night'&&(W==='clear')?.9:T==='night'&&W==='cloudy'?.25:0;
+ g('skDim').style.opacity=W==='cloudy'?.7:W==='rain'?.9:W==='storm'?1.3:W==='snow'?.4:W==='fog'?.5:0;
+ g('skFog').style.opacity=W==='fog'?1:W==='snow'||W==='rain'?.35:0;
+ // keep start-screen text readable on light themes after dark
+ const st=document.body.style,t=window.TTU_THEMES&&TTU_THEMES[th];
+ if(t){if(LIGHT[th]&&T==='night'){st.setProperty('--fg','#f6f1e6');st.setProperty('--fg2','#d9cfbd');st.setProperty('--tsh','rgba(0,0,20,.75)')}
+  else{['fg','fg2','tsh'].forEach(k=>st.setProperty('--'+k,t.v[k]))}}
+ const want=fx&&!RM.matches&&(W==='rain'||W==='storm'||W==='snow')?(W==='snow'?'snow':W):'';
+ if(want!==kind)seedParts(want);if(want&&!raf)raf=requestAnimationFrame(loop);if(!want&&raf){cancelAnimationFrame(raf);raf=0;ctx.clearRect(0,0,cv.width,cv.height)}}
+function mountToggle(){const g=document.getElementById('thG');if(!g||document.getElementById('skTog'))return;
+ g.insertAdjacentHTML('afterend','<label style="display:flex;align-items:center;gap:10px;margin:4px 0 12px;font-size:.92rem"><input type="checkbox" id="skTog" style="width:22px;height:22px"> Sky effects · time of day &amp; local weather</label>');
+ const c=document.getElementById('skTog');c.checked=on();c.onchange=()=>{try{localStorage.setItem(SK,c.checked?'on':'off')}catch(e){}paint();fetchWx()}}
+const _a=window.applyTheme;window.applyTheme=function(){const r=_a.apply(this,arguments);try{paint();mountToggle()}catch(e){}return r};
+window.TTU_SKY={paint,fetchWx,sun,tod:()=>tod(),wx:()=>dbgW||wx};
+paint();mountToggle();fetchWx();setInterval(()=>{paint();fetchWx()},5*6e4);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){paint();fetchWx()}});
+})();
+</script>
+
 </body></html>
