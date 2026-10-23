@@ -10,13 +10,13 @@ h2{margin:0 0 10px;font-size:1.1rem}.radii{display:grid;grid-template-columns:re
 button{font:inherit;border:0;border-radius:12px;padding:12px;font-weight:600;cursor:pointer}
 .r{background:#e3eee6;color:#1f4d3a}.r.sel{background:#1f4d3a;color:#fff}.primary{background:#e07a2f;color:#fff;width:100%;font-size:1.1rem;padding:15px}
 .primary:disabled{background:#c9c2b2;color:#776}.sec{background:#e3eee6;color:#1f4d3a}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1}
-#temp{font-size:2.2rem;font-weight:800;text-align:center;padding:18px;border-radius:16px;color:#fff;transition:background .6s}
+#temp{font-size:1.5rem;font-weight:800;text-align:center;padding:12px;border-radius:40px;color:#fff;transition:background .6s}
 .big{text-align:center;font-size:1.1rem;margin:10px 0}.muted{color:#6b6b5e;font-size:.88rem}.hint{background:#f1ecdd;border-radius:10px;padding:10px;margin:6px 0}
 .hint.locked{opacity:.6}.safety{background:#fff4e0;border-left:5px solid #e07a2f}.hidden{display:none}
 .badge{font-size:5rem;text-align:center;animation:pop .8s}@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:center}.stats div{background:#e3eee6;border-radius:12px;padding:10px}.stats b{display:block;font-size:1.3rem}
 a{color:#1f4d3a;font-weight:600}
-.pl{display:block;margin:10px 0 4px;font-weight:600}.pl input,.pl select,.pl textarea{display:block;width:100%;box-sizing:border-box;margin-top:4px;padding:8px;font-size:1rem;border-radius:8px;border:1px solid #bbb}.pl input[type=checkbox]{display:inline;width:22px}</style></head><body>
+.pl{display:block;margin:10px 0 4px;font-weight:600}.pl input,.pl select,.pl textarea{display:block;width:100%;box-sizing:border-box;margin-top:4px;padding:8px;font-size:1rem;border-radius:8px;border:1px solid #bbb}.pl input[type=checkbox]{display:inline;width:22px}.cmp{width:min(78vw,320px);aspect-ratio:1;margin:12px auto;border-radius:50%;transition:box-shadow 1.5s}.cmp svg *{transition:stop-color 1.5s}#needle,#rose{transition:transform .4s ease-out}.cmp.fan{filter:sepia(.35) saturate(1.2)}.cmp.fan text{font-style:italic}#pocket.hidden{display:none!important}</style></head><body>
 <button id="resetAll" style="position:fixed;top:10px;right:10px;z-index:50;background:#fffdf7;color:#1f4d3a;padding:8px 10px;font-size:.85rem">↺ Start fresh</button>
 <div id="ask" class="hidden" style="position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fffdf7;padding:16px;box-shadow:0 -6px 18px rgba(0,0,0,.25)"><p id="askmsg" style="margin:0 0 10px"></p><div class="row" id="askbtns"></div></div>
 <header><h1>🥾 Trail Trade-Up</h1><p>Solo Hunt · Tier 1 prototype</p><button id="profBtn" class="sec" style="margin-top:8px;padding:6px 12px;font-size:.9rem">👤 Profile</button></header>
@@ -47,7 +47,23 @@ a{color:#1f4d3a;font-weight:600}
 <button id="start" class="primary" disabled>Hide my treasure 🌲</button><p id="gpsmsg" class="muted"></p></section>
 
 <section id="hunt" class="card hidden">
-<div class="where" id="where"></div><div id="huntmap" class="map"></div>
+<div class="where" id="where"></div><div id="cmpWrap" style="text-align:center">
+<div id="cmp" class="cmp"><svg viewBox="0 0 200 200" width="100%" height="100%">
+<defs><radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0%" id="cg0" stop-color="#f6efe0"/><stop offset="100%" id="cg1" stop-color="#8aa58a"/></radialGradient></defs>
+<circle cx="100" cy="100" r="96" fill="url(#cg)" stroke="#5b4630" stroke-width="3"/>
+<circle cx="100" cy="100" r="84" fill="none" stroke="#5b4630" stroke-opacity=".35" stroke-dasharray="1 5.5" stroke-width="5"/>
+<g id="rose"><path d="M100 22 Q106 92 100 100 Q94 92 100 22Z M100 178 Q106 108 100 100 Q94 108 100 178Z M22 100 Q92 94 100 100 Q92 106 22 100Z M178 100 Q108 94 100 100 Q108 106 178 100Z" fill="#5b4630" fill-opacity=".45"/>
+<path d="M100 45 Q103 97 100 100 Q97 97 100 45Z" fill="#7a3b2e" transform="rotate(45 100 100)" fill-opacity=".3"/><path d="M100 45 Q103 97 100 100 Q97 97 100 45Z" fill="#7a3b2e" transform="rotate(135 100 100)" fill-opacity=".3"/><path d="M100 45 Q103 97 100 100 Q97 97 100 45Z" fill="#7a3b2e" transform="rotate(225 100 100)" fill-opacity=".3"/><path d="M100 45 Q103 97 100 100 Q97 97 100 45Z" fill="#7a3b2e" transform="rotate(315 100 100)" fill-opacity=".3"/>
+<text x="100" y="17" text-anchor="middle" font-size="13" font-family="Georgia,serif" fill="#7a3b2e" font-weight="bold">N</text><text x="100" y="193" text-anchor="middle" font-size="11" font-family="Georgia,serif" fill="#5b4630">S</text><text x="190" y="104" text-anchor="middle" font-size="11" font-family="Georgia,serif" fill="#5b4630">E</text><text x="10" y="104" text-anchor="middle" font-size="11" font-family="Georgia,serif" fill="#5b4630">W</text></g>
+<path id="cone" d="" fill="#fff4c2" fill-opacity=".45"/>
+<g id="needle"><path d="M100 30 Q109 100 100 112 Q91 100 100 30Z" fill="#b5462f"/><path d="M100 112 Q106 140 100 150 Q94 140 100 112Z" fill="#e8dcc0"/></g>
+<circle cx="100" cy="100" r="8" fill="#5b4630"/><text id="cmpMid" x="100" y="128" text-anchor="middle" font-size="12" font-family="Georgia,serif" fill="#3b2f22"></text>
+</svg></div>
+<p class="muted" id="cmpNote"></p>
+<div class="row"><button id="cmpPerm" class="sec hidden">🧭 Enable compass</button><button id="mapTog" class="sec">🗺️ Show map</button><button id="pocketBtn" class="sec">🌙 Pocket mode</button></div>
+<label class="muted" style="display:flex;gap:6px;align-items:center;justify-content:center"><input type="checkbox" id="sndOn"> Soft sound cues</label></div>
+<div id="mapBox" class="hidden">
+<div id="huntmap" class="map"></div></div>
 <div id="temp" style="background:#5a8bb0">Locating…</div>
 <div class="big" id="band">—</div><div class="big" id="trend"></div>
 <p class="muted" id="acc"></p>
@@ -181,7 +197,7 @@ $('temp').textContent=t;$('temp').style.background=col;
 const bands=[[20,'Right here!'],[50,'Within 50 m'],[100,'Within 100 m'],[250,'Within 250 m'],[500,'Within 500 m'],[1000,'Within 1 km'],[1e9,'Over 1 km away']];$('band').textContent=bands.find(b=>d<b[0])[1];
 if(prevD!==null&&Math.abs(d-prevD)>4){$('trend').textContent=d<prevD?'⬆️ Getting closer':'⬇️ Getting farther';prevD=d}else if(prevD===null)prevD=d;
 $('acc').textContent='GPS accuracy ±'+Math.round(acc)+' m';$('walked').textContent=fmt(S.walked);
-$('claim').disabled=!(d<=20+Math.min(acc,15));S.lastC=c;save();renderHints(c)}
+$('claim').disabled=!(d<=20+Math.min(acc,15));S.lastC=c;save();renderHints(c);if(typeof compassUpd==='function')compassUpd(c,d,acc,p)}
 function renderHints(c){if(S.zone&&$('where'))$('where').innerHTML=whereText();$('hints').innerHTML=S.hints.map(h=>{const ok=S.walked>=h.at;let txt=h.label;
 if(ok&&c){if(h.type==='dir')txt='🧭 The treasure is to the '+dirs[Math.round(bearing(S.start,S.pin)/45)%8]+' of where you started.';
 if(h.type==='half')txt='🗺️ The treasure is '+(S.pin.lat>c.lat?'north':'south')+' of you right now.';
@@ -262,5 +278,41 @@ const _claim=claim;$('claim').onclick=()=>{const r=record('win');_claim();winExt
 const _gu=$('giveup').onclick;$('giveup').onclick=async()=>{await _gu();if(!$('reveal').classList.contains('hidden')){record('giveup')}};
 const _rh=renderHints;renderHints=function(c){_rh(c);if(P.fan&&S){document.querySelectorAll('#hints li,#hints div').forEach(el=>{if(!el.dataset.fl&&/[🧭🗺️📏📛🏷️]/u.test(el.textContent)&&!/🔒/.test(el.textContent)){el.dataset.fl=1;el.insertAdjacentHTML('afterbegin','<i>'+FLAV.clue[(el.textContent.length)%FLAV.clue.length]+'</i>')}})}};
 hdr();if(!S){applySuggest()}showSuggest();
+</script>
+<div id="pocket" class="hidden" style="position:fixed;inset:0;background:#000;color:#4a4a3a;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;font-family:Georgia,serif"><div style="font-size:2rem">🌙</div><div id="pkDist" style="font-size:1.6rem;margin:10px"></div><div id="pkMsg" style="color:#7a6a3a"></div><p id="pkNote" style="font-size:.85rem"></p><p style="font-size:.85rem">Tap anywhere to wake</p></div><script>
+/* Compass hunt view + pocket mode */
+const FUZZ={easy:20,medium:45,hard:null};let devHead=null,gpsHead=null,cmpD=null,cmpBear=null,fuzzOff=0,fuzzT=0,pocket=null,wakeL=null,lastUnl=-1,audioC=null;
+function warmCol(d){const f=Math.max(0,Math.min(1,1-Math.log10(Math.max(20,d)/20)/Math.log10(60)));const lerp=(a,b)=>Math.round(a+(b-a)*f);
+const c0=[[138,165,138],[226,120,60]],c1=[[246,239,224],[255,226,160]];return{edge:`rgb(${lerp(c0[0][0],c0[1][0])},${lerp(c0[0][1],c0[1][1])},${lerp(c0[0][2],c0[1][2])})`,mid:`rgb(${lerp(c1[0][0],c1[1][0])},${lerp(c1[0][1],c1[1][1])},${lerp(c1[0][2],c1[1][2])})`,f}}
+function onOri(e){let h=null;if(typeof e.webkitCompassHeading==='number')h=e.webkitCompassHeading;else if(e.absolute&&typeof e.alpha==='number')h=360-e.alpha;if(h!==null&&!isNaN(h)){devHead=(h+((screen.orientation&&screen.orientation.angle)||0)+360)%360;drawCmp()}}
+function startOri(){if('ondeviceorientationabsolute' in window)addEventListener('deviceorientationabsolute',onOri);addEventListener('deviceorientation',onOri)}
+if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){$('cmpPerm').classList.remove('hidden');$('cmpPerm').onclick=async()=>{try{if(await DeviceOrientationEvent.requestPermission()==='granted'){startOri();$('cmpPerm').classList.add('hidden')}}catch(e){$('cmpNote').textContent='Compass permission was not granted.'}}}else startOri();
+function drawCmp(){if(!S)return;const diff=S.diff||'easy',fz=FUZZ[diff],head=devHead!==null?devHead:gpsHead;
+const rot=head!==null?-head:0;$('rose').setAttribute('transform','rotate('+rot+' 100 100)');
+if(cmpD!==null){const w=warmCol(cmpD);$('cg0').setAttribute('stop-color',w.mid);$('cg1').setAttribute('stop-color',w.edge);$('cmp').style.boxShadow='0 0 '+Math.round(10+w.f*40)+'px '+Math.round(w.f*14)+'px '+w.edge}
+const nd=$('needle'),cone=$('cone');
+if(fz===null||cmpBear===null){nd.style.display='none';cone.setAttribute('d','')}else{if(Date.now()-fuzzT>45000){fuzzOff=(Math.random()*2-1)*fz*0.6;fuzzT=Date.now()}
+const a=(cmpBear+fuzzOff+rot+720)%360;nd.style.display='';nd.setAttribute('transform','rotate('+a+' 100 100)');
+const r=70,p=t=>{const q=(t-90)*Math.PI/180;return(100+r*Math.cos(q)).toFixed(1)+' '+(100+r*Math.sin(q)).toFixed(1)};cone.setAttribute('d','M100 100 L'+p(a-fz)+' A'+r+' '+r+' 0 0 1 '+p(a+fz)+'Z')}
+const n=devHead!==null?'Compass active — hold the phone flat.':gpsHead!==null?'No compass sensor: direction is based on the way you are walking.':'No compass yet: the rose shows north-up. Face north, or keep walking and it will follow your path.';
+$('cmpNote').textContent=(fz===null?'🔥 Hard: no needle — follow the warmth. ':fz?'Needle is approximate (±'+fz+'°). ':'')+n}
+let prevC=null;function compassUpd(c,d,acc,pos){cmpD=d;cmpBear=bearing(c,S.pin);const h=pos&&pos.coords&&pos.coords.heading;if(typeof h==='number'&&!isNaN(h)&&(pos.coords.speed||0)>0.5)gpsHead=h;else if(prevC&&dist(prevC,c)>12){gpsHead=bearing(prevC,c);prevC=c}if(!prevC)prevC=c;
+$('cmpMid').textContent=d<30?'Right here!':d<120?'Hot':d<350?'Warm':d<800?'Cold':'Freezing';drawCmp();if(pocket)pocketTick()}
+/* map toggle */
+$('mapTog').onclick=()=>{const hid=$('mapBox').classList.toggle('hidden');$('mapTog').textContent=hid?'🗺️ Show map':'🗺️ Hide map';if(!hid&&hmap){setTimeout(()=>{hmap.invalidateSize();try{drawHunt()}catch(e){}},50)}};
+/* hint unlock buzz */
+const _rh2=renderHints;renderHints=function(c){_rh2(c);if(!S)return;const n=S.hints.filter(h=>S.walked>=h.at).length;if(lastUnl>=0&&n>lastUnl){buzz([200,100,200,100,400]);chime(660,0.4);if(pocket)$('pkMsg').textContent='✨ New hint unlocked — take a look!'}lastUnl=n};
+function buzz(p){try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}}
+function chime(f,dur){if(!$('sndOn').checked)return;try{audioC=audioC||new (window.AudioContext||window.webkitAudioContext)();const o=audioC.createOscillator(),g=audioC.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,audioC.currentTime);g.gain.linearRampToValueAtTime(.15,audioC.currentTime+.05);g.gain.exponentialRampToValueAtTime(.001,audioC.currentTime+dur);o.connect(g).connect(audioC.destination);o.start();o.stop(audioC.currentTime+dur)}catch(e){}}
+function pulseGap(d){return d<30?800:d<120?1800:d<350?4000:d<800?8000:15000}
+let pkTimer=null;function pocketTick(){if(pkTimer)return;const go=()=>{pkTimer=null;if(!pocket||cmpD===null)return;buzz(cmpD<30?[80,60,80]:[120]);chime(cmpD<120?520:330,0.25);$('pkDist').textContent=$('cmpMid').textContent;pkTimer=setTimeout(go,pulseGap(cmpD))};pkTimer=setTimeout(go,300)}
+async function pocketOn(){pocket=true;$('pocket').classList.remove('hidden');if(audioC&&audioC.state==='suspended')audioC.resume();try{wakeL=await navigator.wakeLock.request('screen')}catch(e){}pocketTick();
+$('pkNote').textContent=('vibrate' in navigator?'Phone buzzes faster as you get closer.':'This phone cannot vibrate from a web page — turn on Soft sound cues.')+' Keep this page open; most phones pause web pages when the screen locks.'}
+function pocketOff(){pocket=false;clearTimeout(pkTimer);pkTimer=null;$('pocket').classList.add('hidden');try{wakeL&&wakeL.release()}catch(e){}wakeL=null}
+$('pocketBtn').onclick=pocketOn;$('pocket').onclick=pocketOff;$('sndOn').onchange=()=>{if($('sndOn').checked)chime(440,.3)};
+document.addEventListener('visibilitychange',async()=>{if(pocket&&document.visibilityState==='visible'){try{wakeL=await navigator.wakeLock.request('screen')}catch(e){}}});
+/* fantasy styling */
+function cmpTheme(){const f=typeof P!=='undefined'&&P.fan;$('cmp').classList.toggle('fan',!!f);$('pocketBtn').textContent=f?'🌙 Stealth (pocket)':'🌙 Pocket mode';$('mapTog').textContent=$('mapBox').classList.contains('hidden')?(f?'📜 Unroll map':'🗺️ Show map'):(f?'📜 Roll up map':'🗺️ Hide map')}
+const _run=run;run=function(){_run();lastUnl=-1;cmpTheme();drawCmp()};if(S&&!$('hunt').classList.contains('hidden')){cmpTheme();drawCmp()}
 </script>
 </body></html>
