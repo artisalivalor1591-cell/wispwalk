@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610231852"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610231852"><link rel="icon" href="icon-192.png?v=202610231852"><link rel="apple-touch-icon" href="icon-192.png?v=202610231852"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610231856"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610231856"><link rel="icon" href="icon-192.png?v=202610231856"><link rel="apple-touch-icon" href="icon-192.png?v=202610231856"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -1209,7 +1209,7 @@ function ok(n){const t=document.body.dataset.tod||'day',w=document.body.dataset.
  if(/deer|bird|chipmunk|squirrel/.test(n)&&dark)return false;if(n==='owl'&&!/night|dusk/.test(t)&&document.body.dataset.th!=='haunted')return false;
  if(n==='leaf'&&w==='snow')return false;return true}
 function busy(){const f=document.getElementById('fct');return document.hidden||(f&&f.classList.contains('on'))}
-function play(n){if(C[n])try{C[n]()}catch(e){}}
+function play(n){if(C[n])try{C[n]();document.dispatchEvent(new CustomEvent('ttu:quirk',{detail:n}))}catch(e){}}
 const force=new URLSearchParams(location.search).get('critter');
 function tick(){const th=document.body.dataset.th,list=(BY[th]||[]).filter(ok);if(on()&&!RM.matches&&!busy()&&list.length)play(list[Math.floor(Math.random()*list.length)]);setTimeout(tick,R(40000,120000))}
 if(force){const go=()=>{if(!busy())play(force);setTimeout(go,7000)};setTimeout(go,1000)}else setTimeout(tick,R(25000,60000));
@@ -1301,7 +1301,7 @@ function found(n){let s;try{s=JSON.parse(localStorage.getItem(KS)||'[]')}catch(e
  let t=document.getElementById('secT');if(!t){t=document.createElement('div');t.id='secT';b.appendChild(t)}t.textContent='✨ Secret found · '+s.length+' of '+TOTAL;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2200);lbl()}
 const TOTAL=Object.entries(LIST).reduce((a,[k,v])=>a+v.length,0);
 function lbl(){const c=document.getElementById('critTog');if(!c)return;let s;try{s=JSON.parse(localStorage.getItem(KS)||'[]')}catch(e){s=[]}let sp=document.getElementById('secN');if(!sp){sp=document.createElement('span');sp.id='secN';sp.style.cssText='opacity:.7;font-size:.82em;margin-left:auto';c.parentNode.appendChild(sp)}sp.textContent=s.length+'/'+TOTAL+' secrets'}
-function play(n,i){const a=ACT[n];if(!a)return false;const now=Date.now(),k=n+(i||'');if((cool[k]||0)>now)return false;cool[k]=now+4000;try{a.play(i)}catch(e){}try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}found(n);return true}
+function play(n,i){const a=ACT[n];if(!a)return false;const now=Date.now(),k=n+(i||'');if((cool[k]||0)>now)return false;cool[k]=now+4000;try{a.play(i);document.dispatchEvent(new CustomEvent('ttu:quirk',{detail:n}))}catch(e){}try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}found(n);return true}
 // hit testing: real taps only (no swipes), never on UI or the compass
 const UI='button,a,input,select,textarea,label,.hh,.pnl.on,#cmpWrap,#fct,.grab,[role=button],#sx .card,#hx [class*=o_]';
 function hits(cx,cy){if(!svg)return null;const m=svg.getScreenCTM();if(!m)return null;const p=new DOMPoint(cx,cy).matrixTransform(m.inverse()),th=b.dataset.th,L=LIST[th]||[];
@@ -1314,6 +1314,78 @@ document.addEventListener('pointerup',e=>{const s=st;st=null;if(!s||s.ui||!on())
 build();setTimeout(lbl,500);
 const dbg=new URLSearchParams(location.search).get('tap');if(dbg)setTimeout(()=>{build();play(dbg)},1200);
 window.TTU_TAP={play,hits,list:LIST};
+})();
+</script>
+<script>
+/* Ambient sounds: soft Web Audio synth quirks per theme (no files) */
+(function(){
+const KS='ttu_profile_snd',KV='ttu_profile_vol',b=document.body,R=(a,c)=>a+Math.random()*(c-a);
+const enabled=()=>{try{return localStorage.getItem(KS)!=='off'}catch(e){return true}},vol=()=>{try{const v=parseFloat(localStorage.getItem(KV));return isNaN(v)?.5:v}catch(e){return .5}};
+let X=null,M=null,NB=null;
+function ctxInit(c){X=c;M=X.createGain();M.gain.value=vol()*.8;const comp=X.createDynamicsCompressor();comp.threshold.value=-24;comp.ratio.value=6;M.connect(comp);comp.connect(X.destination);
+ NB=X.createBuffer(1,X.sampleRate*2,X.sampleRate);const d=NB.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
+function unlock(){if(!X){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ctxInit(new AC())}if(X.state==='suspended'&&!document.hidden)X.resume().catch(()=>{})}
+['pointerdown','touchend','keydown'].forEach(e=>document.addEventListener(e,unlock,{capture:true,passive:true}));
+document.addEventListener('visibilitychange',()=>{if(!X||X.resume===undefined)return;if(document.hidden)X.suspend&&X.suspend();else X.resume()});
+// primitives
+const T=()=>X.currentTime+.03;
+function env(g,t,a,h,r,peak){g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(peak,t+a);g.gain.setValueAtTime(peak,t+a+h);g.gain.exponentialRampToValueAtTime(.0001,t+a+h+r)}
+function tone(t,f,dur,o){o=o||{};const os=X.createOscillator(),g=X.createGain();os.type=o.type||'sine';os.frequency.setValueAtTime(f,t);(o.glide||[]).forEach(([v,dt])=>os.frequency.linearRampToValueAtTime(v,t+dt));
+ if(o.vib){const l=X.createOscillator(),lg=X.createGain();l.frequency.value=o.vib[0];lg.gain.value=o.vib[1];l.connect(lg);lg.connect(os.frequency);l.start(t);l.stop(t+dur+.2)}
+ let n=os;if(o.lp){const f2=X.createBiquadFilter();f2.type='lowpass';f2.frequency.value=o.lp;os.connect(f2);n=f2}n.connect(g);g.connect(o.dest||M);env(g,t,o.a||.02,o.h||0,Math.max(.05,dur-(o.a||.02)-(o.h||0)),o.g||.3);os.start(t);os.stop(t+dur+.1)}
+function noise(t,dur,o){o=o||{};const s=X.createBufferSource();s.buffer=NB;s.loop=true;const f=X.createBiquadFilter();f.type=o.ft||'bandpass';f.frequency.setValueAtTime(o.f||1000,t);(o.fg||[]).forEach(([v,dt])=>f.frequency.linearRampToValueAtTime(v,t+dt));f.Q.value=o.q||1;
+ const g=X.createGain();s.connect(f);f.connect(g);g.connect(M);env(g,t,o.a||.01,o.h||0,Math.max(.03,dur-(o.a||.01)-(o.h||0)),o.g||.3);s.start(t,Math.random());s.stop(t+dur+.1)}
+const S={
+hoot(t){[0,.5,.75].forEach((d,i)=>tone(t+d,i?360:390,i?.3:.45,{glide:[[i?330:350,.3]],a:.06,g:.22,vib:[6,4],lp:900}))},
+loon(t){tone(t,520,2.6,{glide:[[880,.6],[860,1.6],[700,2.4]],a:.25,h:1,g:.16,vib:[5,8]});tone(t+2.9,700,1.4,{glide:[[900,.4],[760,1.3]],a:.2,g:.1,vib:[5,8]})},
+crickets(t){for(let k=0;k<4;k++)for(let i=0;i<4;i++)tone(t+k*.55+i*.05,4400,.04,{g:.05,a:.005})},
+frogs(t){for(let k=0;k<3;k++){const st=t+k*R(.5,.8);for(let i=0;i<3;i++)tone(st+i*.07,R(150,190),.08,{type:'sawtooth',lp:600,g:.14,a:.01})}},
+chimes(t){const P=[1047,1175,1319,1568,1760,2093];for(let i=0;i<5;i++){const f=P[Math.floor(R(0,6))];tone(t+i*R(.15,.4),f,2.5,{a:.005,g:.06});tone(t+i*R(.15,.4),f*2.76,1.2,{a:.005,g:.015})}},
+creak(t){tone(t,R(80,110),1.1,{type:'sawtooth',glide:[[R(130,170),.9]],lp:700,a:.2,g:.08,vib:[18,12]})},
+plop(t){noise(t,.25,{ft:'lowpass',f:500,g:.25,a:.005});tone(t,180,.2,{glide:[[70,.18]],g:.12})},
+wolf(t){tone(t,320,3.2,{glide:[[540,.9],[520,2.2],[380,3.1]],a:.6,h:1.6,g:.09,vib:[5,6],lp:1200});tone(t,322,3.2,{glide:[[545,.9],[520,2.2],[380,3.1]],a:.6,h:1.6,g:.04,lp:1200,type:'triangle'})},
+wind(t){noise(t,4.5,{f:400,fg:[[900,2],[300,4.4]],q:4,a:1.5,h:1,g:.3})},
+rustle(t){for(let i=0;i<8;i++)noise(t+i*R(.04,.12),.12,{ft:'highpass',f:3000,g:.08,a:.01})},
+woodpecker(t){for(let i=0;i<7;i++)noise(t+i*.07,.03,{f:1600,q:3,g:.3,a:.002})},
+chirp(t){for(let i=0;i<R(3,6);i++)tone(t+i*.18,R(2600,3200),.1,{glide:[[R(3800,4600),.08]],g:.07,a:.01})},
+lap(t){for(let i=0;i<3;i++)noise(t+i*.9,.9,{ft:'lowpass',f:500,fg:[[900,.4],[400,.85]],a:.35,g:.1})},
+splash(t){noise(t,.5,{f:2200,fg:[[600,.45]],q:.8,g:.18,a:.005});tone(t+.05,700,.12,{glide:[[300,.1]],g:.04})},
+thunder(t){noise(t,4,{ft:'lowpass',f:140,fg:[[60,3.8]],a:.4,h:.6,g:.5});noise(t+.3,1.5,{ft:'lowpass',f:300,g:.15,a:.1})},
+quill(t){for(let i=0;i<5;i++)noise(t+i*R(.12,.2),.09,{ft:'highpass',f:R(4000,6000),g:.06,a:.02})},
+page(t){noise(t,.45,{f:1200,fg:[[3500,.25],[800,.44]],q:.6,g:.12,a:.08})},
+bell(t){[[523,1],[1320,.35],[2090,.15]].forEach(([f,g])=>tone(t,f,3,{a:.003,g:.08*g}));[[523,1],[1320,.35]].forEach(([f,g])=>tone(t+.9,f,2.5,{a:.003,g:.05*g}))},
+chitter(t){for(let i=0;i<9;i++)tone(t+i*.045,R(1700,2300),.035,{type:'triangle',g:.05,a:.004})},
+swish(t){noise(t,.5,{f:600,fg:[[2400,.45]],q:1.2,g:.22,a:.1})},
+boop(t){tone(t,520,.14,{glide:[[880,.12]],g:.1,type:'triangle'});tone(t+.18,880,.12,{glide:[[660,.1]],g:.08,type:'triangle'})},
+squeak(t){for(let i=0;i<3;i++)tone(t+i*.09,R(5500,6500),.04,{g:.03})},
+ghost(t){tone(t,280,1.8,{glide:[[340,.8],[240,1.7]],a:.4,g:.08,vib:[4,10]})},
+pop(t){tone(t,300,.1,{glide:[[900,.08]],g:.1})},
+twinkle(t){[1568,2093,2637].forEach((f,i)=>tone(t+i*.08,f,.5,{g:.04,a:.005}))},
+bonk(t){tone(t,900,.08,{type:'square',lp:2000,glide:[[500,.06]],g:.06})},
+cheer(t){[523,659,784].forEach((f,i)=>tone(t+i*.09,f,.3,{type:'triangle',g:.05}))}};
+const AMB={
+winter:[['wolf','night'],['hoot','night|dusk'],['creak','any'],['plop','any'],['chimes','any'],['wind','any']],
+haunted:[['hoot','any'],['wind','any'],['creak','any'],['wolf','night'],['ghost','night|dusk'],['crickets','dusk|night','dry']],
+golden:[['rustle','any'],['woodpecker','day|dawn'],['chirp','dawn|day','dry'],['creak','any'],['hoot','night'],['crickets','dusk|night','dry']],
+spring:[['chirp','dawn|day','dry'],['woodpecker','day'],['frogs','dusk|night'],['chimes','any'],['crickets','night','dry'],['rustle','any']],
+summer:[['loon','dawn|dusk|night'],['lap','any'],['splash','any'],['crickets','dusk|night','dry'],['frogs','dusk|night'],['chirp','dawn|day','dry'],['hoot','night']],
+story:[['quill','any'],['page','any'],['bell','any'],['lap','any'],['creak','any'],['chimes','any']]};
+const Q={squirrel:'chitter',chipmunk:'chitter',snowclump:'plop',bat:'squeak',lantern:'ghost',owl:'hoot',leaf:'rustle',deer:'rustle',butterfly:'twinkle',bee:'twinkle',bird:'chirp',loon:'loon',dragonfly:'twinkle',splash:'splash',firefly:'twinkle',ship:'bell',rose:'quill',
+ moon:'boop',sun:'cheer',curtains:'swish',chimney:'pop',snowman:'pop',pine:'plop',tomb:'ghost',pumpkin:'pop',acorn:'bonk',scarecrow:'rustle',bloom:'twinkle',birdhouse:'chirp',snail:'pop',fish:'splash',boat:'lap',lighthouse:'bell',ness:'splash',dragon:'page'};
+function play(n){if(!enabled()||!X||X.state!=='running'||document.hidden||!S[n])return false;try{M.gain.setValueAtTime(vol()*.8,X.currentTime);S[n](T())}catch(e){return false}return true}
+document.addEventListener('ttu:quirk',e=>{const n=Q[e.detail];if(n)setTimeout(()=>play(n),120)});
+function ok(c){const t=b.dataset.tod||'day',w=b.dataset.wx||'clear';if(c[1]!=='any'&&!new RegExp('^('+c[1]+')$').test(t))return false;if(c[2]==='dry'&&/rain|storm|snow/.test(w))return false;return true}
+function tick(){const th=b.dataset.th,w=b.dataset.wx||'';let L=(AMB[th]||[]).filter(ok).map(c=>c[0]);if(/storm/.test(w))L=L.concat(['thunder','thunder']);if(/rain/.test(w))L.push('lap');
+ if(L.length)play(L[Math.floor(Math.random()*L.length)]);setTimeout(tick,R(60000,180000))}
+setTimeout(tick,R(30000,70000));
+const dbg=new URLSearchParams(location.search).get('snd');if(dbg)document.addEventListener('pointerdown',()=>setTimeout(()=>play(dbg),200),{once:true});
+function mountUI(){const a=document.getElementById('critTog');if(!a||document.getElementById('sndTog'))return;const lab=a.closest('label');
+ lab.insertAdjacentHTML('afterend','<label style="display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:.92rem"><input type="checkbox" id="sndTog" style="width:22px;height:22px"> Sounds <input type="range" id="sndVol" min="0" max="1" step="0.05" style="flex:1;max-width:150px" aria-label="Sound volume"></label>');
+ const c=document.getElementById('sndTog'),v=document.getElementById('sndVol');c.checked=enabled();v.value=vol();
+ c.onchange=()=>{try{localStorage.setItem(KS,c.checked?'on':'off')}catch(e){}if(c.checked){unlock();setTimeout(()=>play('chimes'),100)}};
+ v.oninput=()=>{try{localStorage.setItem(KV,v.value)}catch(e){}};v.onchange=()=>{unlock();play('pop')}}
+mountUI();setTimeout(mountUI,800);new MutationObserver(()=>{if(!document.getElementById('sndTog'))mountUI()}).observe(b,{childList:true,subtree:true});
+window.TTU_SND={play,list:Object.keys(S),amb:AMB,_offline:async n=>{const o=new OfflineAudioContext(1,44100*6,44100),sx=X,sm=M,sn=NB;ctxInit(o);S[n](0.03);const buf=await o.startRendering();X=sx;M=sm;NB=sn;const d=buf.getChannelData(0);let pk=0,ss=0;for(const v of d){pk=Math.max(pk,Math.abs(v));ss+=v*v}return{pk:+pk.toFixed(3),rms:+Math.sqrt(ss/d.length).toFixed(4)}}};
 })();
 </script>
 <script>
