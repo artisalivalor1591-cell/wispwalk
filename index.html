@@ -403,6 +403,35 @@ $('giveup').addEventListener('click',()=>setTimeout(()=>{if(!$('reveal').classLi
 })();
 </script>
 <script>
+/* Greeting pool: time-of-day + season aware, no recent repeats */
+const GR={n:[
+['any','Ready for a new hunt{,n}?'],['any','The trail is calling{,n}.'],['any','Fresh air and a fresh hunt await{,n}.'],['any','Let\'s find something good out there{,n}.'],['any','Lace up{,n} — adventure time.'],['any','Somewhere out there, a treasure is waiting{,n}.'],['any','Another adventure, another find{,n}?'],['any','Good to see you{,n}. Let\'s explore.'],['any','Every path leads somewhere{,n}.'],['any','Out you go{,n} — the woods are waiting.'],['any','Here\'s to a great hunt{,n}.'],['any','Step outside{,n}; the hunt is on.'],['any','Pockets ready{,n}? A new treasure is hidden.'],['any','The next find could be just around the bend{,n}.'],['any','Let\'s make some tracks{,n}.'],
+['am','Good morning{,n}! A perfect start for a hunt.'],['am','Rise and roam{,n}.'],['am','Morning{,n} — the birds are already out searching.'],['am','An early adventure suits you{,n}.'],['am','Coffee in hand{,n}? Let\'s hunt.'],
+['pm','Good afternoon{,n}! Time for an adventure.'],['pm','An afternoon wander{,n}?'],['pm','The afternoon is wide open{,n}. Let\'s hunt.'],['pm','Perfect time for a stroll and a find{,n}.'],
+['eve','Good evening{,n}. One more hunt before dark?'],['eve','Evening{,n} — a quiet hunt sounds nice.'],['eve','Golden hour adventure{,n}?'],['eve','Grab a light{,n}; an evening hunt awaits.'],
+['autumn','Crunchy leaves and a fresh hunt{,n}.'],['autumn','Autumn colors make the best hunting grounds{,n}.'],['autumn','Sweater weather adventure{,n}?'],['autumn','The woods are wearing their best colors{,n}.'],
+['halloween','Something spooky is hidden out there{,n}… 🎃'],['halloween','A Halloween hunt{,n}? Watch for friendly ghosts. 👻'],['halloween','Pumpkin season treasure awaits{,n}. 🎃'],
+['winter','Bundle up{,n} — a winter hunt awaits.'],['winter','Snowy trails tell great stories{,n}.'],['winter','Cozy layers, fresh adventure{,n}.'],
+['spring','Spring is waking up the trails{,n}.'],['spring','New buds, new hunt{,n}.'],['spring','Mud on the boots means a good adventure{,n}.'],
+['summer','Long days, great hunts{,n}.'],['summer','Sunscreen, water, adventure{,n}.'],['summer','The summer woods are humming{,n}. Let\'s go.']],
+f:[
+['any','Hail{,n}! A new quest awaits.'],['any','Your quest begins{,n}.'],['any','The realm has hidden a new treasure{,n}.'],['any','Ready your boots{,n}; adventure calls.'],['any','The old paths remember you{,n}.'],['any','Fortune favors the wanderer{,n}.'],['any','A new legend starts with a single step{,n}.'],['any','The map has changed{,n}. A quest awaits.'],['any','Greetings, brave explorer{,n}.'],['any','The forest spirits have hidden something for you{,n}.'],['any','Sharpen your wits{,n}; the quest is set.'],['any','The guild has a new quest for you{,n}.'],['any','The wind carries rumors of treasure{,n}.'],['any','Onward{,n}! Glory waits beyond the trees.'],['any','Another chapter of your saga begins{,n}.'],
+['am','Dawn breaks over the realm{,n}. Your quest begins.'],['am','The morning mist hides secrets{,n}.'],['am','A fair morning for questing{,n}.'],['am','The rooster has crowed{,n}; to adventure!'],
+['pm','The sun stands high{,n}. A quest awaits.'],['pm','An afternoon quest for a seasoned traveler{,n}.'],['pm','The day is young enough for a legend{,n}.'],['pm','Midday in the realm{,n}. Onward!'],
+['eve','Light your lantern{,n}; an evening quest awaits.'],['eve','The stars are waking{,n}. One more quest?'],['eve','Twilight quests are the stuff of legend{,n}.'],['eve','The owls keep watch{,n}. Go softly.'],
+['autumn','The Harvest Moon rises{,n}. A quest awaits.'],['autumn','Leaves of gold mark the path{,n}.'],['autumn','The autumn realm hides its treasures well{,n}.'],['autumn','Harvest season brings new quests{,n}.'],
+['halloween','On All Hallows\' Eve, treasures glow{,n}. 🎃'],['halloween','The veil is thin{,n}; seek boldly. 👻'],['halloween','A spectral quest beckons{,n}. 🕯️'],
+['winter','The frost giants sleep{,n}. Quest quietly.'],['winter','Winter\'s quest favors the bold{,n}.'],['winter','A hearth awaits after this quest{,n}.'],
+['spring','The realm blooms anew{,n}. Quest on.'],['spring','Spring spirits stir in the glades{,n}.'],['spring','A fresh season, a fresh quest{,n}.'],
+['summer','Midsummer magic is afoot{,n}.'],['summer','Long sunlit days make for long legends{,n}.'],['summer','The summer court has a quest for you{,n}.']]};
+function greetTags(d){d=d||new Date();const h=d.getHours(),m=d.getMonth(),day=d.getDate(),t=['any',h>=4&&h<12?'am':h<17&&h>=12?'pm':'eve'];
+t.push(m>=8&&m<=10?'autumn':m===11||m<=1?'winter':m<=4?'spring':'summer');if((m===9&&day>=15)||(m===10&&day<=1))t.push('halloween');return t}
+function fillG(s,name){return s.replace('{,n}',name?', '+name:'')}
+function pickGreeting(){const pool=GR[P.fan?'f':'n'],tags=greetTags(),RK='ttu_profile_greet';let rec=[];try{rec=JSON.parse(localStorage.getItem(RK)||'[]')}catch(e){}
+const ok=pool.filter(g=>tags.includes(g[0])),fresh=ok.filter(g=>!rec.includes(g[1]));const c=(fresh.length?fresh:ok)[Math.floor(Math.random()*(fresh.length||ok.length))];
+rec.push(c[1]);rec=rec.slice(-8);try{localStorage.setItem(RK,JSON.stringify(rec))}catch(e){}return fillG(c[1],P.name)}
+</script>
+<script>
 /* Calm full-screen start scene */
 (function(){const st=$('setup'),sx=document.createElement('div');sx.id='sx';
 sx.innerHTML=`<div id="sxCore"><button class="hh dn" data-p="dn" aria-label="Settings"><span>settings</span>﹀</button>
@@ -444,14 +473,14 @@ sx.addEventListener('touchend',e=>{if(!t0)return;const t=e.changedTouches[0],T=t
 if(Math.abs(dx)<10&&Math.abs(dy)<10){const b=T.el.closest&&T.el.closest('button,label,input[type=checkbox]');if(b&&!T.el.closest('#drawmap')&&e.cancelable){e.preventDefault();if(b.tagName==='LABEL'){const i=b.querySelector('input');if(i)i.click()}else b.click()}return}
 if(Math.abs(dy)<50||Math.abs(dx)>Math.abs(dy))return;if(T.el.closest&&T.el.closest('#drawmap'))return;
 if(!open){openS(dy<0?'up':'dn');return}if((open==='up'||open==='wv')&&dy>0&&T.top)closeS();else if(open==='dn'&&dy<0&&T.bot)closeS()},{passive:false});
-function hiWord(){const h=new Date().getHours();return P.fan?(h<12?'Fair morning':h<18?'Well met':'Good evening'):(h<12?'Good morning':h<18?'Good afternoon':'Good evening')}
+function hiWord(){const h=new Date().getHours();return P.fan?(h<12?'Fair morning':h<18?'Good afternoon':'Good evening'):(h<12?'Good morning':h<18?'Good afternoon':'Good evening')}
 function paint(){const L=lvl(P.xp),D={easy:'an Easy',medium:'a Medium',hard:'a Hard'}[diffSel],mi=miSel<1?(miSel===0.25?'¼':'½')+' mile':miSel+' mile'+(miSel>1?'s':'');
-q('#sxHi').textContent=hiWord()+(P.name?', '+P.name:'');q('#sxLv').textContent='Level '+L.n+' · '+L.t;
+if(!window.__g||window.__gf!==P.fan||window.__gn!==P.name){window.__g=pickGreeting();window.__gf=P.fan;window.__gn=P.name}q('#sxHi').textContent=window.__g;q('#sxLv').textContent='Level '+L.n+' · '+L.t;
 const line=mode==='radius'?D+' hunt within '+mi:mode==='public'?D+' hunt in a public area you draw':D+' hunt on your property';q('#sxLine').textContent=(P.fan?'Your quest: ':'')+line.charAt(0).toUpperCase()+line.slice(1);
 q('#sxGo').innerHTML=P.fan?'Begin<br>quest':'Begin<br>hunt';sx.classList.toggle('fan',!!P.fan);$('profBtn').textContent=P.av;$('profBtn').title='Profile';q('#sxRH').style.display=mode==='radius'?'':'none'}
 window.sxPaint=paint;document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('.dd,.rr,.m,#useSugg'))setTimeout(paint,0)},true);
 const _hdr=hdr;hdr=function(){_hdr();paint()};paint();
-new MutationObserver(()=>{const on=!st.classList.contains('hidden');document.body.classList.toggle('setupv',on);if(on){$('agree').checked=false;updStart();paint()}else closeS()}).observe(st,{attributes:true,attributeFilter:['class']});document.body.classList.toggle('setupv',!st.classList.contains('hidden'));
+new MutationObserver(()=>{const on=!st.classList.contains('hidden');document.body.classList.toggle('setupv',on);if(on){window.__g=null;$('agree').checked=false;updStart();paint()}else closeS()}).observe(st,{attributes:true,attributeFilter:['class']});document.body.classList.toggle('setupv',!st.classList.contains('hidden'));
 })();
 </script>
 </body></html>
