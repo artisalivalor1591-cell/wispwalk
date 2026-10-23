@@ -15,6 +15,8 @@ button{font:inherit;border:0;border-radius:12px;padding:12px;font-weight:600;cur
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:center}.stats div{background:#e3eee6;border-radius:12px;padding:10px}.stats b{display:block;font-size:1.3rem}
 a{color:#1f4d3a;font-weight:600}
 </style></head><body>
+<button id="resetAll" style="position:fixed;top:10px;right:10px;z-index:50;background:#fffdf7;color:#1f4d3a;padding:8px 10px;font-size:.85rem">↺ Start fresh</button>
+<div id="ask" class="hidden" style="position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fffdf7;padding:16px;box-shadow:0 -6px 18px rgba(0,0,0,.25)"><p id="askmsg" style="margin:0 0 10px"></p><div class="row" id="askbtns"></div></div>
 <header><h1>🥾 Trail Trade-Up</h1><p>Solo Hunt · Tier 1 prototype</p></header>
 <main>
 <div class="card safety"><b>Stay safe out there:</b> stay on marked trails, respect private property and closed areas, and watch your step instead of your screen. If the pin lands somewhere you can't reach safely, just hit <b>Reroll</b>.</div>
@@ -51,7 +53,7 @@ a{color:#1f4d3a;font-weight:600}
 <button id="again" class="primary">New hunt</button></section>
 </main>
 <script>
-const K='ttu_hunt',M_PER_MI=1609.34;let miSel=0.5,watch=null,last=null,prevD=null,S=null;
+const K='ttu_hunt_v2',SCHEMA=2,M_PER_MI=1609.34;let miSel=0.5,watch=null,last=null,prevD=null,S=null;
 const $=id=>document.getElementById(id);
 document.querySelectorAll('.r').forEach(b=>b.onclick=()=>{document.querySelectorAll('.r').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');miSel=+b.dataset.mi});
 const rad=d=>d*Math.PI/180;
@@ -60,27 +62,31 @@ function bearing(a,b){const y=Math.sin(rad(b.lng-a.lng))*Math.cos(rad(b.lat)),x=
 const dirs=['north','northeast','east','southeast','south','southwest','west','northwest'];
 function randPin(c,mi){const r=mi*M_PER_MI*Math.sqrt(0.15+0.85*Math.random()),t=Math.random()*2*Math.PI;return{lat:c.lat+(r*Math.cos(t))/111320,lng:c.lng+(r*Math.sin(t))/(111320*Math.cos(rad(c.lat)))}}
 
+let curCtl=null,cancelTok={c:false};
+function ask(msg,btns){return new Promise(res=>{$('askmsg').textContent=msg;$('askbtns').innerHTML='';btns.forEach(([label,val,cls])=>{const b=document.createElement('button');b.textContent=label;b.className=cls||'sec';b.onclick=()=>{$('ask').classList.add('hidden');res(val)};$('askbtns').appendChild(b)});$('ask').classList.remove('hidden')})}
+function hideAsk(){$('ask').classList.add('hidden')}
 const OVP=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter','https://maps.mail.ru/osm/tools/overpass/api/interpreter'];
 async function osmCheck(p){const L=p.lat.toFixed(6)+','+p.lng.toFixed(6);
-const q='[out:json][timeout:15];(way(around:40,'+L+')[railway~"^(rail|light_rail|subway|tram|narrow_gauge|monorail|funicular|disused|abandoned|preserved)$"];way(around:40,'+L+')[highway~"^(motorway|trunk|primary|motorway_link|trunk_link|primary_link)$"];nwr(around:40,'+L+')[natural=water];way(around:40,'+L+')[waterway];nwr(around:40,'+L+')[landuse~"^(military|industrial|railway)$"];nwr(around:40,'+L+')[access~"^(private|no)$"];way(around:30,'+L+')[highway~"^(path|footway|track|bridleway|cycleway)$"];way(around:30,'+L+')[leisure=park];);out tags;is_in('+L+')->.a;(area.a[natural=water];area.a[landuse~"^(military|industrial|railway)$"];area.a[access~"^(private|no)$"];area.a[leisure~"^(park|nature_reserve)$"];area.a[boundary=protected_area];);out tags;';
-let lastErr;for(const u of OVP){try{const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),15000);
+const q='[out:json][timeout:8];(way(around:40,'+L+')[railway~"^(rail|light_rail|subway|tram|narrow_gauge|monorail|funicular|disused|abandoned|preserved)$"];way(around:40,'+L+')[highway~"^(motorway|trunk|primary|motorway_link|trunk_link|primary_link)$"];nwr(around:40,'+L+')[natural=water];way(around:40,'+L+')[waterway];nwr(around:40,'+L+')[landuse~"^(military|industrial|railway)$"];nwr(around:40,'+L+')[access~"^(private|no)$"];way(around:30,'+L+')[highway~"^(path|footway|track|bridleway|cycleway)$"];way(around:30,'+L+')[leisure=park];);out tags;is_in('+L+')->.a;(area.a[natural=water];area.a[landuse~"^(military|industrial|railway)$"];area.a[access~"^(private|no)$"];area.a[leisure~"^(park|nature_reserve)$"];area.a[boundary=protected_area];);out tags;';
+let lastErr;for(const u of OVP){try{const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),8000);if(cancelTok.c)throw new Error('cancelled');curCtl=ctl;
 const r=await fetch(u,{method:'POST',body:'data='+encodeURIComponent(q),headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ctl.signal});clearTimeout(tm);
 if(!r.ok)throw new Error('HTTP '+r.status);const j=await r.json();let bad=false,good=false;
 for(const e of j.elements){const t=e.tags||{};
 if(t.railway||t.natural==='water'||t.waterway||/^(military|industrial|railway)$/.test(t.landuse||'')||/^(private|no)$/.test(t.access||'')||/^(motorway|trunk|primary)/.test(t.highway||''))bad=true;
 else if(/^(path|footway|track|bridleway|cycleway)$/.test(t.highway||'')||t.leisure||t.boundary)good=true}
 return{bad,good}}catch(e){lastErr=e}}throw lastErr||new Error('Overpass unreachable')}
-async function safePin(c,mi,msgEl){let fallback=null;
-for(let i=1;i<=15;i++){const p=randPin(c,mi);if(msgEl)msgEl.textContent='Checking pin safety ('+i+'/15)…';let r;
-try{r=await osmCheck(p)}catch(e){if(confirm('Could not reach the map safety check ('+e.message+').\nOK = place the pin unchecked (be extra careful, reroll if unsafe)\nCancel = try again'))return p;i--;continue}
+async function safePin(c,mi,msgEl){let fallback=null;cancelTok={c:false};const tok=cancelTok;
+for(let i=1;i<=15;i++){if(tok.c)return null;const p=randPin(c,mi);if(msgEl)msgEl.textContent='Checking pin safety ('+i+'/15)… tap Start fresh to cancel';let r;
+try{r=await osmCheck(p)}catch(e){if(tok.c)return null;const ch=await ask('Could not reach the map safety check. Place the pin unchecked (be extra careful and reroll if it looks unsafe), or try again?',[['Try again','retry'],['Place unchecked','place','primary'],['Cancel','cancel']]);
+if(ch==='place')return p;if(ch==='cancel')return null;i--;continue}
 if(!r.bad){if(r.good)return p;if(!fallback)fallback=p}}
-if(fallback)return fallback;alert('Could not find a clearly safe spot after 15 tries. Try a different radius or location.');return null}
+if(fallback)return fallback;await ask('Could not find a clearly safe spot after 15 tries. Try a different radius or location.',[['OK','ok','primary']]);return null}
 const fmt=m=>m<300?Math.round(m*3.281)+' ft':(m/M_PER_MI).toFixed(2)+' mi';
-function save(){localStorage.setItem(K,JSON.stringify(S))}
+function save(){try{S.v=SCHEMA;localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
 function getPos(){return new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(p=>res({lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy}),rej,{enableHighAccuracy:true,timeout:20000}))}
 function makeHints(){const m=S.radiusMi*M_PER_MI;return[{at:m*0.25,type:'dir',label:'Walk '+fmt(m*0.25)+' → compass direction'},{at:m*0.5,type:'half',label:'Walk '+fmt(m*0.5)+' → north or south half?'},{at:m*0.9,type:'exact',label:'Walk '+fmt(m*0.9)+' → exact distance'}]}
 async function start(){if(!navigator.geolocation){$('gpsmsg').textContent='Geolocation not supported.';return}
-$('gpsmsg').textContent='Getting your location…';try{const c=await getPos();const pin=await safePin(c,miSel,$('gpsmsg'));if(!pin)return;$('gpsmsg').textContent='';S={radiusMi:miSel,start:c,pin,t0:Date.now(),walked:0};S.hints=makeHints();save();prevD=null;last=c;run()}catch(e){$('gpsmsg').textContent='Location needed: '+e.message+'. Allow location access and try again.'}}
+$('gpsmsg').textContent='Getting your location…';try{const c=await getPos();const pin=await safePin(c,miSel,$('gpsmsg'));if(!pin){$('gpsmsg').textContent='Hunt not started.';return}$('gpsmsg').textContent='';S={radiusMi:miSel,start:c,pin,t0:Date.now(),walked:0};S.hints=makeHints();save();prevD=null;last=c;run()}catch(e){$('gpsmsg').textContent='Location problem: '+e.message+'. Allow location access and try again.'}}
 function run(){$('setup').classList.add('hidden');$('win').classList.add('hidden');$('hunt').classList.remove('hidden');$('reveal').classList.add('hidden');
 if(watch!==null)navigator.geolocation.clearWatch(watch);watch=navigator.geolocation.watchPosition(onPos,e=>$('acc').textContent='GPS: '+e.message,{enableHighAccuracy:true,maximumAge:3000,timeout:30000});renderHints(null)}
 function onPos(p){const c={lat:p.coords.latitude,lng:p.coords.longitude},acc=p.coords.accuracy;
@@ -102,10 +108,18 @@ function claim(){navigator.geolocation.clearWatch(watch);const ms=Date.now()-S.t
 $('badge').textContent=badges[Math.floor(Math.random()*badges.length)];$('prize').textContent=prizes[Math.floor(Math.random()*prizes.length)]+' (mock)';
 $('wtime').textContent=m+'m '+s+'s';$('wdist').textContent=fmt(S.walked);localStorage.removeItem(K);$('hunt').classList.add('hidden');$('win').classList.remove('hidden')}
 $('agree').onchange=e=>$('start').disabled=!e.target.checked;$('start').onclick=start;$('claim').onclick=claim;$('again').onclick=()=>{$('agree').checked=false;$('start').disabled=true;$('win').classList.add('hidden');$('setup').classList.remove('hidden')};
-async function reroll(msg){if(!confirm(msg))return;const c=S.lastC||S.start;$('trend').textContent='Finding a safe new spot…';const p=await safePin(c,S.radiusMi,$('trend'));if(!p){$('trend').textContent='Reroll failed, try again.';return}S.pin=p;S.start=c;save();prevD=null;$('trend').textContent='New pin hidden!'}
+async function reroll(msg){if(await ask(msg,[['Yes, move it','y','primary'],['Cancel','n']])!=='y')return;const c=S.lastC||S.start;$('trend').textContent='Finding a safe new spot…';const p=await safePin(c,S.radiusMi,$('trend'));if(!p){$('trend').textContent='Reroll failed, try again.';return}S.pin=p;S.start=c;save();prevD=null;$('trend').textContent='New pin hidden!'}
 $('reroll').onclick=()=>reroll('Reroll the treasure to a new spot?');
 $('unsafe').onclick=()=>reroll('Report this pin as unsafe or inaccessible and move it to a new spot? Do not approach it.');
-$('giveup').onclick=()=>{if(!confirm('Give up and reveal the treasure?'))return;navigator.geolocation.clearWatch(watch);const u='https://www.openstreetmap.org/?mlat='+S.pin.lat.toFixed(6)+'&mlon='+S.pin.lng.toFixed(6)+'#map=17/'+S.pin.lat.toFixed(6)+'/'+S.pin.lng.toFixed(6);
-$('reveal').innerHTML='The treasure was here: <a href="'+u+'" target="_blank">open in OpenStreetMap</a><br><button class="sec" onclick="localStorage.removeItem(K);location.reload()">Start over</button>';$('reveal').classList.remove('hidden')};
-try{S=JSON.parse(localStorage.getItem(K));if(S&&S.pin){last=S.lastC||S.start;run()}}catch(e){}
+$('giveup').onclick=async()=>{if(await ask('Give up and reveal the treasure?',[['Reveal','y','primary'],['Keep hunting','n']])!=='y')return;navigator.geolocation.clearWatch(watch);const u='https://www.openstreetmap.org/?mlat='+S.pin.lat.toFixed(6)+'&mlon='+S.pin.lng.toFixed(6)+'#map=17/'+S.pin.lat.toFixed(6)+'/'+S.pin.lng.toFixed(6);
+$('reveal').innerHTML='The treasure was here: <a href="'+u+'" target="_blank">open in OpenStreetMap</a><br><button class="sec" onclick="resetAll()">Start over</button>';$('reveal').classList.remove('hidden')};
+function resetAll(){cancelTok.c=true;try{curCtl&&curCtl.abort()}catch(e){}hideAsk();if(watch!==null)try{navigator.geolocation.clearWatch(watch)}catch(e){}
+try{Object.keys(localStorage).filter(k=>k.startsWith('ttu_')).forEach(k=>localStorage.removeItem(k))}catch(e){}location.replace(location.pathname)}
+$('resetAll').onclick=resetAll;
+(function boot(){try{localStorage.removeItem('ttu_hunt')}catch(e){}
+if(/[?&]reset=1/.test(location.search)){try{Object.keys(localStorage).filter(k=>k.startsWith('ttu_')).forEach(k=>localStorage.removeItem(k))}catch(e){}history.replaceState(null,'',location.pathname);return}
+let saved=null;try{saved=JSON.parse(localStorage.getItem(K))}catch(e){}
+const okNum=x=>typeof x==='number'&&isFinite(x);
+if(saved&&saved.v===SCHEMA&&saved.pin&&okNum(saved.pin.lat)&&okNum(saved.pin.lng)&&saved.start&&okNum(saved.start.lat)&&Array.isArray(saved.hints)&&okNum(saved.radiusMi)&&okNum(saved.t0)){S=saved;S.walked=+S.walked||0;last=S.lastC||S.start;try{run()}catch(e){try{localStorage.removeItem(K)}catch(_){}location.replace(location.pathname)}}
+else{try{localStorage.removeItem(K)}catch(e){}}})();
 </script></body></html>
