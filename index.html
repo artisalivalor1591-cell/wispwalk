@@ -1111,4 +1111,33 @@ window.TTU_FS={enter,exit,can,standalone};
 })();
 </script>
 
+<style>
+.uiF{transition:opacity .4s ease}
+body.uiHide .uiF{opacity:0!important}
+body.uiHide #sxGo{opacity:.82;transition:opacity .4s ease}
+@media (prefers-reduced-motion:reduce){.uiF,body.uiHide #sxGo{transition:none}}
+</style>
+<script>
+/* Auto-hide on-screen controls: fade after 3s idle, any touch reveals for 4s; first tap only reveals */
+(function(){
+const SEL='.hh,#sxAv,#fsBtn,#sxSoon,#cmpWrap .row,.grabHint',K='ttu_profile_ui',b=document.body;let t=0,first=3000;
+const keep=()=>{try{return localStorage.getItem(K)==='keep'}catch(e){return false}};
+const panelOpen=()=>!!document.querySelector('.pnl.on')||/\bo_/.test((document.getElementById('hx')||{}).className||'');
+function mark(){document.querySelectorAll(SEL).forEach(e=>e.classList.add('uiF'))}
+function arm(ms){clearTimeout(t);t=setTimeout(()=>{if(!keep()&&!panelOpen())b.classList.add('uiHide');else arm(4000)},ms)}
+function reveal(){b.classList.remove('uiHide');arm(4000)}
+let blockUntil=0;
+const down=e=>{if(b.classList.contains('uiHide')){const c=e.target.closest&&e.target.closest(SEL);if(c)blockUntil=Date.now()+700}reveal()};
+['pointerdown','touchstart'].forEach(ev=>document.addEventListener(ev,down,{capture:true,passive:true}));
+document.addEventListener('click',e=>{if(Date.now()<blockUntil&&e.target.closest&&e.target.closest(SEL)){e.preventDefault();e.stopPropagation();blockUntil=0}},true);
+['keydown','wheel'].forEach(ev=>document.addEventListener(ev,reveal,{capture:true,passive:true}));
+new MutationObserver(mark).observe(b,{childList:true,subtree:true});mark();arm(first);
+function mountUI(){const a=document.getElementById('thG');if(!a||document.getElementById('uiKeep'))return;
+ const anchor=document.getElementById('fsSec')||a;anchor.insertAdjacentHTML('afterend','<label style="display:flex;align-items:center;gap:10px;margin:4px 0 10px;font-size:.92rem"><input type="checkbox" id="uiKeep" style="width:22px;height:22px"> Keep controls visible</label>');
+ const c=document.getElementById('uiKeep');c.checked=keep();c.onchange=()=>{try{localStorage.setItem(K,c.checked?'keep':'fade')}catch(e){}reveal()}}
+const _a=window.applyTheme;window.applyTheme=function(){const r=_a.apply(this,arguments);try{mountUI()}catch(e){}return r};mountUI();
+window.TTU_UI={reveal,hide:()=>b.classList.add('uiHide')};
+})();
+</script>
+
 </body></html>
