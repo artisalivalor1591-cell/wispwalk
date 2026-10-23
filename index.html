@@ -16,7 +16,27 @@ button{font:inherit;border:0;border-radius:12px;padding:12px;font-weight:600;cur
 .badge{font-size:5rem;text-align:center;animation:pop .8s}@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:center}.stats div{background:#e3eee6;border-radius:12px;padding:10px}.stats b{display:block;font-size:1.3rem}
 a{color:#1f4d3a;font-weight:600}
-.pl{display:block;margin:10px 0 4px;font-weight:600}.pl input,.pl select,.pl textarea{display:block;width:100%;box-sizing:border-box;margin-top:4px;padding:8px;font-size:1rem;border-radius:8px;border:1px solid #bbb}.pl input[type=checkbox]{display:inline;width:22px}.cmp{width:min(78vw,320px);aspect-ratio:1;margin:12px auto;border-radius:50%;transition:box-shadow 1.5s}.cmp svg *{transition:stop-color 1.5s}#needle,#rose{transition:transform .4s ease-out}.cmp.fan{filter:sepia(.35) saturate(1.2)}.cmp.fan text{font-style:italic}#pocket.hidden{display:none!important}</style></head><body>
+.pl{display:block;margin:10px 0 4px;font-weight:600}.pl input,.pl select,.pl textarea{display:block;width:100%;box-sizing:border-box;margin-top:4px;padding:8px;font-size:1rem;border-radius:8px;border:1px solid #bbb}.pl input[type=checkbox]{display:inline;width:22px}.cmp{width:min(78vw,320px);aspect-ratio:1;margin:12px auto;border-radius:50%;transition:box-shadow 1.5s}.cmp svg *{transition:stop-color 1.5s}#needle,#rose{transition:transform .4s ease-out}.cmp.fan{filter:sepia(.35) saturate(1.2)}.cmp.fan text{font-style:italic}#pocket.hidden{display:none!important}body.hunting{overflow:hidden}body.hunting #resetAll{display:none}
+#hx{position:fixed;inset:0;z-index:40;background:radial-gradient(circle at 50% 45%,#f3ead6 0%,#d9cfae 45%,#6f8a63 100%);overflow:hidden;touch-action:none;font-family:Georgia,serif}
+#hxCore{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .45s}
+#hxCmp .cmp{width:min(88vw,62vh);margin:0}
+#hx.o_up #hxCore{transform:translateY(-18%) scale(.8);opacity:.5}#hx.o_dn #hxCore{transform:translateY(18%) scale(.8);opacity:.5}#hx.o_lf #hxCore{transform:translateX(30%) scale(.85);opacity:.4}#hx.o_rt #hxCore{transform:translateX(-30%) scale(.85);opacity:.4}
+.hh{position:absolute;background:rgba(91,70,48,.12);color:#5b4630;border:0;border-radius:30px;padding:6px 14px;font-size:.95rem;box-shadow:none;width:auto;min-height:0;display:flex;align-items:center;gap:6px;opacity:.75;font-family:Georgia,serif}
+.hh span{font-size:.72rem;letter-spacing:.06em}.hh.up{bottom:max(14px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);flex-direction:column;gap:0}.hh.dn{top:max(12px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);flex-direction:column;gap:0}
+.hh.lf{left:6px;top:50%;transform:translateY(-50%);flex-direction:column;padding:12px 6px}.hh.rt{right:6px;top:50%;transform:translateY(-50%);flex-direction:column;padding:12px 6px}
+#hxClaim{position:absolute;left:50%;bottom:-90px;transform:translateX(-50%);width:auto;padding:14px 28px;border-radius:40px;background:#c8742f;color:#fff;font-size:1.15rem;box-shadow:0 6px 24px rgba(120,60,20,.35);transition:bottom .8s cubic-bezier(.2,.9,.3,1.2);z-index:3}
+#hxClaim.rise{bottom:90px}
+#hxOnb{position:absolute;bottom:70px;left:50%;transform:translateX(-50%);background:rgba(59,47,34,.78);color:#f3ead6;padding:10px 16px;border-radius:22px;text-align:center;font-size:.9rem;width:max-content;max-width:86vw;transition:opacity 1.2s;pointer-events:none}#hxOnb.fade{opacity:0}
+.pnl{position:absolute;background:rgba(250,245,232,.97);transition:transform .45s cubic-bezier(.2,.8,.2,1);z-index:5;display:flex;flex-direction:column;box-shadow:0 0 30px rgba(59,47,34,.25)}
+.pnl .pb{overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding:6px 18px 18px;flex:1;font-family:system-ui,sans-serif}.pnl .pb.nos{touch-action:none;padding:0}
+#p_up{left:0;right:0;bottom:0;height:78vh;border-radius:28px 28px 0 0;transform:translateY(105%)}#p_dn{left:0;right:0;top:0;max-height:78vh;border-radius:0 0 28px 28px;transform:translateY(-105%)}
+#p_lf{left:0;top:0;bottom:0;width:92vw;border-radius:0 28px 28px 0;transform:translateX(-105%);flex-direction:row}#p_rt{right:0;top:0;bottom:0;width:88vw;border-radius:28px 0 0 28px;transform:translateX(105%);flex-direction:row}
+.pnl.on{transform:none!important}
+.grab{background:none;border:0;box-shadow:none;color:#8a7454;font-size:.85rem;padding:10px;width:100%;min-height:0;font-family:Georgia,serif}.grab.side{width:44px;writing-mode:vertical-rl}
+#p_lf #mapBox,#p_lf #huntmap{height:100%;margin:0;border-radius:0}#p_lf .pb{display:flex;flex-direction:column}#p_lf #mapBox{flex:1}
+#hx .row{flex-wrap:wrap}#hx .sec{background:rgba(91,70,48,.1);border:0;box-shadow:none}#hx #temp{border-radius:40px}
+#ask{z-index:200!important}#pocket{z-index:300!important}
+</style></head><body>
 <button id="resetAll" style="position:fixed;top:10px;right:10px;z-index:50;background:#fffdf7;color:#1f4d3a;padding:8px 10px;font-size:.85rem">↺ Start fresh</button>
 <div id="ask" class="hidden" style="position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fffdf7;padding:16px;box-shadow:0 -6px 18px rgba(0,0,0,.25)"><p id="askmsg" style="margin:0 0 10px"></p><div class="row" id="askbtns"></div></div>
 <header><h1>🥾 Trail Trade-Up</h1><p>Solo Hunt · Tier 1 prototype</p><button id="profBtn" class="sec" style="margin-top:8px;padding:6px 12px;font-size:.9rem">👤 Profile</button></header>
@@ -314,5 +334,50 @@ document.addEventListener('visibilitychange',async()=>{if(pocket&&document.visib
 /* fantasy styling */
 function cmpTheme(){const f=typeof P!=='undefined'&&P.fan;$('cmp').classList.toggle('fan',!!f);$('pocketBtn').textContent=f?'🌙 Stealth (pocket)':'🌙 Pocket mode';$('mapTog').textContent=$('mapBox').classList.contains('hidden')?(f?'📜 Unroll map':'🗺️ Show map'):(f?'📜 Roll up map':'🗺️ Hide map')}
 const _run=run;run=function(){_run();lastUnl=-1;cmpTheme();drawCmp()};if(S&&!$('hunt').classList.contains('hidden')){cmpTheme();drawCmp()}
+</script>
+<script>
+/* Full-screen compass hunt view with swipe panels */
+(function(){const h=$('hunt'),hx=document.createElement('div');hx.id='hx';
+hx.innerHTML=`<div id="hxCore"><div id="hxCmp"></div><button id="hxClaim" class="primary">🏆 Claim treasure</button>
+<button class="hh up" data-p="up" aria-label="Hints and stats">︿<span>hints</span></button><button class="hh dn" data-p="dn" aria-label="Settings and actions"><span>settings</span>﹀</button>
+<button class="hh lf" data-p="lf" aria-label="Map">‹<span>map</span></button><button class="hh rt" data-p="rt" aria-label="Profile">›<span>you</span></button>
+<div id="hxOnb">Swipe ↑ hints · ↓ settings · ← → map &amp; you<br><small>double-tap compass for pocket mode</small></div></div>
+<div class="pnl" id="p_up"><button class="grab" data-c>︾ close</button><div class="pb"></div></div>
+<div class="pnl" id="p_dn"><div class="pb"></div><button class="grab" data-c>︽ close</button></div>
+<div class="pnl" id="p_lf"><div class="pb nos"></div><button class="grab side" data-c>close ›</button></div>
+<div class="pnl" id="p_rt"><button class="grab side" data-c>‹ close</button><div class="pb"></div></div>`;h.appendChild(hx);
+const q=s=>hx.querySelector(s),mv=(ids,to)=>ids.forEach(i=>{const e=typeof i==='string'?$(i):i;if(e)q(to).appendChild(e)});
+q('#hxCmp').appendChild($('cmp'));
+const hintsH=$('hints').previousElementSibling,walkP=$('walked').closest('p'),claimP=[...h.querySelectorAll('p.muted')].find(p=>/Claim unlocks/.test(p.textContent));
+mv(['temp','band','trend','acc','where',hintsH,'hints',walkP,claimP],'#p_up .pb');
+mv([$('pocketBtn'),$('sndOn').closest('label'),$('cmpPerm'),$('cmpNote')],'#p_dn .pb');const row=$('reroll').parentNode;q('#p_dn .pb').appendChild(row);mv(['reveal'],'#p_dn .pb');
+const sf=document.createElement('button');sf.className='sec';sf.textContent='↺ Start fresh';sf.onclick=()=>resetAll();row.appendChild(sf);
+$('mapBox').classList.remove('hidden');mv(['mapBox'],'#p_lf .pb');$('mapTog').style.display='none';
+q('#p_rt .pb').innerHTML='<div id="hxCard"></div><button class="sec" id="hxProf">Open full profile</button>';q('#hxProf').onclick=()=>{closeP();openProf()};
+$('claim').classList.add('hidden');
+let open=null;function openP(k){if(open)closeP();open=k;hx.classList.add('o_'+k);q('#p_'+k).classList.add('on');
+if(k==='lf'&&hmap)setTimeout(()=>{hmap.invalidateSize();try{drawHunt()}catch(e){}},380);if(k==='rt'){try{renderProf()}catch(e){}q('#hxCard').innerHTML=$('charCard').outerHTML.replace('id="charCard"','')}}
+function closeP(){if(!open)return;hx.classList.remove('o_'+open);q('#p_'+open).classList.remove('on');open=null}
+window.hxOpen=openP;window.hxClose=closeP;
+hx.querySelectorAll('.hh').forEach(b=>b.onclick=()=>openP(b.dataset.p));hx.querySelectorAll('[data-c]').forEach(b=>b.onclick=closeP);
+/* swipe */
+let t0=null;hx.addEventListener('touchstart',e=>{const t=e.touches[0];const pb0=open&&q('#p_'+open+' .pb');t0={x:t.clientX,y:t.clientY,tm:Date.now(),el:e.target,top:pb0?pb0.scrollTop<=0:true,bot:pb0?pb0.scrollTop+pb0.clientHeight>=pb0.scrollHeight-2:true}},{passive:true});
+hx.addEventListener('touchend',e=>{if(!t0)return;const t=e.changedTouches[0],T=t0,dx=t.clientX-t0.x,dy=t.clientY-t0.y,adx=Math.abs(dx),ady=Math.abs(dy),el=t0.el;t0=null;
+if(Math.max(adx,ady)<50||Date.now()-0>1e15)return;const dir=adx>ady?(dx<0?'L':'R'):(dy<0?'U':'D');
+if(!open){gone();if(dir==='U')openP('up');else if(dir==='D')openP('dn');else if(dir==='R')openP('lf');else openP('rt');return}
+const pb=q('#p_'+open+' .pb');if(el.closest&&el.closest('#huntmap'))return;/* map pans itself */
+if(open==='up'&&dir==='D'&&T.top)closeP();else if(open==='dn'&&dir==='U'&&T.bot)closeP();else if(open==='lf'&&dir==='L')closeP();else if(open==='rt'&&dir==='R')closeP()},{passive:true});
+/* double-tap / long-press compass = pocket */
+let lt=0,lp=null;const c=q('#hxCmp');c.addEventListener('click',()=>{const n=Date.now();if(n-lt<350){lt=0;pocketOn()}else lt=n});
+c.addEventListener('touchstart',()=>{lp=setTimeout(()=>{lp=null;buzz([60]);pocketOn()},700)},{passive:true});['touchend','touchmove','touchcancel'].forEach(ev=>c.addEventListener(ev,()=>{clearTimeout(lp);lp=null},{passive:true}));
+/* claim rises */
+const cl=q('#hxClaim');cl.onclick=()=>$('claim').onclick();let wasOk=false;new MutationObserver(()=>{const ok=!$('claim').disabled;cl.classList.toggle('rise',ok);if(ok&&!wasOk){buzz([150,80,150]);chime(780,.5)}wasOk=ok}).observe($('claim'),{attributes:true,attributeFilter:['disabled']});
+/* onboarding once */
+const OK='ttu_profile_onb';function gone(){q('#hxOnb').classList.add('fade');try{localStorage.setItem(OK,'1')}catch(e){}}
+if(localStorage.getItem(OK))q('#hxOnb').style.display='none';else setTimeout(gone,9000);
+/* lock page scroll while hunting */
+new MutationObserver(()=>{const on=!h.classList.contains('hidden');document.body.classList.toggle('hunting',on);if(!on)closeP()}).observe(h,{attributes:true,attributeFilter:['class']});document.body.classList.toggle('hunting',!h.classList.contains('hidden'));
+$('giveup').addEventListener('click',()=>setTimeout(()=>{if(!$('reveal').classList.contains('hidden'))openP('dn')},50));
+})();
 </script>
 </body></html>
