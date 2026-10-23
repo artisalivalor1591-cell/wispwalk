@@ -36,6 +36,27 @@ a{color:#1f4d3a;font-weight:600}
 #p_lf #mapBox,#p_lf #huntmap{height:100%;margin:0;border-radius:0}#p_lf .pb{display:flex;flex-direction:column}#p_lf #mapBox{flex:1}
 #hx .row{flex-wrap:wrap}#hx .sec{background:rgba(91,70,48,.1);border:0;box-shadow:none}#hx #temp{border-radius:40px}
 #ask{z-index:200!important}#pocket{z-index:300!important}
+body.setupv,body.hunting{background:#e9e3d3}body.setupv header,body.setupv #resetAll{display:none}body.setupv{overflow:hidden}
+#sx{position:fixed;inset:0;z-index:40;background:radial-gradient(ellipse at 50% 30%,#f5eedb 0%,#ddd3b2 50%,#7c9671 100%);font-family:Georgia,serif;color:#3b2f22;touch-action:none;overflow:hidden}
+#sx.fan{background:radial-gradient(ellipse at 50% 30%,#f3e6c4 0%,#cdb98a 50%,#5f6f4a 100%)}
+#sxCore{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .45s}#sx.o #sxCore{transform:scale(.92);opacity:.35}
+.sxMid{text-align:center;padding:0 24px;display:flex;flex-direction:column;align-items:center}
+#sxHi{font-size:1.7rem;letter-spacing:.01em}#sxLv{font-size:.9rem;opacity:.65;margin-top:4px;font-style:italic}
+#sxSug{background:none;border:0;box-shadow:none;width:auto;min-height:0;margin:34px 0 26px;font-family:Georgia,serif;color:#3b2f22;font-size:1.25rem;line-height:1.35;display:flex;flex-direction:column;gap:4px;padding:6px 10px}
+#sxSug span{border-bottom:1px dashed rgba(59,47,34,.4)}#sxSug small{font-size:.75rem;opacity:.55;font-family:system-ui}
+#sxGo{width:150px;height:150px;border-radius:50%;border:0;background:radial-gradient(circle at 35% 30%,#e09a55,#b8612b 70%);color:#fff8ea;font-family:Georgia,serif;font-size:1.35rem;line-height:1.2;box-shadow:0 10px 34px rgba(120,60,20,.35),inset 0 -6px 14px rgba(0,0,0,.15);transition:transform .3s}
+#sxGo:active{transform:scale(.95)}#sxMsg{min-height:1.3em;font-size:.85rem;color:#8a3b22;margin:12px 0 4px;font-family:system-ui}
+#sxAgree label{font-weight:400!important;font-family:system-ui;font-size:.9rem;align-items:center!important;opacity:.9}#sxAgree input{accent-color:#7a5a32}
+#sxAgree.nudge{animation:nud .5s}@keyframes nud{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.lnk{background:none;border:0;box-shadow:none;width:auto;min-height:0;color:#7a5a32;text-decoration:underline;font-size:.8rem;padding:4px;font-family:system-ui}
+#sxAv{position:absolute;top:max(14px,env(safe-area-inset-top));left:14px}#sxAv #profBtn{width:48px;height:48px;border-radius:50%;padding:0;margin:0;font-size:1.6rem;background:rgba(255,250,235,.7);border:0;box-shadow:0 2px 10px rgba(59,47,34,.15)}
+#sxSoon{position:absolute;bottom:58px;left:0;right:0;text-align:center;font-size:.72rem;opacity:.5;margin:0;font-style:italic}
+#sx .pnl{border-radius:28px}#s_up,#s_wv{left:0;right:0;bottom:0;max-height:84vh;border-radius:28px 28px 0 0;transform:translateY(105%)}#s_dn{left:0;right:0;top:0;max-height:80vh;border-radius:0 0 28px 28px;transform:translateY(-105%)}
+.sxH{font-family:Georgia,serif;font-weight:400;font-size:1.05rem;margin:14px 0 8px;color:#5b4630}
+#sx .r,#sx .sec{border-radius:30px;border:0;background:rgba(91,70,48,.09);box-shadow:none;color:#3b2f22}#sx .r.sel{background:#7a5a32;color:#fff8ea}
+#sx .modes,#sx .radii{gap:8px}#sx .sxNote{background:rgba(91,70,48,.06);border-radius:20px;padding:12px 16px;margin:10px 0;border:0;box-shadow:none;font-size:.9rem}
+.sxRow{display:flex;gap:10px;align-items:center;font-family:system-ui;margin:8px 0}.sxRow input{width:22px;height:22px}#s_dn .sec{display:block;width:100%;margin:8px 0}
+#prof{position:relative;z-index:60}
 </style></head><body>
 <button id="resetAll" style="position:fixed;top:10px;right:10px;z-index:50;background:#fffdf7;color:#1f4d3a;padding:8px 10px;font-size:.85rem">↺ Start fresh</button>
 <div id="ask" class="hidden" style="position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fffdf7;padding:16px;box-shadow:0 -6px 18px rgba(0,0,0,.25)"><p id="askmsg" style="margin:0 0 10px"></p><div class="row" id="askbtns"></div></div>
@@ -363,10 +384,11 @@ hx.querySelectorAll('.hh').forEach(b=>b.onclick=()=>openP(b.dataset.p));hx.query
 /* swipe */
 let t0=null;hx.addEventListener('touchstart',e=>{const t=e.touches[0];const pb0=open&&q('#p_'+open+' .pb');t0={x:t.clientX,y:t.clientY,tm:Date.now(),el:e.target,top:pb0?pb0.scrollTop<=0:true,bot:pb0?pb0.scrollTop+pb0.clientHeight>=pb0.scrollHeight-2:true}},{passive:true});
 hx.addEventListener('touchend',e=>{if(!t0)return;const t=e.changedTouches[0],T=t0,dx=t.clientX-t0.x,dy=t.clientY-t0.y,adx=Math.abs(dx),ady=Math.abs(dy),el=t0.el;t0=null;
+if(adx<10&&ady<10){const b=el.closest&&el.closest('button,label,input[type=checkbox]');if(b&&!el.closest('#huntmap')&&!el.closest('#hxCmp')&&e.cancelable){e.preventDefault();if(b.tagName==='LABEL'){const i=b.querySelector('input');if(i)i.click()}else b.click()}return}
 if(Math.max(adx,ady)<50||Date.now()-0>1e15)return;const dir=adx>ady?(dx<0?'L':'R'):(dy<0?'U':'D');
 if(!open){gone();if(dir==='U')openP('up');else if(dir==='D')openP('dn');else if(dir==='R')openP('lf');else openP('rt');return}
 const pb=q('#p_'+open+' .pb');if(el.closest&&el.closest('#huntmap'))return;/* map pans itself */
-if(open==='up'&&dir==='D'&&T.top)closeP();else if(open==='dn'&&dir==='U'&&T.bot)closeP();else if(open==='lf'&&dir==='L')closeP();else if(open==='rt'&&dir==='R')closeP()},{passive:true});
+if(open==='up'&&dir==='D'&&T.top)closeP();else if(open==='dn'&&dir==='U'&&T.bot)closeP();else if(open==='lf'&&dir==='L')closeP();else if(open==='rt'&&dir==='R')closeP()},{passive:false});
 /* double-tap / long-press compass = pocket */
 let lt=0,lp=null;const c=q('#hxCmp');c.addEventListener('click',()=>{const n=Date.now();if(n-lt<350){lt=0;pocketOn()}else lt=n});
 c.addEventListener('touchstart',()=>{lp=setTimeout(()=>{lp=null;buzz([60]);pocketOn()},700)},{passive:true});['touchend','touchmove','touchcancel'].forEach(ev=>c.addEventListener(ev,()=>{clearTimeout(lp);lp=null},{passive:true}));
@@ -378,6 +400,58 @@ if(localStorage.getItem(OK))q('#hxOnb').style.display='none';else setTimeout(gon
 /* lock page scroll while hunting */
 new MutationObserver(()=>{const on=!h.classList.contains('hidden');document.body.classList.toggle('hunting',on);if(!on)closeP()}).observe(h,{attributes:true,attributeFilter:['class']});document.body.classList.toggle('hunting',!h.classList.contains('hidden'));
 $('giveup').addEventListener('click',()=>setTimeout(()=>{if(!$('reveal').classList.contains('hidden'))openP('dn')},50));
+})();
+</script>
+<script>
+/* Calm full-screen start scene */
+(function(){const st=$('setup'),sx=document.createElement('div');sx.id='sx';
+sx.innerHTML=`<div id="sxCore"><button class="hh dn" data-p="dn" aria-label="Settings"><span>settings</span>﹀</button>
+<div id="sxAv"></div>
+<div class="sxMid"><div id="sxHi"></div><div id="sxLv"></div>
+<button id="sxSug" aria-label="Adjust hunt"><span id="sxLine"></span><small>tap to adjust</small></button>
+<button id="sxGo">Begin<br>hunt</button><p id="sxMsg"></p>
+<div id="sxAgree"></div><button id="sxRead" class="lnk">read the safety agreement</button></div>
+<button class="hh up" data-p="up" aria-label="Adjust hunt">︿<span>adjust</span></button>
+<p id="sxSoon">Coming soon: group · local · world · holiday &amp; themed hunts</p></div>
+<div class="pnl" id="s_up"><button class="grab" data-c>︾ done</button><div class="pb"></div></div>
+<div class="pnl" id="s_dn"><div class="pb"></div><button class="grab" data-c>︽ close</button></div>
+<div class="pnl" id="s_wv"><button class="grab" data-c>︾ close</button><div class="pb"></div></div>`;st.appendChild(sx);
+const q=s=>sx.querySelector(s);
+/* adjust sheet: mode, difficulty, radius, draw map, suggestion */
+const up=q('#s_up .pb');up.innerHTML='<h3 class="sxH">Where</h3>';up.appendChild(st.querySelector('.modes'));
+up.insertAdjacentHTML('beforeend','<h3 class="sxH">Challenge</h3>');const dl=[...st.querySelectorAll('.muted')].find(e=>e.textContent==='Difficulty');if(dl)dl.remove();
+up.appendChild(document.querySelector('.dd').parentNode);up.appendChild($('diffHelp'));if($('sugg'))up.appendChild($('sugg'));
+up.insertAdjacentHTML('beforeend','<h3 class="sxH" id="sxRH">How far</h3>');up.appendChild($('radiusBox'));up.appendChild($('drawBox'));
+const zi=[...st.querySelectorAll('p.muted')].find(p=>/Approved zones/.test(p.textContent));if(zi)up.appendChild(zi);
+/* waiver sheet: safety note + rules */
+const wv=st.querySelector('.card.safety'),sn=document.querySelector('main>.card.safety');const wb=q('#s_wv .pb');if(sn){sn.className='sxNote';wb.appendChild(sn)}
+const ag=$('agree').closest('label');wb.appendChild(wv);wv.className='sxNote';q('#sxAgree').appendChild(ag);ag.lastChild.textContent=' I agree to play at my own risk on this hunt';
+/* settings sheet */
+const dn=q('#s_dn .pb');dn.innerHTML=`<h3 class="sxH">Settings</h3><label class="sxRow"><input type="checkbox" id="sxFan"> 🐉 Fantasy mode</label>
+<button class="sec" id="sxProf">👤 Profile, badges &amp; gear</button><button class="sec" id="sxFresh">↺ Start fresh</button>
+<p class="muted">Treasure is only placed in approved public spots — parks, nature areas, viewpoints, picnic sites and named trails — and never within 40 m of railroads, roads, water or private land. Coverage: about 40 mi around Birnamwood.</p>
+<p class="muted">Coming soon: group hunts, local leagues, world hunts, and holiday &amp; themed hunts.</p>`;
+q('#sxFresh').onclick=()=>resetAll();q('#sxProf').onclick=()=>{closeS();openProf()};q('#sxFan').onchange=()=>{P.fan=q('#sxFan').checked;pSave();paint()};
+q('#sxAv').appendChild($('profBtn'));
+$('start').classList.add('hidden');q('#sxGo').onclick=()=>{if(!$('agree').checked){q('#sxAgree').classList.remove('nudge');void q('#sxAgree').offsetWidth;q('#sxAgree').classList.add('nudge');q('#sxMsg').textContent='Please agree to the safety terms first.';return}
+if($('start').disabled){q('#sxMsg').textContent=mode==='property'&&drawPts.length>=3?'Confirm you own or have permission for this property.':'Draw at least 3 corners of your area first.';openS('up');return}q('#sxMsg').textContent='';$('start').click()};
+new MutationObserver(()=>{q('#sxMsg').textContent=$('gpsmsg').textContent}).observe($('gpsmsg'),{childList:true,characterData:true,subtree:true});
+let open=null;function openS(k){if(open)closeS();open=k;sx.classList.add('o');q('#s_'+k).classList.add('on');if(k==='up'&&mode!=='radius'&&dmap)setTimeout(()=>dmap.invalidateSize(),400);if(k==='dn')q('#sxFan').checked=P.fan}
+function closeS(){if(!open)return;sx.classList.remove('o');q('#s_'+open).classList.remove('on');open=null;paint()}window.sxOpen=openS;
+sx.querySelectorAll('.hh').forEach(b=>b.onclick=()=>openS(b.dataset.p));sx.querySelectorAll('[data-c]').forEach(b=>b.onclick=closeS);q('#sxSug').onclick=()=>openS('up');q('#sxRead').onclick=()=>openS('wv');
+let t0=null;sx.addEventListener('touchstart',e=>{const t=e.touches[0],pb=open&&q('#s_'+open+' .pb');t0={x:t.clientX,y:t.clientY,el:e.target,top:pb?pb.scrollTop<=0:true,bot:pb?pb.scrollTop+pb.clientHeight>=pb.scrollHeight-2:true}},{passive:true});
+sx.addEventListener('touchend',e=>{if(!t0)return;const t=e.changedTouches[0],T=t0,dx=t.clientX-T.x,dy=t.clientY-T.y;t0=null;
+if(Math.abs(dx)<10&&Math.abs(dy)<10){const b=T.el.closest&&T.el.closest('button,label,input[type=checkbox]');if(b&&!T.el.closest('#drawmap')&&e.cancelable){e.preventDefault();if(b.tagName==='LABEL'){const i=b.querySelector('input');if(i)i.click()}else b.click()}return}
+if(Math.abs(dy)<50||Math.abs(dx)>Math.abs(dy))return;if(T.el.closest&&T.el.closest('#drawmap'))return;
+if(!open){openS(dy<0?'up':'dn');return}if((open==='up'||open==='wv')&&dy>0&&T.top)closeS();else if(open==='dn'&&dy<0&&T.bot)closeS()},{passive:false});
+function hiWord(){const h=new Date().getHours();return P.fan?(h<12?'Fair morning':h<18?'Well met':'Good evening'):(h<12?'Good morning':h<18?'Good afternoon':'Good evening')}
+function paint(){const L=lvl(P.xp),D={easy:'an Easy',medium:'a Medium',hard:'a Hard'}[diffSel],mi=miSel<1?(miSel===0.25?'¼':'½')+' mile':miSel+' mile'+(miSel>1?'s':'');
+q('#sxHi').textContent=hiWord()+(P.name?', '+P.name:'');q('#sxLv').textContent='Level '+L.n+' · '+L.t;
+const line=mode==='radius'?D+' hunt within '+mi:mode==='public'?D+' hunt in a public area you draw':D+' hunt on your property';q('#sxLine').textContent=(P.fan?'Your quest: ':'')+line.charAt(0).toUpperCase()+line.slice(1);
+q('#sxGo').innerHTML=P.fan?'Begin<br>quest':'Begin<br>hunt';sx.classList.toggle('fan',!!P.fan);$('profBtn').textContent=P.av;$('profBtn').title='Profile';q('#sxRH').style.display=mode==='radius'?'':'none'}
+window.sxPaint=paint;document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('.dd,.rr,.m,#useSugg'))setTimeout(paint,0)},true);
+const _hdr=hdr;hdr=function(){_hdr();paint()};paint();
+new MutationObserver(()=>{const on=!st.classList.contains('hidden');document.body.classList.toggle('setupv',on);if(on){$('agree').checked=false;updStart();paint()}else closeS()}).observe(st,{attributes:true,attributeFilter:['class']});document.body.classList.toggle('setupv',!st.classList.contains('hidden'));
 })();
 </script>
 </body></html>
