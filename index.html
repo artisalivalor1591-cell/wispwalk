@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232232"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232232"><link rel="icon" href="icon-192.png?v=202610232232"><link rel="apple-touch-icon" href="icon-192.png?v=202610232232"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232237"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232237"><link rel="icon" href="icon-192.png?v=202610232237"><link rel="apple-touch-icon" href="icon-192.png?v=202610232237"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -417,7 +417,9 @@ hdr();if(!S){applySuggest()}showSuggest();
 const FUZZ={easy:20,medium:45,hard:null};let devHead=null,gpsHead=null,cmpD=null,cmpBear=null,fuzzOff=0,fuzzT=0,pocket=null,wakeL=null,lastUnl=-1,audioC=null;
 function warmCol(d){const f=Math.max(0,Math.min(1,1-Math.log10(Math.max(20,d)/20)/Math.log10(60)));const lerp=(a,b)=>Math.round(a+(b-a)*f);
 const R=window.CMPRAMP,c0=R?R[0]:[[138,165,138],[226,120,60]],c1=R?R[1]:[[246,239,224],[255,226,160]];return{edge:`rgb(${lerp(c0[0][0],c0[1][0])},${lerp(c0[0][1],c0[1][1])},${lerp(c0[0][2],c0[1][2])})`,mid:`rgb(${lerp(c1[0][0],c1[1][0])},${lerp(c1[0][1],c1[1][1])},${lerp(c1[0][2],c1[1][2])})`,f}}
-function onOri(e){let h=null;if(typeof e.webkitCompassHeading==='number')h=e.webkitCompassHeading;else if(e.absolute&&typeof e.alpha==='number')h=360-e.alpha;if(h!==null&&!isNaN(h)){devHead=(h+((screen.orientation&&screen.orientation.angle)||0)+360)%360;drawCmp()}}
+let oriAbs=false,oSin=null,oCos=0,oDraw=0;function onOri(e){if(e.type==='deviceorientationabsolute')oriAbs=true;else if(oriAbs)return;let h=null;if(typeof e.webkitCompassHeading==='number')h=e.webkitCompassHeading;else if(e.absolute&&typeof e.alpha==='number')h=360-e.alpha;if(h===null||isNaN(h))return;h=(h+((screen.orientation&&screen.orientation.angle)||0)+360)%360;
+const q=h*Math.PI/180;if(oSin===null){oSin=Math.sin(q);oCos=Math.cos(q)}else{oSin+=(Math.sin(q)-oSin)*.18;oCos+=(Math.cos(q)-oCos)*.18}const sm=(Math.atan2(oSin,oCos)*180/Math.PI+360)%360;
+if(devHead!==null&&Math.abs(((sm-devHead)%360+540)%360-180)<0.8)return;const n=performance.now();if(n-oDraw<33)return;oDraw=n;devHead=sm;drawCmp()}
 function startOri(){if('ondeviceorientationabsolute' in window)addEventListener('deviceorientationabsolute',onOri);addEventListener('deviceorientation',onOri)}
 if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){$('cmpPerm').classList.remove('hidden');$('cmpPerm').onclick=async()=>{try{if(await DeviceOrientationEvent.requestPermission()==='granted'){startOri();$('cmpPerm').classList.add('hidden')}}catch(e){$('cmpNote').textContent='Compass permission was not granted.'}}}else startOri();
 function drawCmp(){if(!S)return;const diff=S.diff||'easy',fz=FUZZ[diff],head=devHead!==null?devHead:gpsHead;
@@ -1616,6 +1618,10 @@ html body #cmp.c2 svg{overflow:visible;filter:drop-shadow(0 10px 18px rgba(0,0,0
 html body #cmp.c2 #cmpDeco{display:none}
 html body #cmp.c2 #cmpMid{font-family:var(--fh,Georgia,serif);font-size:11px;letter-spacing:.06em;fill:var(--qik);paint-order:stroke;stroke:var(--qf1);stroke-width:3.2px;stroke-linejoin:round}
 html body #cmp.c2 .tN{font-family:'Cormorant Garamond','Playfair Display',Georgia,'Times New Roman',serif}
+html body #cmp.c2{position:relative}html body #cmp.c2 .c2L{position:absolute;inset:0;pointer-events:none}html body #cmp.c2 .c2L svg{filter:none}
+html body #cmp.c2 #c2base svg{filter:drop-shadow(0 10px 18px rgba(0,0,0,.28)) drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+html body #cmp.c2 #roseV,html body #cmp.c2 #needleV,html body #cmp.c2 #spec{will-change:transform;transform-origin:50% 50%;backface-visibility:hidden;contain:strict}
+html body #cmp.c2 #c2halo{inset:-1%;border-radius:50%;box-shadow:0 0 16px 6px var(--qhc,#8aa58a);opacity:0;transition:opacity .4s;will-change:opacity}
 </style>
 <script id="cmp2JS">
 /* Heirloom compass: layered bezel, engraved ticks, 16-point rose, jewel needle, glass dome; eased 60fps rotation */
@@ -1631,7 +1637,7 @@ for(let i=0;i<4;i++)s+=point(i*90,64,11,i===0?'var(--qcN)':'var(--qf1)',i===0?'c
 s+='<circle cx="100" cy="100" r="26" style="fill:none;stroke:var(--qik);stroke-width:.5;stroke-opacity:.6"/><circle cx="100" cy="100" r="23.5" style="fill:none;stroke:var(--qik);stroke-width:.3;stroke-opacity:.5;stroke-dasharray:.6 1.4"/>';
 const L=[['N',100,24.5,13,'var(--qcN)'],['E',176,104.2,10.5,'var(--qik)'],['S',100,183.5,10.5,'var(--qik)'],['W',24,104.2,10.5,'var(--qik)']];
 for(const [t,x,y,f,c] of L)s+='<text class="tN" x="'+x+'" y="'+y+'" text-anchor="middle" style="font-family:Georgia,\'Times New Roman\',serif;font-size:'+f+'px;font-weight:600;fill:'+c+';letter-spacing:0">'+t+'</text>';return s}
-const SVG='<svg viewBox="0 0 200 200" width="100%" height="100%" shape-rendering="geometricPrecision"><defs>'+
+const DEFS='<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>'+
 '<radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0%" id="cg0" stop-color="#f6efe0"/><stop offset="100%" id="cg1" stop-color="#8aa58a"/></radialGradient>'+
 '<linearGradient id="q2bz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--qb2)"/><stop offset=".35" style="stop-color:var(--qb1)"/><stop offset=".55" style="stop-color:var(--qb2)"/><stop offset=".8" style="stop-color:var(--qb3)"/><stop offset="1" style="stop-color:var(--qb1)"/></linearGradient>'+
 '<linearGradient id="q2bzi" x1="1" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--qb2)"/><stop offset=".5" style="stop-color:var(--qb3)"/><stop offset="1" style="stop-color:var(--qb1)"/></linearGradient>'+
@@ -1644,42 +1650,40 @@ const SVG='<svg viewBox="0 0 200 200" width="100%" height="100%" shape-rendering
 '<radialGradient id="q2jw" cx="35%" cy="32%" r="75%"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".25" id="jw0" stop-color="#f6efe0"/><stop offset="1" id="jw1" stop-color="#8aa58a"/></radialGradient>'+
 '<filter id="q2tx" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 .3  0 0 0 0 .22  0 0 0 0 .12  0 0 0 .55 0"/></filter>'+
 '<filter id="q2gw" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.4"/></filter>'+
-'<clipPath id="q2fcl"><circle cx="100" cy="100" r="89"/></clipPath></defs>'+
-'<circle id="c2halo" cx="100" cy="100" r="99" style="fill:none;stroke:url(#cg);stroke-width:6;opacity:0" filter="url(#q2gw)"/>'+
-'<circle cx="100" cy="100" r="99" style="fill:url(#q2bz);stroke:var(--qb3);stroke-width:.6"/>'+
-'<circle cx="100" cy="100" r="95.2" style="fill:url(#q2bzi);stroke:none"/>'+
-'<circle cx="100" cy="100" r="97" style="fill:none;stroke:var(--qb3);stroke-width:.35;stroke-opacity:.6;stroke-dasharray:.5 1.2"/>'+
-'<circle cx="100" cy="100" r="92" style="fill:none;stroke:var(--qb2);stroke-width:.8;stroke-opacity:.9"/>'+
-'<circle cx="100" cy="100" r="90" style="fill:url(#q2fc);stroke:var(--qb3);stroke-width:1.2"/>'+
-'<g clip-path="url(#q2fcl)"><rect x="10" y="10" width="180" height="180" filter="url(#q2tx)" opacity=".16"/></g>'+
-'<g id="roseV">'+ticks()+rose()+'</g><g id="rose"></g>'+
-'<path id="cone" d="" style="fill:rgb(var(--qgl));fill-opacity:.28;stroke:rgb(var(--qgl));stroke-opacity:.5;stroke-width:.4"/>'+
-'<g id="needle" style="display:none"></g>'+
-'<g id="needleV"><path d="M100 24 L104.2 100 L95.8 100Z" style="fill:url(#q2nd1)"/><path d="M100 160 L104.2 100 L95.8 100Z" style="fill:url(#q2nd2)"/><path d="M100 24 L104.2 100 L100 160 L95.8 100Z" style="fill:none;stroke:rgba(0,0,0,.35);stroke-width:.35"/>'+
-'<circle cx="100" cy="100" r="7.6" style="fill:url(#q2cap);stroke:var(--qb3);stroke-width:.5"/><circle id="jwG" cx="100" cy="100" r="5.5" style="fill:url(#cg);opacity:.0" filter="url(#q2gw)"/><circle cx="100" cy="100" r="3.7" style="fill:url(#q2jw);stroke:rgba(0,0,0,.4);stroke-width:.3"/></g>'+
-'<circle cx="100" cy="100" r="90" style="fill:url(#q2ish);pointer-events:none"/>'+
-'<g id="glass" style="pointer-events:none"><ellipse id="spec" cx="78" cy="62" rx="46" ry="30" transform="rotate(-28 78 62)" style="fill:url(#q2gls)"/><path d="M40 118 A64 64 0 0 0 150 150" style="fill:none;stroke:#fff;stroke-opacity:.18;stroke-width:1.6;stroke-linecap:round"/></g>'+
-'<text id="cmpMid" x="100" y="138" text-anchor="middle"></text></svg>';
-function mount(){const c=document.getElementById('cmp');if(!c||c.classList.contains('c2'))return;const mid=document.getElementById('cmpMid'),t=mid?mid.textContent:'';c.innerHTML=SVG;c.classList.add('c2');document.getElementById('cmpMid').textContent=t;start()}
-let ra=0,na=0,tx=0,ty=0,gx=0,gy=0,last=0,run=false,shown=true;
+'<clipPath id="q2fcl"><circle cx="100" cy="100" r="89"/></clipPath></defs></svg>';
+const V='<svg viewBox="0 0 200 200" width="100%" height="100%" shape-rendering="geometricPrecision">';
+const BASE=V+'<circle cx="100" cy="100" r="99" style="fill:url(#q2bz);stroke:var(--qb3);stroke-width:.6"/><circle cx="100" cy="100" r="95.2" style="fill:url(#q2bzi)"/><circle cx="100" cy="100" r="97" style="fill:none;stroke:var(--qb3);stroke-width:.35;stroke-opacity:.6;stroke-dasharray:.5 1.2"/><circle cx="100" cy="100" r="92" style="fill:none;stroke:var(--qb2);stroke-width:.8;stroke-opacity:.9"/><circle cx="100" cy="100" r="90" style="fill:url(#q2fc);stroke:var(--qb3);stroke-width:1.2"/><g clip-path="url(#q2fcl)"><rect x="10" y="10" width="180" height="180" filter="url(#q2tx)" opacity=".16"/></g></svg>';
+const ROSE=V+ticks()+rose()+'</svg>';
+const NEED=V+'<path id="cone2" d="" style="fill:rgb(var(--qgl));fill-opacity:.28;stroke:rgb(var(--qgl));stroke-opacity:.5;stroke-width:.4"/><g id="ndP"><path d="M100 24 L104.2 100 L95.8 100Z" style="fill:url(#q2nd1)"/><path d="M100 160 L104.2 100 L95.8 100Z" style="fill:url(#q2nd2)"/><path d="M100 24 L104.2 100 L100 160 L95.8 100Z" style="fill:none;stroke:rgba(0,0,0,.35);stroke-width:.35"/></g></svg>';
+const TOP=V+'<circle cx="100" cy="100" r="90" style="fill:url(#q2ish)"/><circle cx="100" cy="100" r="7.6" style="fill:url(#q2cap);stroke:var(--qb3);stroke-width:.5"/><circle id="jwG" cx="100" cy="100" r="5.5" style="fill:url(#cg);opacity:.25" filter="url(#q2gw)"/><circle cx="100" cy="100" r="3.7" style="fill:url(#q2jw);stroke:rgba(0,0,0,.4);stroke-width:.3"/><text id="cmpMid" x="100" y="138" text-anchor="middle"></text><g id="rose" style="display:none"></g><g id="needle" style="display:none"></g><path id="cone" d="" style="display:none"/></svg>';
+const GLASS=V+'<ellipse cx="78" cy="62" rx="46" ry="30" transform="rotate(-28 78 62)" style="fill:url(#q2gls)"/><path d="M40 118 A64 64 0 0 0 150 150" style="fill:none;stroke:#fff;stroke-opacity:.18;stroke-width:1.6;stroke-linecap:round"/></svg>';
+const L=(id,h)=>'<div class="c2L" id="'+id+'">'+h+'</div>';
+function mount(){const c=document.getElementById('cmp');if(!c||c.classList.contains('c2'))return;const mid=document.getElementById('cmpMid'),t=mid?mid.textContent:'';
+c.innerHTML=DEFS+'<div class="c2L" id="c2halo"></div>'+L('c2base',BASE)+L('roseV',ROSE)+L('needleV',NEED)+L('c2top',TOP)+L('spec',GLASS);c.classList.add('c2');document.getElementById('cmpMid').textContent=t;start()}
+let ra=0,na=0,gx=0,gy=0,tx=0,ty=0,last=0,run=false,lastF=-1,lastCone='',lastNd=null,lastC0='',frames=0;
 const ang=el=>{const m=/rotate\(([-\d.e]+)/.exec(el.getAttribute('transform')||'');return m?+m[1]:0};
-const ease=(cur,tg,k)=>{let d=((tg-cur)%360+540)%360-180;return Math.abs(d)<.02?tg:cur+d*k};
-function frame(t){const dt=Math.min(64,t-(last||t));last=t;const k=1-Math.exp(-dt/140);
+const dlt=(c,t)=>((t-c)%360+540)%360-180;
+function frame(t){const dt=Math.min(64,t-(last||t));last=t;const k=1-Math.exp(-dt/140);frames++;
 const r=document.getElementById('rose'),n=document.getElementById('needle');if(!r){run=false;return}
-ra=ease(ra,ang(r),k);na=ease(na,ang(n),k);
-document.getElementById('roseV').setAttribute('transform','rotate('+ra.toFixed(2)+' 100 100)');
-const nv=document.getElementById('needleV');const hide=n.style.display==='none';
-nv.querySelectorAll('path').forEach(p=>p.style.display=hide?'none':'');nv.setAttribute('transform','rotate('+na.toFixed(2)+' 100 100)');
-gx+=(tx-gx)*k;gy+=(ty-gy)*k;document.getElementById('spec').setAttribute('transform','translate('+gx.toFixed(2)+' '+gy.toFixed(2)+') rotate(-28 78 62)');
+const tr=ang(r),tn=ang(n);let busy=false;
+let d=dlt(ra,tr);if(Math.abs(d)>.05){ra+=d*k;busy=true}else ra=tr;
+d=dlt(na,tn);if(Math.abs(d)>.05){na+=d*k;busy=true}else na=tn;
+RV.style.transform='rotate('+ra.toFixed(2)+'deg)';NV.style.transform='rotate('+na.toFixed(2)+'deg)';
+const hide=n.style.display==='none';if(hide!==lastNd){lastNd=hide;document.getElementById('ndP').style.display=hide?'none':'';NV.style.opacity=hide?0:1}
+const cd=document.getElementById('cone').getAttribute('d')||'';if(cd!==lastCone){lastCone=cd;document.getElementById('cone2').setAttribute('d',coneAt0())}
+const gdx=tx-gx,gdy=ty-gy;if(Math.abs(gdx)+Math.abs(gdy)>.15){gx+=gdx*k*.5;gy+=gdy*k*.5;SP.style.transform='translate('+(gx/2).toFixed(1)+'%,'+(gy/2).toFixed(1)+'%)';busy=true}
 let f=0;try{if(typeof cmpD!=='undefined'&&cmpD!==null)f=warmCol(cmpD).f}catch(e){}
-document.getElementById('c2halo').style.opacity=(f*f*.9).toFixed(2);document.getElementById('jwG').style.opacity=(.25+f*.75).toFixed(2);
-const g0=document.getElementById('cg0'),g1=document.getElementById('cg1');document.getElementById('jw0').setAttribute('stop-color',g0.getAttribute('stop-color'));document.getElementById('jw1').setAttribute('stop-color',g1.getAttribute('stop-color'));
-requestAnimationFrame(frame)}
-function start(){const n=document.getElementById('needle');n.dataset.c2='0';
-new MutationObserver(()=>{n.dataset.c2=n.style.display==='none'?'0':'1'}).observe(n,{attributes:true,attributeFilter:['style','transform']});
-if(!run){run=true;requestAnimationFrame(frame)}}
-addEventListener('deviceorientation',e=>{if(e.beta==null)return;tx=Math.max(-7,Math.min(7,(e.gamma||0)/6));ty=Math.max(-7,Math.min(7,((e.beta||0)-20)/7))});
-window.TTU_CMP2={mount};mount();setTimeout(mount,500);
+if(Math.abs(f-lastF)>.02){lastF=f;HA.style.opacity=(f*f*.9).toFixed(2);document.getElementById('jwG').style.opacity=(.25+f*.75).toFixed(2)}
+const g0=document.getElementById('cg0'),g1=document.getElementById('cg1'),c0=g0.getAttribute('stop-color')+g1.getAttribute('stop-color');
+if(c0!==lastC0){lastC0=c0;document.getElementById('jw0').setAttribute('stop-color',g0.getAttribute('stop-color'));document.getElementById('jw1').setAttribute('stop-color',g1.getAttribute('stop-color'));HA.style.setProperty('--qhc',g1.getAttribute('stop-color'))}
+if(busy)requestAnimationFrame(frame);else run=false}
+function coneAt0(){let fz=null;try{fz=FUZZ[(S&&S.diff)||'easy']}catch(e){}if(!fz)return '';const r=70,p=t=>{const q=(t-90)*Math.PI/180;return(100+r*Math.cos(q)).toFixed(1)+' '+(100+r*Math.sin(q)).toFixed(1)};return 'M100 100 L'+p(-fz)+' A'+r+' '+r+' 0 0 1 '+p(fz)+'Z'}
+let RV,NV,SP,HA;
+function kick(){if(!run){run=true;last=0;requestAnimationFrame(frame)}}
+function start(){RV=document.getElementById('roseV');NV=document.getElementById('needleV');SP=document.getElementById('spec');HA=document.getElementById('c2halo');
+const mo=new MutationObserver(kick);['rose','needle','cone','cg1'].forEach(id=>mo.observe(document.getElementById(id),{attributes:true}));kick()}
+let tl=0;addEventListener('deviceorientation',e=>{if(e.beta==null)return;const n=performance.now();if(n-tl<100)return;tl=n;tx=Math.max(-7,Math.min(7,(e.gamma||0)/6));ty=Math.max(-7,Math.min(7,((e.beta||0)-20)/7));kick()});
+window.TTU_CMP2={mount,stats:()=>({frames,run})};mount();setTimeout(mount,500);
 })();
 </script>
 <style id="freshCSS">
