@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241500"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241500"><link rel="icon" href="favicon.ico?v=202610241345" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=202610241345"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=202610241345"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241540"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241540"><link rel="icon" href="favicon.ico?v=202610241345" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=202610241345"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=202610241345"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -149,11 +149,18 @@ html body[data-th] .pnl *:has(>input[type=checkbox])>:not(input),html body[data-
 html body[data-th] .pnl *:has(>input[type=checkbox])>input[type=checkbox],html body[data-th] #prof *:has(>input[type=checkbox])>input[type=checkbox]{grid-column:2;grid-row:1/span 4}
 html body[data-th] .pnl .sxH:not(.pT),html body[data-th] .pnl h2,html body[data-th] #prof h2,html body[data-th] #prof h3{color:color-mix(in srgb,var(--sel) 55%,var(--fg))!important}
 </style>
-<style id="qafix">#ask,#askmsg{color:#2a2140!important}#ask button.sec{color:#2a2140}
+<style id="qafix">body[data-th=winter] #win .muted,body[data-th=haunted] #win .muted{color:inherit!important;opacity:.8}body[data-th=winter] #win .lootR,body[data-th=haunted] #win .lootR{filter:brightness(1.6) saturate(.8)}body:has(#win:not(.hidden)) #fct{display:none!important}body.drawOnly #s_up .pb>*:not(#drawBox){display:none!important}body.drawOnly #s_up{max-height:94vh}
+body.drawOnly #drawBox{display:block!important}body.drawOnly #ownBox{display:none!important}body.drawOnly #drawmap{height:52vh!important;margin:8px 0}
+#drawBox .row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}#drawBox .row button{background:none!important;border:0!important;box-shadow:none!important;color:inherit;padding:6px 4px;font-size:.92rem;opacity:.85;width:auto;min-height:0}
+#drawGo{display:none}body.drawOnly #drawGo{display:block;position:sticky;bottom:0;margin:12px auto 0;width:min(100%,320px);padding:14px;border-radius:999px;border:0;font-size:1.05rem;font-weight:600;background:#f3e6c4!important;color:#2a2140!important;font-family:inherit;box-shadow:0 6px 18px rgba(0,0,0,.3)}#drawGo:disabled{opacity:.45}
+#s_up .r,#s_up .r.sel{background:none!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border:0!important}
+#sugg #useSugg{display:inline;background:none!important;border:0!important;box-shadow:none!important;padding:0 0 0 6px!important;margin:0;width:auto;min-height:0;color:var(--sel);text-decoration:underline;font:inherit;font-style:normal}
+body[data-th] #sxMsg:not(:empty){background:none!important;padding:0 12px!important;color:var(--fg)!important;text-shadow:0 1px 6px var(--veil,rgba(0,0,0,.6)),0 0 2px var(--veil,rgba(0,0,0,.6))}
+#ask,#askmsg{color:#2a2140!important}#ask button.sec{color:#2a2140}
 #sxGo .bl{display:flex;flex-direction:column;align-items:center}#sxGo .bl i{white-space:nowrap;font-size:min(calc(.95rem*var(--fxs,1)),4vw)}
 body[data-th=story] #sxStep,body[data-th=spring] #sxStep{--veil:rgba(20,18,30,.82)}body[data-th=story] #sxStep{--sel:#ffb98a}body[data-th=spring] #sxStep{--sel:#b6f5a2}
 #sxStep .opt{opacity:.78}#sxStep .opt small{opacity:.95}
-#fbCard{background:linear-gradient(var(--veil,rgba(250,244,230,.9)),var(--veil,rgba(250,244,230,.9))),linear-gradient(var(--veil,rgba(250,244,230,.9)),var(--veil,rgba(250,244,230,.9)))!important;-webkit-backdrop-filter:blur(14px)!important;backdrop-filter:blur(14px)!important;-webkit-mask:none!important;mask:none!important;border-top:1px solid rgba(255,255,255,.12)}
+#fbCard{color:#f4eee2!important;background:rgba(24,20,36,.97)!important;--x:linear-gradient(var(--veil,rgba(250,244,230,.9)),var(--veil,rgba(250,244,230,.9))),linear-gradient(var(--veil,rgba(250,244,230,.9)),var(--veil,rgba(250,244,230,.9)))!important;-webkit-backdrop-filter:blur(14px)!important;backdrop-filter:blur(14px)!important;-webkit-mask:none!important;mask:none!important;border-top:1px solid rgba(255,255,255,.12)}
 #msT.top{top:calc(56px + env(safe-area-inset-top))!important}
 #cmp,#cmp *,.wisp,.wisp *,#hx,#hx *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 </style></head><body>
@@ -164,7 +171,7 @@ body[data-th=story] #sxStep,body[data-th=spring] #sxStep{--veil:rgba(20,18,30,.8
 <div class="card safety"><b>Stay safe out there:</b> stay on marked trails, respect private property and closed areas, and watch your step instead of your screen. If the pin lands somewhere you can’t reach safely, just hit <b>Reroll</b>.</div>
 
 <section id="setup" class="card"><h2>Start a hunt</h2>
-<div class="modes"><button class="r m sel" data-mode="radius">📍 Near me</button><button class="r m" data-mode="public">✏️ Draw public area</button><button class="r m" data-mode="property">🏡 My property</button></div>
+<div class="modes"><button class="r m sel" data-mode="radius">📍 Near me</button><button class="r m" data-mode="public">✏️ Draw an area</button><button class="r m" data-mode="property">🏡 My property</button></div>
 <div class="muted">Difficulty</div><div class="modes"><button class="r dd" data-d="easy">🙂 Easy</button><button class="r dd sel" data-d="medium">😎 Medium</button><button class="r dd" data-d="hard">🔥 Hard</button></div>
 <p class="muted" id="diffHelp"></p>
 <div id="radiusBox"><div class="muted">Treasure drops only in approved public spots (parks, nature areas, viewpoints, picnic sites, named trails) within:</div>
@@ -282,7 +289,7 @@ return{lat:pin.lat+off*Math.cos(t)/110574,lng:pin.lng+off*Math.sin(t)/(111320*Ma
 document.querySelectorAll('.rr').forEach(b=>b.onclick=()=>{document.querySelectorAll('.rr').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');miSel=+b.dataset.mi});
 document.querySelectorAll('.m').forEach(b=>b.onclick=()=>{document.querySelectorAll('.m').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');mode=b.dataset.mode;
 $('radiusBox').classList.toggle('hidden',mode!=='radius');$('drawBox').classList.toggle('hidden',mode==='radius');$('ownBox').classList.toggle('hidden',mode!=='property');
-$('drawHelp').textContent=mode==='property'?'Tap the map to outline your property (at least 3 corners). The treasure can land anywhere inside, a little in from the edges.':'Tap the map to outline the part of a public area you want to search (at least 3 corners). The pin lands only on approved spots inside it.';
+$('drawHelp').textContent=mode==='property'?'Tap the map to mark at least 3 corners of your property. The treasure lands somewhere inside, a few steps (up to about 5 m) in from the edges.':'Tap the map to outline the part of a public area you want to search (at least 3 corners). The pin lands only on approved spots inside it.';
 initDraw();updStart()});
 function updStart(){$('start').disabled=!($('agree').checked&&(mode==='radius'||(drawPts.length>=3&&(mode!=='property'||$('own').checked))))}
 function initDraw(){if(!window.L){$('drawHelp').textContent='Map failed to load. Check your connection and reload.';return}
@@ -400,7 +407,7 @@ const rec=P.hist.slice(-5);let score=0;rec.forEach(h=>{if(h.r==='giveup')score-=
 let why='Based on your profile';if(rec.length>=2){if(score>=2.5){di=Math.min(2,di+1);why='You have been finding treasure quickly'}else if(score<=-1.5){di=Math.max(0,di-1);why='Recent hunts were tough, so easing up a bit'}}
 if(P.move==='walk'&&P.fit<=2)ri=Math.min(ri,1);return{d:order[di],mi:R[ri],why}}
 function applySuggest(){const s=suggest();const db=document.querySelector('.dd[data-d="'+s.d+'"]'),rb=document.querySelector('.rr[data-mi="'+s.mi+'"]');if(db)db.click();if(rb)rb.click();return s}
-function showSuggest(){let el=$('sugg');if(!el){el=document.createElement('p');el.id='sugg';el.className='muted';$('diffHelp').after(el)}const s=suggest();el.innerHTML='💡 Suggested for '+(P.name||'you')+': <b>'+DLAB[s.d]+' · '+s.mi+' mi</b> <span style="opacity:.8">('+s.why+')</span> <button class="sec" id="useSugg" style="padding:4px 8px;font-size:.8rem">Use</button>';$('useSugg').onclick=applySuggest}
+function showSuggest(){let el=$('sugg');if(!el){el=document.createElement('p');el.id='sugg';el.className='muted';$('diffHelp').after(el)}const s=suggest();el.innerHTML='💡 Suggested for '+(P.name||'you')+': <b>'+DLAB[s.d]+' · '+s.mi+' mi</b> <span style="opacity:.8">('+s.why+')</span> <button class="sec" id="useSugg" style="padding:4px 8px;font-size:.8rem">Use</button>';$('useSugg').textContent='Use this';$('useSugg').onclick=applySuggest}
 const FLAV={clue:['The forest spirits whisper: ','An old map fragment reads: ','Your lantern flickers and reveals: ','A friendly raven caws: '],
 win:['The chest creaks open — the quest is complete!','Legends will sing of this find, ','The Northwoods reward the bold.','Another tale for the campfire.']};
 const pick=a=>a[Math.floor(Math.random()*a.length)];
@@ -487,10 +494,11 @@ const ITEMS=[
 ['maple','🍁','Maple Leaf Crown','head','rare','autumn'],['harvest','🌾','Harvest Satchel','back','common','autumn'],['apple','🍎','Orchard Charm','charm','common','autumn'],['moon','🌕','Harvest Moon Aura','aura','legendary','autumn'],
 ['snow','❄️','Snowflake Aura','aura','epic','winter'],['scarf','🧣','Cozy Scarf','back','common','winter'],['santa','🎅','Holiday Cap','head','rare','winter'],['star','⭐','Star Lantern','hand','legendary','winter'],
 ['blossom','🌸','Blossom Crown','head','rare','spring'],['butterfly','🦋','Butterfly Companion','pet','epic','spring'],['tulip','🌷','Tulip Charm','charm','common','spring'],['rainbow','🌈','Rainbow Aura','aura','legendary','spring'],
-['sunhat','👒','Sun Hat','head','common','summer'],['shell','🐚','Lake Shell Charm','charm','common','summer'],['dragonfly','🪰','Dragonfly Companion','pet','epic','summer'],['sun','☀️','Midsummer Aura','aura','legendary','summer']
+['sunhat','👒','Sun Hat','head','common','summer'],['shell','🐚','Lake Shell Charm','charm','common','summer'],['dragonfly','🪰','Dragonfly Companion','pet','epic','summer'],['sun','☀️','Midsummer Aura','aura','legendary','summer'],
+['quill','🪶','Storyteller’s Quill','hand','common','story'],['tome','📖','Pocket Storybook','charm','common','story'],['crown','👑','Paper Crown','head','rare','story'],['scroll','📜','Map Scroll Cloak','back','rare','story'],['dragon','🐉','Little Dragon Companion','pet','epic','story'],['tale','🌟','Once-Upon Aura','aura','legendary','story']
 ].map(a=>({id:a[0],e:a[1],n:a[2],slot:a[3],r:a[4],set:a[5]}));
 const SLOTS={head:'Head',hand:'Hand',back:'Back',aura:'Aura',charm:'Charm',pet:'Companion'};
-const SETN={nature:'Nature',halloween:'Halloween 🎃',autumn:'Autumn 🍁',winter:'Winter / Holiday ❄️',spring:'Spring 🌸',summer:'Summer ☀️'};
+const SETN={nature:'Nature',halloween:'Halloween 🎃',autumn:'Autumn 🍁',winter:'Winter / Holiday ❄️',spring:'Spring 🌸',summer:'Summer ☀️',story:'Storybook 📖'};
 /* real-world prize slots: sponsor:null = mock; plug sponsors in later */
 const REAL_PRIZES=[
 {id:'mock-coffee',tier:'common',mock:true,sponsor:null,title:'$5 coffee voucher',where:'a local partner café',redeem:null},
@@ -501,9 +509,10 @@ const REAL_PRIZES=[
 function curSets(d){const t=greetTags(d);return['nature'].concat(t.filter(x=>SETN[x]&&x!=='nature'))}
 function rollRarity(diff,mi){const s=({easy:0,medium:1,hard:2})[diff||'easy']+(mi>=2?1:0)+(mi>=10?1:0);const w={common:60-s*10,rare:28+s*3,epic:10+s*4,legendary:2+s*3};
 let x=Math.random()*Object.values(w).reduce((a,b)=>a+b,0);for(const k in w){x-=w[k];if(x<0)return k}return'common'}
-function dropItem(diff,mi){P.inv=P.inv||[];const sets=curSets();let r=rollRarity(diff,mi);const order=['legendary','epic','rare','common'];
+function dropItem(diff,mi){P.inv=P.inv||[];const ts={haunted:'halloween',winter:'winter',golden:'autumn',spring:'spring',summer:'summer',story:'story'}[document.body.dataset.th];let r=rollRarity(diff,mi);const order=['legendary','epic','rare','common'];
+for(const sets of [ts?[ts]:[],[...new Set([...(ts?[ts]:[]),...curSets()])]])
 for(let i=order.indexOf(r);i<order.length;i++){const pool=ITEMS.filter(it=>sets.includes(it.set)&&it.r===order[i]&&!P.inv.includes(it.id));if(pool.length){const it=pool[Math.floor(Math.random()*pool.length)];P.inv.push(it.id);P.eq=P.eq||{};if(!P.eq[it.slot])P.eq[it.slot]=it.id;pSave();return{it,dup:false}}}
-const pool=ITEMS.filter(it=>sets.includes(it.set));const it=pool[Math.floor(Math.random()*pool.length)];P.xp+=10;pSave();return{it,dup:true}}
+const pool=ITEMS.filter(it=>it.set===ts||curSets().includes(it.set));const it=pool[Math.floor(Math.random()*pool.length)];P.xp+=10;pSave();return{it,dup:true}}
 function realPrize(tier){const ps=REAL_PRIZES.filter(p=>p.tier===tier);return ps[Math.floor(Math.random()*ps.length)]||REAL_PRIZES[0]}
 function eqEmojis(){const eq=P.eq||{};return Object.keys(SLOTS).map(s=>eq[s]&&ITEMS.find(i=>i.id===eq[s])).filter(Boolean)}
 /* character card + collection */
@@ -517,7 +526,7 @@ const _cl=$('claim').onclick;$('claim').onclick=()=>{const diff=S&&S.diff,mi=S&&
 let el=$('wloot');if(!el){el=document.createElement('div');el.id='wloot';$('wdiff').before(el)}const R=RAR[d.it.r];
 el.innerHTML='<div class="loot" style="--rc:'+R[1]+'"><div class="lootE">'+d.it.e+'</div><div class="lootR" style="color:'+R[1]+'">'+R[0]+(d.dup?' · duplicate (+10 '+(P.fan?'XP':'pts')+')':' · new!')+'</div><b>'+d.it.n+'</b><div class="muted">'+(P.fan?'Added to your hoard — wear it on your character.':'Added to your collection — equip it on your profile.')+'</div></div>'
 +'<div class="real"><div class="muted">'+(P.fan?'🏰 Earthly reward':'🎁 Real-world prize')+'</div><b>'+(rp.mock?'MOCK: ':'')+rp.title+'</b><div>at '+(rp.sponsor||rp.where)+'</div>'+(rp.mock?'<div class="muted" style="font-size:.8rem">Prototype only — not a real reward. Sponsor prizes will plug in here later.</div>':'')+'</div>';
-$('prize').textContent=(rp.mock&&!/^mock/i.test(rp.title)?'Mock: ':'')+rp.title};
+$('prize').textContent=rp.title};
 </script>
 <script>
 /* Full-screen compass hunt view with swipe panels */
@@ -629,8 +638,8 @@ $('start').classList.add('hidden');q('#sxGo').onclick=()=>{if(!$('agree').checke
 if(mode==='property'&&drawPts.length>=3&&!$('own').checked){ask('Is this your own property, or do you have the owner’s permission to hunt here?',[['Yes, I have permission',1,'primary'],['Cancel',0]]).then(v=>{if(v){$('own').checked=true;updStart();q('#sxGo').click()}});return}
 if($('start').disabled){q('#sxMsg').textContent=mode==='property'&&drawPts.length>=3?'Confirm you own or have permission for this property.':'Draw at least 3 corners of your area first.';openS('up');return}q('#sxMsg').textContent='';$('start').click()};
 new MutationObserver(()=>{q('#sxMsg').textContent=$('gpsmsg').textContent}).observe($('gpsmsg'),{childList:true,characterData:true,subtree:true});
-let open=null;function openS(k){if(open)closeS();open=k;sx.classList.add('o');q('#s_'+k).classList.add('on');if(k==='up'&&mode!=='radius'&&dmap)setTimeout(()=>dmap.invalidateSize(),400);if(k==='dn')q('#sxFan').checked=P.fan}
-function closeS(){if(!open)return;sx.classList.remove('o');q('#s_'+open).classList.remove('on');open=null;paint()}window.sxOpen=openS;
+let open=null;function openS(k){if(open)closeS();open=k;document.body.classList.toggle('drawOnly',k==='up'&&mode!=='radius');sx.classList.add('o');q('#s_'+k).classList.add('on');if(k==='up'&&mode!=='radius'&&dmap)setTimeout(()=>dmap.invalidateSize(),400);if(k==='dn')q('#sxFan').checked=P.fan}
+function closeS(){document.body.classList.remove('drawOnly');if(!open)return;sx.classList.remove('o');q('#s_'+open).classList.remove('on');open=null;paint()}window.sxOpen=openS;{const dg=document.createElement('button');dg.id='drawGo';dg.type='button';dg.textContent='Begin the hunt';$('drawBox').appendChild(dg);const up=()=>{dg.disabled=drawPts.length<3};setInterval(up,400);dg.onclick=()=>{if(drawPts.length<3)return;closeS();q('#sxGo').click()}}
 sx.querySelectorAll('.hh').forEach(b=>b.onclick=()=>openS(b.dataset.p));sx.querySelectorAll('[data-c]').forEach(b=>b.onclick=closeS);q('#sxSug').onclick=()=>openS('up');q('#sxRead').onclick=()=>openS('wv');
 let t0=null;sx.addEventListener('touchstart',e=>{const t=e.touches[0],pb=open&&q('#s_'+open+' .pb');t0={x:t.clientX,y:t.clientY,el:e.target,top:pb?pb.scrollTop<=0:true,bot:pb?pb.scrollTop+pb.clientHeight>=pb.scrollHeight-2:true}},{passive:true});
 sx.addEventListener('touchend',e=>{if(!t0)return;const t=e.changedTouches[0],T=t0,dx=t.clientX-T.x,dy=t.clientY-T.y;t0=null;
@@ -2120,7 +2129,7 @@ if(!el){el=document.createElement('details');el.id='fbList';el.className='more';
 const open=el.open;el.innerHTML='<summary>Your notes from the trail'+(a.length?' ('+a.length+')':'')+'</summary>'+(a.length?a.slice(-8).reverse().map(e=>'<div class="fbE">'+(ICON[e.theme]||'⭐').repeat(e.rating||0)+' '+(e.res==='win'?'Found it':'Ended early')+'<small>'+new Date(e.t).toLocaleDateString()+' · '+line(e).split(' · ').slice(1).join(' · ')+'</small></div>').join('')+'<div class="fbA"><a href="'+mailto(a.slice(-10))+'">send them our way ✉</a><button type="button" id="fbClr">Clear the notes</button></div>':'<div class="fbE"><small>nothing here yet. After a hunt you can leave a little note, and it stays on this phone unless you choose to send it.</small></div>');el.open=open;
 const c=document.getElementById('fbClr');c&&(c.onclick=async e=>{e.preventDefault();if(await ask('Clear your saved feedback?',[['Clear','y','primary'],['Keep','n']])==='y'){saveL([]);list()}})}
 window.TTU_FB.list=list;
-const orig=record;record=function(res){const r=orig.apply(this,arguments);try{if(r!==null){const h=P.hist[P.hist.length-1];if(h)setTimeout(()=>card(h),res==='win'?1600:900)}}catch(e){}return r};
+const orig=record;record=function(res){const r=orig.apply(this,arguments);try{if(r!==null){const h=P.hist[P.hist.length-1];if(h)setTimeout(()=>card(h),res==='win'?9000:900)}}catch(e){}return r};
 list();setTimeout(list,1200);
 })();
 </script>
@@ -2448,9 +2457,9 @@ async function findAround(c,radii,say){await loadData();const T0=Date.now(),log=
 window.TTU_FIND=findAround;
 const WR={walk:[1.1,2.5,5],combo:[2.5,5,10],drive:[5,10,25]};
 async function wanderGo(){const m=$$('#sxMsg'),say=t=>{if(m)m.textContent=t};if(!$('agree').checked){say('Please agree to the safety terms first.');return}
- document.body.classList.add('wandering');try{say('Finding where you are…');let c;try{c=await getPos()}catch(e){say(geoHelp({code:1}));return}
+ document.body.classList.add('wandering');try{say('Finding where you are…');let c;try{c=await getPos()}catch(e){say(geoHelp(e));return}
  const f=await findAround({lat:c.lat,lng:c.lng},WR[mv]||WR.walk,say);window.__lastWander=f;
- if(!f.res){say(P.fan?'The woods are shy tonight. Try “A set distance” instead.':'No calm spot turned up nearby just now. Try “A set distance” instead.');how='radius';return}
+ if(!f.res){if(f.log&&(f.log.includes('parks-fail')||f.log.includes('safety-fail'))){say('The map helpers are busy right now. Give it a minute and try again.');return}say(P.fan?'The woods are shy tonight. Try “A set distance” instead.':'No calm spot turned up nearby just now. Try “A set distance” instead.');how='radius';return}
  say('');diffSel=dif;mode='radius';miSel=f.r;start()}finally{document.body.classList.remove('wandering')}}
 async function ovp(lat,lng){const body='data='+encodeURIComponent(TTU_WANDER.q(lat.toFixed(5),lng.toFixed(5)));
  return Promise.any(TTU_WANDER.MIRRORS.map(u=>{const ac=new AbortController();setTimeout(()=>ac.abort(),25000);return fetch(u,{method:'POST',body,headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ac.signal}).then(r=>{if(!r.ok)throw 0;return r.json()})}))}
