@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232320"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232320"><link rel="icon" href="icon-192.png?v=202610232320"><link rel="apple-touch-icon" href="icon-192.png?v=202610232320"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232324"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232324"><link rel="icon" href="icon-192.png?v=202610232324"><link rel="apple-touch-icon" href="icon-192.png?v=202610232324"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -1595,7 +1595,7 @@ async function fail(t){const msg=document.getElementById('sxMsg');msg.textConten
 if(v==='again')return wander();if(v==='draw'){const b=document.querySelector('[data-mode="public"]');b&&b.click();typeof openS==='function'&&openS('up')}}
 window.TTU_WANDER.go=wander;
 function mount(){const g=document.getElementById('sxGo');if(!g||document.getElementById('sxWander'))return;
-g.insertAdjacentHTML('afterend','<button id="sxWander" type="button" aria-label="Wander nearby with no setup"><span class="wI">\u2766</span> or just <b>wander nearby</b><small>no setup \u00b7 finds a safe park near you</small></button>');
+g.insertAdjacentHTML('afterend','<button id="sxWander" type="button" aria-label="Wander nearby with no setup"><span class="wI">\u2766</span><b>Wander nearby</b><small>No setup. We\u2019ll find a safe park near you.</small></button>');
 document.getElementById('sxWander').onclick=wander}
 mount();setTimeout(mount,600);
 })();
@@ -1980,7 +1980,7 @@ function speak(m,force){const id=force||who(),c=CH[id];if(!c||!('speechSynthesis
 document.addEventListener('visibilitychange',()=>{try{document.hidden?speechSynthesis.pause():speechSynthesis.resume()}catch(e){}});
 // toast
 let Q=[],busy=false;function toast(m,extra){Q.push([m,extra]);if(!busy)next()}
-function next(){const it=Q.shift();if(!it){busy=false;return}busy=true;const [m,extra]=it;let t=document.getElementById('msT');if(!t){t=document.createElement('div');t.id='msT';t.setAttribute('role','status');t.setAttribute('aria-live','polite');b.appendChild(t)}
+function next(){const it=Q.shift();if(!it){busy=false;return}if(b.classList.contains('setupv')||document.getElementById('sxIntro')){Q.unshift(it);busy=false;clearTimeout(window.__msW);window.__msW=setTimeout(()=>{if(!busy&&Q.length)next()},2500);return}busy=true;const [m,extra]=it;let t=document.getElementById('msT');if(!t){t=document.createElement('div');t.id='msT';t.setAttribute('role','status');t.setAttribute('aria-live','polite');b.appendChild(t)}
  t.innerHTML='<i>'+({story:'and so it was written…',haunted:'the lantern flickers…',winter:'a little frost-mark…',golden:'the woods remember…',spring:'something new bloomed…',summer:'the lake takes note…'}[b.dataset.th]||'a little milestone…')+'</i><b>'+m.title+'</b><small>'+m.sub+(extra?' · '+extra:'')+'</small>';
  requestAnimationFrame(()=>t.classList.add('on'));try{navigator.vibrate&&navigator.vibrate([10,60,10])}catch(e){}
  if(m.speak){const r=speak(m,m.force);if(r)window.TTU_MS.lastSpoken=r}else cue('chirp');
@@ -2009,7 +2009,7 @@ const vq=/[?&]voice=([a-z]+)/.exec(location.search);if(vq&&CH[vq[1]]){let vd=fal
 :is(p,h1,h2,h3,h4,summary,button,label,small,li,dt,dd,b,i,em,strong,div)::first-letter{text-transform:uppercase}
 #msT *::first-letter,#msJ *::first-letter{text-transform:uppercase}
 .nocap::first-letter,input::first-letter,textarea::first-letter{text-transform:none}
-body.setupv #sx .hh,body.setupv #profBtn,body.setupv #sxSug,body.setupv #sxWander,body.setupv #sxSoon,body.setupv #fsBtn,body.setupv #resetAll{display:none!important}
+body.setupv #profBtn,body.setupv #sxSug,body.setupv #sxSoon,body.setupv #fsBtn,body.setupv #resetAll{display:none!important}
 #sxLv.plain{font-size:1.02rem;opacity:.85;font-style:italic;margin:10px auto 0;max-width:22em}
 #sxStep,#sxIntro{position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 26px;color:var(--fg);background:radial-gradient(ellipse 90% 70% at 50% 50%,var(--veil,rgba(250,244,230,.78)),rgba(0,0,0,.15));backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);opacity:0;pointer-events:none;transition:opacity .45s;text-shadow:0 1px 2px var(--tsh,transparent)}
 #sxStep.on,#sxIntro.on{opacity:1;pointer-events:auto}
@@ -2062,7 +2062,7 @@ function launch(){LS('ttu_profile_how',how);LS('ttu_profile_dist',String(dist));
  if(how==='wander'){clk('.m[data-mode="radius"]');window.TTU_WANDER&&TTU_WANDER.go();return}
  if(how==='public'){clk('.m[data-mode="public"]');window.sxOpen&&sxOpen('up');how='publicReady';return}
  clk('.m[data-mode="radius"]');clk('.rr[data-mi="'+dist+'"]');{const g=$$('#sxGo');(g.onclick||orig).call(g)}}
-document.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest('#sxGo');if(!g||!$('agree').checked)return;if(how==='publicReady'){how='public';LS('ttu_profile_how','public');return}e.stopImmediatePropagation();e.preventDefault();open()},true);
+/* step flow retired: Wander nearby is the main action now */
 window.TTU_STEP={open,close,launch};
 /* 3) first-run 3-card intro, skippable, once */
 const CARDS=[['🧭','A treasure hunt, close to home','We hide a little treasure somewhere safe and public nearby. You go find it.'],
@@ -2082,5 +2082,24 @@ const mt=()=>$$('#msT');new MutationObserver(()=>{const t=mt();if(!t)return;cons
 /* 5) critter sightings count toward milestones */
 let lastC=0;function hook(){const c=$$('#crit');if(!c)return setTimeout(hook,2000);new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes)if(n.classList&&n.classList.contains('cr')&&!document.hidden&&Date.now()-lastC>4000){lastC=Date.now();const v=(+LS('ttu_ms_crit')||0)+1;LS('ttu_ms_crit',String(v));setTimeout(()=>{try{TTU_MS.check()}catch(e){}},2500)}}).observe(c,{childList:true})}hook();
 })();
+</script>
+<style id="wanderMainCSS">
+body.setupv #sxGo{display:none!important}
+body.setupv #sxWander{display:flex!important}
+html body #sxWander{background:none!important;border-radius:0;margin:26px auto 4px;padding:10px 24px;gap:2px;font-style:normal;text-decoration:none!important;text-shadow:0 1px 2px var(--tsh,transparent),0 0 14px var(--tsh,transparent)}
+html body #sxWander .wI{display:block;font-size:1.5rem;line-height:1;color:var(--sel,#b8612b);opacity:.85;font-style:normal}
+html body #sxWander b{font-family:var(--fx,var(--fh,Georgia,serif));font-size:calc(1.9rem*var(--fxs,1));font-weight:600;letter-spacing:.01em;line-height:1.15;color:var(--fg,inherit)!important;text-shadow:0 1px 2px var(--tsh,transparent),0 0 18px var(--aglow,transparent)}
+html body.setupv #sxMsg{background:none!important;box-shadow:none!important;border:0!important;color:var(--fg,inherit)!important;font-style:italic;text-shadow:0 1px 2px var(--tsh,transparent),0 0 10px var(--tsh,transparent)}
+html body #sxWander small{font-style:italic;font-size:.88rem;opacity:.72;margin-top:2px}
+body:not(.wandering) #sxWander .wI{animation:wGl 3.6s ease-in-out infinite}@keyframes wGl{50%{opacity:.45}}
+@media (prefers-reduced-motion:reduce){#sxWander .wI{animation:none!important}}
+#upGo{display:block;margin:22px auto 8px;background:none!important;border:0;box-shadow:none!important;color:var(--fg,inherit);font-family:var(--fh,Georgia,serif);font-size:1rem;cursor:pointer;text-decoration:none}
+#upGo i{opacity:.75}#upGo b{color:var(--sel,#b8612b);font-weight:600;font-size:1.2rem;margin-left:4px}
+</style>
+<script id="wanderMainJS">
+(function(){function m(){const pb=document.querySelector('#s_up .pb');if(!pb||document.getElementById('upGo'))return;
+pb.insertAdjacentHTML('beforeend','<button id="upGo" type="button"><i>Ready when you are?</i> <b>Start this hunt</b></button>');
+document.getElementById('upGo').onclick=()=>{const c=document.querySelector('#s_up [data-c]');c&&c.click();setTimeout(()=>{const g=document.getElementById('sxGo');if(!g)return;g.click()},350)}}
+m();setTimeout(m,1000)})();
 </script>
 </body></html>
