@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232340"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232340"><link rel="icon" href="icon-192.png?v=202610232340"><link rel="apple-touch-icon" href="icon-192.png?v=202610232340"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232350"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232350"><link rel="icon" href="icon-192.png?v=202610232350"><link rel="apple-touch-icon" href="icon-192.png?v=202610232350"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -211,7 +211,7 @@ html body[data-th] .pnl .sxH:not(.pT),html body[data-th] .pnl h2,html body[data-
 <div id="charCard" style="border:2px solid #1f4d3a;border-radius:14px;padding:12px;text-align:center;background:#f4f9f2"></div>
 <label class="pl">Name <input id="pName" maxlength="24" placeholder="Explorer"></label>
 <label class="pl">Avatar <select id="pAv"></select></label>
-<label class="pl">Getting around <select id="pMove"><option value="walk">🚶 Walk</option><option value="drive">🚗 Drive to start</option></select></label>
+<label class="pl">Getting around <select id="pMove"><option value="walk">🚶 On foot</option><option value="drive">🚗 By car</option><option value="combo">🚗🚶 A bit of both</option></select></label>
 <label class="pl">Preferred radius <select id="pRad"><option>0.25</option><option>0.5</option><option>1</option><option>2</option><option>5</option><option>10</option><option>25</option></select> mi</label>
 <label class="pl">Fitness or skill (1 = easy-going, 5 = very fit) <input id="pFit" type="range" min="1" max="5"></label>
 <label class="pl">Accessibility notes <textarea id="pAcc" rows="2" placeholder="e.g. prefer paved paths, no steep hills"></textarea></label>
@@ -2041,17 +2041,23 @@ const _h=hdr;hdr=function(){_h();plain()};plain();setInterval(()=>{if(document.b
 /* 2) one gentle step after Begin, smart defaults */
 const go=$$('#sxGo'),orig=go.onclick;const st=document.createElement('div');st.id='sxStep';st.setAttribute('role','dialog');document.body.appendChild(st);
 let how=LS('ttu_profile_how');if(!how||how==='wander')how='radius';let dist=+(LS('ttu_profile_dist')||0.5),dif=LS('ttu_profile_dif')||((P.hist||[]).length?(typeof diffSel!=='undefined'?diffSel:'easy'):'easy');
-const FM={'0.25':'¼ mile','0.5':'½ mile','1':'1 mile','2':'2 miles'};
-function draw(){st.innerHTML=`<p class="ld">${P.fan?'Where shall the quest lead?':'Where shall we wander?'}</p>
+const FM={'0.25':'<span class="fr">¼</span> mile','0.5':'<span class="fr">½</span> mile','1':'1 mile','2':'2 miles','5':'5 miles','10':'10 miles','25':'25 miles'};
+const MV={walk:[0.25,0.5,1,2],combo:[1,2,5],drive:[5,10,25]},MD={walk:0.5,combo:2,drive:10};
+let mv=['walk','drive','combo'].includes(P.move)?P.move:'walk';const fit=()=>{if(!MV[mv].includes(dist))dist=MD[mv]};fit();
+function draw(){fit();st.innerHTML=`<p class="ld">How will you travel?</p>
+<div class="row">${[['walk','On foot'],['drive','By car'],['combo','A bit of both']].map(([k,l])=>`<button class="opt${k===mv?' sel':''}" data-mv="${k}"><b>${l}</b></button>`).join('')}</div>
+${mv==='walk'?'':'<p class="nt">Park somewhere safe, then finish on foot.</p>'}
+<div class="hr"></div><p class="ld">${P.fan?'Where shall the quest lead?':'Where shall we wander?'}</p>
 <button class="opt" data-h="wander" hidden style="display:none"><b>❦ Wander nearby</b><small>We’ll find a friendly park close by. No setup.</small></button>
-<button class="opt" data-h="radius"><b>A set distance</b><small>Hidden somewhere within a walk you choose.</small></button>
-${how==='radius'?'<div class="row">'+Object.keys(FM).map(k=>`<button class="opt${+k===dist?' sel':''}" data-mi="${k}"><b>${FM[k]}</b></button>`).join('')+'</div>':''}
+<button class="opt" data-h="radius"><b>A set distance</b><small>${mv==='walk'?'Hidden somewhere within a walk you choose.':mv==='drive'?'Hidden at a public spot within a short drive.':'A short drive, then a walk to the treasure.'}</small></button>
+${how==='radius'?'<div class="row">'+MV[mv].map(k=>`<button class="opt${+k===dist?' sel':''}" data-mi="${k}"><b>${FM[k]}</b></button>`).join('')+'</div>':''}
 <button class="opt" data-h="public"><b>Draw my own area</b><small>Outline a public park on the map.</small></button>
 <div class="hr"></div><p class="ld">How tricky?</p>
 <div class="row">${['easy','medium','hard'].map(d=>`<button class="opt${d===dif?' sel':''}" data-d="${d}"><b>${d[0].toUpperCase()+d.slice(1)}</b></button>`).join('')}</div>
 <button class="go" id="stGo">${how==='public'?'Open the map':P.fan?'Onward!':'Off we go'}</button>
 <div><button class="lnk2" id="stBack">Back</button><button class="lnk2" id="stMore">More settings</button></div>`;
 st.querySelectorAll('[data-h]').forEach(b=>{b.classList.toggle('sel',b.dataset.h===how);b.onclick=()=>{how=b.dataset.h;tick();draw()}});
+st.querySelectorAll('[data-mv]').forEach(b=>b.onclick=()=>{mv=b.dataset.mv;P.move=mv;try{pSave()}catch(e){}tick();draw()});
 st.querySelectorAll('[data-mi]').forEach(b=>b.onclick=()=>{dist=+b.dataset.mi;tick();draw()});
 st.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{dif=b.dataset.d;tick();draw()});
 $$('#stBack').onclick=close;$$('#stMore').onclick=()=>{close();window.sxOpen&&sxOpen('dn')};$$('#stGo').onclick=launch}
@@ -2083,4 +2089,5 @@ const mt=()=>$$('#msT');new MutationObserver(()=>{const t=mt();if(!t)return;cons
 let lastC=0;function hook(){const c=$$('#crit');if(!c)return setTimeout(hook,2000);new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes)if(n.classList&&n.classList.contains('cr')&&!document.hidden&&Date.now()-lastC>4000){lastC=Date.now();const v=(+LS('ttu_ms_crit')||0)+1;LS('ttu_ms_crit',String(v));setTimeout(()=>{try{TTU_MS.check()}catch(e){}},2500)}}).observe(c,{childList:true})}hook();
 })();
 </script>
+<style id="travelCSS">#sxStep .row .opt b{white-space:nowrap;font-variant-numeric:normal}#sxStep .row{flex-wrap:wrap;column-gap:18px}#sxStep .fr{font-family:var(--fb,system-ui);font-size:1.15em;margin-right:.12em}#sxStep .nt{font-style:italic;font-size:.85rem;opacity:.72;margin:4px 0 0}</style>
 </body></html>
