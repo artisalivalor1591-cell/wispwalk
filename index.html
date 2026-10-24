@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232245"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232245"><link rel="icon" href="icon-192.png?v=202610232245"><link rel="apple-touch-icon" href="icon-192.png?v=202610232245"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232250"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232250"><link rel="icon" href="icon-192.png?v=202610232250"><link rel="apple-touch-icon" href="icon-192.png?v=202610232250"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -1896,6 +1896,112 @@ function mount(){const w=document.getElementById('again');if(!w||document.getEle
  d.innerHTML='<button id="shGo" type="button"><i>tell someone about it</i> <b>share the find</b></button><label id="shHide"><input type="checkbox" id="shHideC"'+(hd?' checked':'')+'> keep the real prize a secret</label><div id="shMsg" aria-live="polite"></div>';
  w.before(d);document.getElementById('shGo').onclick=share;document.getElementById('shHideC').onchange=e=>{try{localStorage.setItem(HK,e.target.checked?'1':'0')}catch(_){}}}
 window.TTU_SHARE={draw,share,A};mount();setTimeout(mount,800);
+})();
+</script>
+<style id="msCSS">
+#msT{position:fixed;left:0;right:0;bottom:calc(120px + env(safe-area-inset-bottom));z-index:8500;text-align:center;padding:26px 24px 22px;pointer-events:none;color:var(--fg);background:radial-gradient(ellipse 70% 60% at 50% 55%,var(--veil,rgba(250,244,230,.7)),transparent 75%);opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s cubic-bezier(.2,.8,.2,1);text-shadow:0 1px 2px var(--tsh,transparent),0 0 12px var(--tsh,transparent)}
+#msT.on{opacity:1;transform:none}#msT i{display:block;font-family:var(--fx,var(--fh));font-size:calc(1.05rem*var(--fxs,1));opacity:.8}
+#msT b{display:block;font-family:var(--fx,var(--fh));font-size:calc(1.45rem*var(--fxs,1));color:var(--sel);font-weight:600;margin:2px 0}#msT b::before,#msT b::after{content:' ' var(--tk) ' ';opacity:.6;font-weight:400;font-size:.7em}
+#msT small{display:block;opacity:.6;font-style:italic;font-size:.88rem}
+#msJ summary{font-family:var(--fx,var(--fh));font-style:italic}#msJ .msH{font-family:var(--fx,var(--fh));font-style:italic;opacity:.7;margin:10px 0 2px;font-size:.95rem}
+#msJ .msP{padding:6px 0}#msJ .msP span{display:block;font-size:.92rem}#msJ .msP small{opacity:.6;font-style:italic}#msJ .msBar{height:2px;background:color-mix(in srgb,var(--fg) 15%,transparent);margin-top:4px}#msJ .msBar>u{display:block;height:2px;background:var(--sel);text-decoration:none}
+#msJ .msE{padding:4px 0;font-size:.9rem}#msJ .msE::before{content:var(--tk) ' ';color:var(--sel);opacity:.8}#msJ .msE small{opacity:.55;font-style:italic;margin-left:6px}
+@media (prefers-reduced-motion:reduce){#msT{transition:opacity .3s}}
+</style>
+<script id="msJS">
+/* Milestones: 150+ local achievements, backfilled, gentle toasts, journal, ~1 in 3 spoken by a character */
+(function(){const LK='ttu_ms_log',EK='ttu_ms_earned',VK='ttu_profile_voice',MI=1609.34,b=document.body;
+const J=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||'')||d}catch(e){return d}},SV=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const fmt=n=>n>=1e6?(n/1e6).toFixed(n%1e6?1:0)+' million':n.toLocaleString();
+const M=[];const add=(id,cat,title,sub,need,val,unit)=>M.push({id,cat,title,sub,need,val,unit});
+// distance comparisons (metres): accurate lengths
+const CMP=[['turtle',.15,'box turtles','a box turtle is about 15 cm, nose to tail',[1000,10000]],['banana',.18,'bananas','one banana is about 18 cm',[1000,5000,10000]],
+['bus',12,'school buses','a school bus is about 12 m long',[10,50,100,500]],['whale',27.5,'blue whales','a blue whale stretches 25 to 30 m',[10,50,100]],
+['eiffel',330,'Eiffel Towers','the Eiffel Tower stands about 330 m',[1,5,10,25]],['lambeau',110,'Lambeau Fields','Lambeau Field is about 110 m, end line to end line',[1,10,50,100]]];
+for(const [k,len,nm,why,ns] of CMP)for(const n of ns)add('d_'+k+n,'distance',fmt(n)+' '+(n===1?nm.replace(/s$/,'').replace(/Fields$/,'Field'):nm)+', end to end',why,n*len,s=>s.m,'m');
+for(const p of [.01,.1,.25,.5,1])add('d_sup'+p,'distance',(p===1?'the whole':Math.round(p*100)+'% of the')+' width of Lake Superior','Lake Superior is about 160 miles across',p*257500,s=>s.m,'m');
+for(const n of [1,5,10,26.2,50,100])add('d_mi'+n,'distance',n===26.2?'a marathon, a little at a time':n+' mile'+(n>1?'s':'')+' of wandering','all your hunts, added up',n*MI,s=>s.m,'m');
+for(const n of [1,5,10])add('d_lg'+n,'fantasy',n+' league'+(n>1?'s':'')+' of questing','an old league is about three miles',n*4828,s=>s.m,'m');
+for(const n of [100,1000])add('d_dr'+n,'fantasy',fmt(n)+' dragon wingspans','a proper dragon spans about 15 m, wingtip to wingtip',n*15,s=>s.m,'m');
+for(const n of [.25,.5,1,2,3])add('h_mi'+n,'one hunt',n+' mile'+(n>1?'s':'')+' in a single hunt','your longest hunt so far',n*MI,s=>s.best,'m');
+for(const n of [1000,5000,10000,25000,50000,100000,250000,500000,1000000])add('st'+n,'steps',fmt(n)+' steps','about 0.76 m a step, give or take',n,s=>Math.round(s.m/.76),'steps');
+for(const n of [1,3,5,10,25,50,100])add('hu'+n,'hunts',n===1?'your very first hunt':n+' hunts begun and ended','every one counts',n,s=>s.hunts,'hunts');
+for(const n of [1,5,10,25,50,100])add('tr'+n,'treasure',n===1?'the first treasure':n+' treasures found','dug up, fair and square',n,s=>s.wins,'finds');
+for(const n of [1,5])add('gu'+n,'hunts',n===1?'home early, and that’s fine':'five gentle turn-backs','knowing when to head home is a skill',n,s=>s.gives,'hunts');
+for(const n of [2,3,5,7,14,30])add('sk'+n,'streaks',n+' days in a row','a little wander every day',n,s=>s.streak,'days');
+for(const n of [1,5,10]){add('eb'+n,'early bird',n===1?'out before eight':n+' early-morning hunts','the world is quiet before 8 am',n,s=>s.early,'hunts');add('no'+n,'night owl',n===1?'out after eight in the evening':n+' evening hunts','the woods after 8 pm are a different place',n,s=>s.night,'hunts')}
+const WXN={clear:'under clear skies',cloudy:'under grey clouds',rain:'soggy but unstoppable',snow:'in the falling snow',fog:'through the fog'};
+for(const w in WXN)for(const n of [1,5])add('wx_'+w+n,'weather',(n===1?'a hunt ':n+' hunts ')+WXN[w],'the weather came along too',n,s=>s.wx[w]||0,'hunts');
+add('wx_all','weather','every kind of weather','clear, cloudy, rain, snow and fog',5,s=>Object.keys(WXN).filter(w=>s.wx[w]).length,'kinds');
+const THN={story:'Story',haunted:'Haunted',winter:'Winter',golden:'Golden',spring:'Spring',summer:'Summer'};
+for(const t in THN)for(const n of [1,5,10])add('th_'+t+n,'themes',n===1?'a first '+THN[t]+' hunt':n+' '+THN[t]+' hunts','every world has its own light',n,s=>s.th[t]||0,'hunts');
+add('th_all','themes','a hunt in all six worlds','Story, Haunted, Winter, Golden, Spring and Summer',6,s=>Object.keys(THN).filter(t=>s.th[t]).length,'worlds');
+add('fan1','fantasy','your first quest','fantasy mode, sword optional',1,s=>s.fan,'quests');add('fan10','fantasy','ten quests in the realm','a seasoned adventurer now',10,s=>s.fan,'quests');
+add('tod_both','hunts','by sunlight and by moonlight','a day hunt and a night hunt',2,s=>(s.dayH?1:0)+(s.nightH?1:0),'');
+const HOL=[['halloween','a Halloween hunt',(m,d)=>m===10&&d===31],['christmas','a Christmas hunt',(m,d)=>m===12&&(d===24||d===25)],['july4','a Fourth of July hunt',(m,d)=>m===7&&d===4],['newyear','a New Year’s Day hunt',(m,d)=>m===1&&d===1],['valentine','a Valentine’s Day hunt',(m,d)=>m===2&&d===14],['stpat','a St. Patrick’s Day hunt',(m,d)=>m===3&&d===17],['thanks','a Thanksgiving hunt',(m,d,dt)=>m===11&&dt.getDay()===4&&d>=22&&d<=28],['solstice','a longest-day hunt',(m,d)=>m===6&&(d===20||d===21)]];
+for(const [k,t,f] of HOL)add('hol_'+k,'holidays',t,'some days deserve a little treasure',1,s=>s.hol[k]?1:0,'');
+for(const [k,n] of [['easy',1],['easy',5],['easy',10],['medium',1],['medium',5],['medium',10],['hard',1],['hard',5],['hard',10]])add('df_'+k+n,'difficulty',(n===1?'a first ':n+' ')+k+' find'+(n>1?'s':''),{easy:'a gentle one',medium:'a proper search',hard:'the tricky kind'}[k],n,s=>s.diff[k]||0,'finds');
+for(const n of [30,60,120,300,600,1440,3000,6000])add('out'+n,'outdoors',(n<60?n+' minutes':n/60+' hour'+(n>60?'s':''))+' outdoors','time spent out on the hunt',n,s=>Math.round(s.ms/6e4),'min');
+for(const n of [30,60,90])add('lh'+n,'one hunt','a '+(n===90?'hour-and-a-half':n===60?'full hour':'half-hour')+' hunt','in no hurry at all',n,s=>Math.round(s.longest/6e4),'min');
+for(const n of [1,10,25,50,100])add('fc'+n,'curiosities',n===1?'your first field note':n+' field notes collected','little facts picked up along the way',n,s=>s.facts,'notes');
+for(const n of [1,5,10,25,50])add('se'+n,'curiosities',n===1?'a hidden secret, found':n+' secrets in the scenery','tap around: the world tends to answer',n,s=>s.secrets,'secrets');
+for(const n of [1,10,25,50])add('cr'+n,'curiosities',n===1?'a first critter sighting':n+' critter sightings','squirrels, owls, foxes and friends',n,s=>s.critters,'critters');
+// stats
+function stats(){const L=J(LK,[]),H=(window.P&&P.hist)||[];const all=L.length?L:H.map(h=>({t:h.t,res:h.r,d:h.d,m:h.m,ms:h.ms}));
+const s={m:(window.P&&P.walkedM)||all.reduce((a,e)=>a+e.m,0),best:0,longest:0,hunts:all.length,wins:0,gives:0,early:0,night:0,wx:{},th:{},fan:0,dayH:0,nightH:0,hol:{},diff:{},ms:0,streak:0};
+const days=new Set();for(const e of all){const dt=new Date(e.t),hr=dt.getHours(),mo=dt.getMonth()+1,da=dt.getDate();s.best=Math.max(s.best,e.m);s.longest=Math.max(s.longest,e.ms);s.ms+=e.ms;
+ if(e.res==='win'){s.wins++;s.diff[e.d]=(s.diff[e.d]||0)+1}else s.gives++;if(hr<8&&hr>=4)s.early++;if(hr>=20||hr<4)s.night++;if(e.wx)s.wx[e.wx]=(s.wx[e.wx]||0)+1;if(e.th)s.th[e.th]=(s.th[e.th]||0)+1;if(e.fan)s.fan++;
+ if(e.tod)e.tod==='night'?s.nightH++:s.dayH++;for(const [k,,f] of HOL)if(f(mo,da,dt))s.hol[k]=1;days.add(dt.toDateString())}
+let run=0,prev=null;[...days].map(d=>new Date(d).getTime()).sort((a,b)=>a-b).forEach(t=>{run=prev!==null&&Math.round((t-prev)/864e5)===1?run+1:1;prev=t;s.streak=Math.max(s.streak,run)});
+const fn=document.getElementById('fctN');s.facts=fn?+fn.textContent||0:0;const sec=J('ttu_profile_secrets',[]);s.secrets=sec.length;s.critters=J('ttu_ms_crit',0);return s}
+const prog=(m,s)=>Math.min(1,m.val(s)/m.need);
+function left(m,s){const r=m.need-m.val(s);if(m.unit==='m'){const mi=r/MI;return (mi<.1?Math.round(r)+' m':mi.toFixed(1)+' mi')+' to '+m.title.replace(/, end to end$/,'')}return fmt(Math.ceil(r))+(m.unit?' '+m.unit:'')+' to '+m.title}
+// voices
+const CH={pirate:{p:.8,r:.92,cue:'bell',L:['Arr, {m}! The crew be proud of ye.','Shiver me timbers, {m}. Mark it in the log!','Well sailed, matey. {m}, and the tide still with ye.']},
+spooky:{p:.6,r:.82,cue:'hoot',L:['Ooh… {m}. The dark woods noticed.','Something stirred in the trees… it was {m}.','Hush now. {m}. The owls are whispering about you.']},
+ranger:{p:1.15,r:1.05,cue:'chirp',L:['Nice work out there! {m}.','Ranger’s log: {m}. Great trail sense!','Look at you go. {m}, and the trail’s still smiling.']},
+fireside:{p:.9,r:.86,cue:'crackle',L:['Pull up a blanket… {m}. That’s one for the stories.','And so, by the fire, we remember: {m}.','Warm hands, full heart. {m}.']},
+birder:{p:1.3,r:1.12,cue:'chirp',L:['Oh! Oh! {m}! Did you see that?','A rare sighting: {m}! Writing it down right now.','Binoculars up… yes! {m}!']},
+captain:{p:.85,r:.9,cue:'splash',L:['Easy does it… {m}. Smooth water today.','Well now. {m}. Drop anchor, enjoy it.','Steady as she goes. {m}.']},
+elf:{p:1.5,r:1.15,cue:'jingle',L:['Jingle jingle! {m}! Straight onto the nice list.','Ho ho, {m}! The workshop is cheering.']},
+ghoul:{p:.5,r:.8,cue:'hoot',L:['Heh heh heh… {m}. Happy haunting.','From beyond the gate… {m}.']},
+announcer:{p:1,r:1.08,cue:'bell',L:['Ladies and gentlemen… {m}! Fireworks, please!','A star-spangled moment: {m}!']}};
+const QUIP={rain:' Soggy but unstoppable.',snow:' Snowflakes for confetti.',fog:' Even the fog couldn’t hide it.'};
+function who(){const d=new Date(),mo=d.getMonth()+1,da=d.getDate(),th=b.dataset.th||'story',tod=b.dataset.tod||'day',wx=b.dataset.wx||'clear';
+ if(mo===12&&da>=20&&da<=26)return 'elf';if(mo===10&&da>=24)return 'ghoul';if(mo===7&&da===4)return 'announcer';
+ if(window.P&&P.fan||th==='story')return 'pirate';if(th==='haunted'||tod==='night'||wx==='fog')return 'spooky';if(th==='winter')return 'fireside';if(th==='spring'||tod==='dawn')return 'birder';if(th==='summer')return 'captain';return 'ranger'}
+const sndOn=()=>{try{return localStorage.getItem('ttu_profile_snd')!=='off'}catch(e){return true}},spOn=()=>{try{return localStorage.getItem(VK)!=='off'}catch(e){return true}};
+let AX;function cue(k){if(!sndOn())return;try{AX=AX||new (window.AudioContext||window.webkitAudioContext)();AX.resume&&AX.resume();const t=AX.currentTime+.02,v=(()=>{try{const x=parseFloat(localStorage.getItem('ttu_profile_vol'));return isNaN(x)?.5:x}catch(e){return .5}})()*.25;
+ const tn=(f,d,dt,g1)=>{const o=AX.createOscillator(),g=AX.createGain();o.frequency.setValueAtTime(f,t+dt);if(g1)o.frequency.exponentialRampToValueAtTime(g1,t+dt+d);g.gain.setValueAtTime(0,t+dt);g.gain.linearRampToValueAtTime(v,t+dt+.02);g.gain.exponentialRampToValueAtTime(.0001,t+dt+d);o.connect(g);g.connect(AX.destination);o.start(t+dt);o.stop(t+dt+d+.05)};
+ ({bell:()=>{tn(660,1.2,0);tn(1580,.6,0)},hoot:()=>{tn(400,.35,0,340);tn(400,.45,.45,330)},chirp:()=>{tn(2800,.08,0,3600);tn(3000,.08,.12,3800)},crackle:()=>{for(let i=0;i<5;i++)tn(1200+Math.random()*900,.03,i*.07)},splash:()=>{tn(900,.25,0,300)},jingle:()=>{for(let i=0;i<5;i++)tn(2600+(i%2)*500,.2,i*.08)}}[k]||(()=>{}))()}catch(e){}}
+function speak(m,force){const id=force||who(),c=CH[id];if(!c||!('speechSynthesis' in window))return null;if(!force&&(!sndOn()||!spOn()||document.hidden))return null;
+ const line=c.L[Math.floor(Math.random()*c.L.length)].replace('{m}',m.title.replace(/, end to end$/,''))+(QUIP[b.dataset.wx]||'');cue(c.cue);
+ setTimeout(()=>{try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(line);u.pitch=c.p;u.rate=c.r;u.volume=.55;const vs=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang));if(vs.length)u.voice=vs[0];speechSynthesis.speak(u)}catch(e){}},700);return {who:id,line}}
+document.addEventListener('visibilitychange',()=>{try{document.hidden?speechSynthesis.pause():speechSynthesis.resume()}catch(e){}});
+// toast
+let Q=[],busy=false;function toast(m,extra){Q.push([m,extra]);if(!busy)next()}
+function next(){const it=Q.shift();if(!it){busy=false;return}busy=true;const [m,extra]=it;let t=document.getElementById('msT');if(!t){t=document.createElement('div');t.id='msT';t.setAttribute('role','status');t.setAttribute('aria-live','polite');b.appendChild(t)}
+ t.innerHTML='<i>'+({story:'and so it was written…',haunted:'the lantern flickers…',winter:'a little frost-mark…',golden:'the woods remember…',spring:'something new bloomed…',summer:'the lake takes note…'}[b.dataset.th]||'a little milestone…')+'</i><b>'+m.title+'</b><small>'+m.sub+(extra?' · '+extra:'')+'</small>';
+ requestAnimationFrame(()=>t.classList.add('on'));try{navigator.vibrate&&navigator.vibrate([10,60,10])}catch(e){}
+ if(m.speak){const r=speak(m,m.force);if(r)window.TTU_MS.lastSpoken=r}else cue('chirp');
+ setTimeout(()=>{t.classList.remove('on');setTimeout(next,900)},5200)}
+function check(silent){const s=stats(),E=J(EK,{}),nw=[];for(const m of M)if(!E[m.id]&&prog(m,s)>=1){E[m.id]=Date.now();nw.push(m)}SV(EK,E);
+ if(!silent&&nw.length){nw.slice(0,2).forEach((m,i)=>{m.speak=Math.random()<1/3;toast(m,i===1&&nw.length>2?'and '+(nw.length-2)+' more in your journal':'')})}journal();return nw}
+function journal(){const p=document.getElementById('s_dn');if(!p)return;let el=document.getElementById('msJ');const s=stats(),E=J(EK,{});
+ if(!el){el=document.createElement('details');el.id='msJ';el.className='more';const fb=document.getElementById('fbList');fb&&fb.parentNode?fb.parentNode.insertBefore(el,fb):p.appendChild(el)}
+ const got=M.filter(m=>E[m.id]).sort((a,b)=>E[b.id]-E[a.id]),near=M.filter(m=>!E[m.id]).map(m=>[m,prog(m,s)]).sort((a,b)=>b[1]-a[1]).slice(0,5);const op=el.open;
+ el.innerHTML='<summary>your trail journal ('+got.length+' of '+M.length+')</summary><div class="msH">just ahead on the trail</div>'+near.map(([m,f])=>'<div class="msP"><span>'+m.title+'</span><small>'+left(m,s)+'</small><div class="msBar"><u style="width:'+Math.round(f*100)+'%"></u></div></div>').join('')+
+ '<div class="msH">already behind you</div>'+(got.length?got.slice(0,12).map(m=>'<div class="msE">'+m.title+'<small>'+new Date(E[m.id]).toLocaleDateString()+'</small></div>').join(''):'<div class="msE"><small>your first hunt will write the first line</small></div>')+
+ '<label style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;margin-top:10px;min-height:44px"><span><i>a voice now and then</i> <b style="color:var(--sel)">spoken milestones</b><br><small style="opacity:.6">voices vary from phone to phone</small></span><input type="checkbox" id="msVoice"'+(spOn()?' checked':'')+'></label>';el.open=op;
+ document.getElementById('msVoice').onchange=e=>{try{localStorage.setItem(VK,e.target.checked?'on':'off')}catch(_){}}}
+const orig=record;record=function(res){const r=orig.apply(this,arguments);try{if(r!==null){const h=P.hist[P.hist.length-1],L=J(LK,[]);L.push({t:h.t,res:h.r,d:h.d,m:h.m,ms:h.ms,th:b.dataset.th,tod:b.dataset.tod,wx:b.dataset.wx,fan:P.fan?1:0});SV(LK,L.slice(-1000));setTimeout(()=>check(false),res==='win'?4200:3000)}}catch(e){}return r};
+// backfill once from past hunts
+if(!localStorage.getItem(LK)&&window.P&&P.hist&&P.hist.length)SV(LK,P.hist.map(h=>({t:h.t,res:h.r,d:h.d,m:h.m,ms:h.ms})));
+if(!localStorage.getItem(EK))check(true);
+const latest=()=>{const E=J(EK,{}),k=Object.keys(E).sort((a,b)=>E[b]-E[a])[0];const m=M.find(x=>x.id===k);return m?m.title:''};
+window.TTU_MS={M,stats,check,journal,toast,speak,who,CH,latest,left};
+setTimeout(journal,1300);
+const vq=/[?&]voice=([a-z]+)/.exec(location.search);if(vq&&CH[vq[1]]){let vd=false;const go=()=>{document.removeEventListener('pointerdown',go,true);if(vd)return;vd=true;const m={title:'1,000 bananas, end to end',sub:'one banana is about 18 cm',speak:true,force:vq[1]};toast(m)};document.addEventListener('pointerdown',go,true);setTimeout(()=>{if(!busy&&!vd){vd=true;const m={title:'1,000 bananas, end to end',sub:'one banana is about 18 cm',speak:true,force:vq[1]};toast(m)}},1800)}
 })();
 </script>
 </body></html>
