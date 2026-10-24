@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241330"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241330"><link rel="icon" href="favicon.ico?v=202610241330" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=202610241330"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=202610241330"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241345"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241345"><link rel="icon" href="favicon.ico?v=202610241345" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=202610241345"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=202610241345"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -254,7 +254,11 @@ const b=[Math.max(z.b[0],rb[0]),Math.max(z.b[1],rb[1]),Math.min(z.b[2],rb[2]),Ma
 const KIND={park:'park',nature_reserve:'nature reserve',protected_area:'protected natural area',national_park:'park',picnic_site:'picnic site',viewpoint:'viewpoint',attraction:'attraction',camp_site:'campground',rest_area:'wayside',trail:'public trail','historic memorial':'memorial','historic monument':'monument','historic marker':'historic marker',property:'your property'};
 // returns {pin, zone} or null
 function placePin(rg,prop){const rb=regionBox(rg);
-if(prop){for(let i=0;i<800;i++){const p=rndIn(rb);if(inRegion(p,rg)&&!unsafeAt(p))return{pin:p,zone:{n:'Your property',k:'property',t:'r'}}}return null}
+if(prop){/* Own property (owner confirmed): uniform random point inside the drawn outline, kept a small inset from its edges. No public-spot or road-buffer rules. */
+ const R=rg.ring,lat0=R[0][1],kx=111320*Math.cos(rad(lat0)),ky=110574,P=R.map(q=>[q[0]*kx,q[1]*ky]);
+ let A=0;for(let i=0,j=P.length-1;i<P.length;j=i++)A+=(P[j][0]*P[i][1]-P[i][0]*P[j][1]);A=Math.abs(A)/2;
+ const edge=(x,y)=>{let m=1e9;for(let i=0,j=P.length-1;i<P.length;j=i++){const[ax,ay]=P[j],[bx,by]=P[i],dx=bx-ax,dy=by-ay,L=dx*dx+dy*dy||1,t=Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/L));m=Math.min(m,Math.hypot(x-ax-t*dx,y-ay-t*dy))}return m};
+ for(const inset of [Math.min(5,Math.sqrt(A)*.12),Math.min(2,Math.sqrt(A)*.05),0]){for(let i=0;i<3000;i++){const p=rndIn(rb);if(inRegion(p,rg)&&edge(p.lng*kx,p.lat*ky)>=inset)return{pin:p,zone:{n:'Your property',k:'property',t:'r'}}}}return null}
 const cand=DATA.z.filter(z=>boxHit(z.b,rb));if(!cand.length)return null;
 for(let i=0;i<4000;i++){const z=cand[Math.floor(Math.random()*cand.length)],p=samplePt(z,rb);if(!p||!inRegion(p,rg)||unsafeAt(p))continue;return{pin:p,zone:{n:z.n,k:z.k,t:z.t,g:z.g,b:z.b}}}return null}
 async function loadData(){if(DATA)return DATA;for(let i=0;i<3;i++){try{const r=await fetch('zones.json?v=1');if(!r.ok)throw new Error('HTTP '+r.status);DATA=await r.json();return DATA}catch(e){if(i==2)throw e;await new Promise(r=>setTimeout(r,1500))}}}
@@ -270,7 +274,7 @@ return{lat:pin.lat+off*Math.cos(t)/110574,lng:pin.lng+off*Math.sin(t)/(111320*Ma
 document.querySelectorAll('.rr').forEach(b=>b.onclick=()=>{document.querySelectorAll('.rr').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');miSel=+b.dataset.mi});
 document.querySelectorAll('.m').forEach(b=>b.onclick=()=>{document.querySelectorAll('.m').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');mode=b.dataset.mode;
 $('radiusBox').classList.toggle('hidden',mode!=='radius');$('drawBox').classList.toggle('hidden',mode==='radius');$('ownBox').classList.toggle('hidden',mode!=='property');
-$('drawHelp').textContent=mode==='property'?'Tap the map to outline your property (at least 3 corners). The pin can land anywhere inside, away from roads, rails and water.':'Tap the map to outline the part of a public area you want to search (at least 3 corners). The pin lands only on approved spots inside it.';
+$('drawHelp').textContent=mode==='property'?'Tap the map to outline your property (at least 3 corners). The treasure can land anywhere inside, a little in from the edges.':'Tap the map to outline the part of a public area you want to search (at least 3 corners). The pin lands only on approved spots inside it.';
 initDraw();updStart()});
 function updStart(){$('start').disabled=!($('agree').checked&&(mode==='radius'||(drawPts.length>=3&&(mode!=='property'||$('own').checked))))}
 function initDraw(){if(!window.L){$('drawHelp').textContent='Map failed to load. Check your connection and reload.';return}
@@ -292,7 +296,7 @@ $('start').disabled=true;try{$('gpsmsg').textContent='Loading approved zones…'
 $('gpsmsg').textContent='Getting your location…';let c;try{c=await getPos()}catch(e){if(mode==='radius')throw e;c=null}
 const rg=mode==='radius'?{type:'circle',c:{lat:c.lat,lng:c.lng},r:miSel*M_PER_MI}:{type:'poly',ring:drawPts.slice()};
 const res=placePin(rg,mode==='property');
-if(!res){$('gpsmsg').textContent='';await ask(mode==='radius'?'No approved public spots within '+miSel+' mi of you. Try a bigger radius.':mode==='property'?'Could not find a spot in that outline that is at least 40 m from roads, rails and water. Try a larger outline.':'No approved public spots inside the area you drew. Draw over a park, nature area, or trail, or make it bigger.',[['OK','ok','primary']]);return}
+if(!res){$('gpsmsg').textContent='';await ask(mode==='radius'?'No approved public spots within '+miSel+' mi of you. Try a bigger radius.':mode==='property'?'That outline is too small to hide a treasure in. Try drawing it a little larger.':'No approved public spots inside the area you drew. Draw over a park, nature area, or trail, or make it bigger.',[['OK','ok','primary']]);return}
 const st=c||{lat:res.pin.lat,lng:res.pin.lng};
 S={mode,diff:diffSel,region:rg,zone:res.zone,pin:res.pin,start:st,t0:Date.now(),walked:0,radiusMi:Math.max(0.25,mode==='radius'?miSel:dist(st,res.pin)/M_PER_MI)};if(diffSel==='medium')S.circle=makeCircle(res.pin,res.zone);S.hints=makeHints();save();prevD=null;last=c;$('gpsmsg').textContent='';run()}
 catch(e){$('gpsmsg').textContent='Problem: '+e.message+'. Allow location access and try again.'}finally{updStart()}}
@@ -607,6 +611,7 @@ const dn=q('#s_dn .pb');dn.innerHTML=`<h3 class="sxH">Settings</h3><label class=
 q('#sxFresh').onclick=()=>resetAll();q('#sxProf').onclick=()=>{closeS();openProf()};q('#sxFan').onchange=()=>{P.fan=q('#sxFan').checked;pSave();paint()};
 q('#sxAv').appendChild($('profBtn'));
 $('start').classList.add('hidden');q('#sxGo').onclick=()=>{if(!$('agree').checked){q('#sxAgree').classList.remove('nudge');void q('#sxAgree').offsetWidth;q('#sxAgree').classList.add('nudge');q('#sxMsg').textContent='Please agree to the safety terms first.';return}
+if(mode==='property'&&drawPts.length>=3&&!$('own').checked){ask('Is this your own property, or do you have the owner’s permission to hunt here?',[['Yes, I have permission',1,'primary'],['Cancel',0]]).then(v=>{if(v){$('own').checked=true;updStart();q('#sxGo').click()}});return}
 if($('start').disabled){q('#sxMsg').textContent=mode==='property'&&drawPts.length>=3?'Confirm you own or have permission for this property.':'Draw at least 3 corners of your area first.';openS('up');return}q('#sxMsg').textContent='';$('start').click()};
 new MutationObserver(()=>{q('#sxMsg').textContent=$('gpsmsg').textContent}).observe($('gpsmsg'),{childList:true,characterData:true,subtree:true});
 let open=null;function openS(k){if(open)closeS();open=k;sx.classList.add('o');q('#s_'+k).classList.add('on');if(k==='up'&&mode!=='radius'&&dmap)setTimeout(()=>dmap.invalidateSize(),400);if(k==='dn')q('#sxFan').checked=P.fan}
@@ -2366,7 +2371,7 @@ ${how==='radius'?rowH():''}
 ${how==='else'?`<div class="elw"><form id="elF" autocomplete="off"><span class="elG">⌕</span><input id="elQ" type="search" enterkeyhint="search" placeholder="A town or place, like Santa Cruz" value="${esc(eq)}" aria-label="Search for a place"></form>
 <div id="elR">${elR()}</div>${rowH()}<button class="lnk2" id="elMap" type="button">${P.fan?'Or point to it on the map':'Or tap a spot on the map'}</button><div id="elMp"></div></div>`:''}
 <button class="opt" data-h="wander"><b><span class="wG">❦</span> Wander nearby</b><small>No setup. We’ll find a friendly park close by.</small></button>
-<button class="opt" data-h="public"><b>Draw my own area</b><small>Outline a public park on the map.</small></button>
+<button class="opt" data-h="public"><b>Draw my own area</b><small>Outline your yard, or land you have permission to use.</small></button>
 <div class="hr"></div><p class="ld">How tricky?</p>
 <div class="row">${['easy','medium','hard'].map(d=>`<button class="opt${d===dif?' sel':''}" data-d="${d}"><b>${d[0].toUpperCase()+d.slice(1)}</b></button>`).join('')}</div>
 <p class="nt" id="elM" role="status"></p><button class="go" id="stGo">${how==='else'?'Save this hunt':how==='public'?'Open the map':P.fan?'Onward!':'Off we go'}</button>
@@ -2384,9 +2389,9 @@ function clk(s){const b=document.querySelector(s);b&&b.click()}
 function launch(){if(how==='else'){LS('ttu_profile_dist',String(dist));LS('ttu_profile_dif',dif);return plan()}LS('ttu_profile_how',how);LS('ttu_profile_dist',String(dist));LS('ttu_profile_dif',dif);clk('.dd[data-d="'+dif+'"]');close();
  if(how==='wander'){clk('.m[data-mode="radius"]');wanderGo();return}
  if(how==='else'){plan();return}
- if(how==='public'){clk('.m[data-mode="public"]');window.sxOpen&&sxOpen('up');how='publicReady';return}
+ if(how==='public'){clk('.m[data-mode="property"]');window.sxOpen&&sxOpen('up');how='publicReady';return}
  clk('.m[data-mode="radius"]');clk('.rr[data-mi="'+dist+'"]');miSel=dist;{const g=$$('#sxGo');(g.onclick||orig).call(g)}}
-document.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest('#sxGo');if(!g||!$('agree').checked)return;if(how==='publicReady'){how='public';LS('ttu_profile_how','public');return}e.stopImmediatePropagation();e.preventDefault();open()},true);
+document.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest('#sxGo');if(!g||!$('agree').checked)return;if(how==='publicReady'||(how==='public'&&mode==='property')){if(how==='publicReady'){how='public';LS('ttu_profile_how','public')}return}e.stopImmediatePropagation();e.preventDefault();open()},true);
 
 /* 4) Somewhere else: plan a hunt anywhere */
 const esc=t=>String(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
