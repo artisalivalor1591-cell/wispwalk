@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232125"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232125"><link rel="icon" href="icon-192.png?v=202610232125"><link rel="apple-touch-icon" href="icon-192.png?v=202610232125"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232127"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232127"><link rel="icon" href="icon-192.png?v=202610232127"><link rel="apple-touch-icon" href="icon-192.png?v=202610232127"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -1482,6 +1482,73 @@ function all(){try{dn();pdn();pup();prof()}catch(e){console.warn('softUI',e)}}wi
 function chk(){fetch(location.pathname+'?cb='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/name="ttu-build" content="(\d+)"/);if(m&&m[1]>cur){const k='ttu_profile_upd';if(sessionStorage.getItem(k)===m[1])return;sessionStorage.setItem(k,m[1]);const u=new URL(location.href);u.searchParams.set('v',m[1]);location.replace(u)}}).catch(()=>{})}
 chk();document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});})();
 </script>
+<script id="wanderJS">
+/* Wander nearby: zero-setup — live-fetch safe public spots near you from Overpass */
+(function(){
+const MIRRORS=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter','https://overpass.private.coffee/api/interpreter','https://maps.mail.ru/osm/tools/overpass/api/interpreter'];
+const R=1800;
+Object.assign(KIND,{playground:'playground',trailhead:'trailhead',library:'library green',village_green:'town green',garden:'public garden',common:'town common'});
+function q(lat,lng){const a='(around:'+R+','+lat+','+lng+')',b='(around:'+(R+300)+','+lat+','+lng+')';
+return '[out:json][timeout:20];('+
+'nwr["leisure"~"^(park|playground|nature_reserve|garden|common)$"]["access"!~"private|no"]'+a+';'+
+'node["highway"="trailhead"]'+a+';node["tourism"="viewpoint"]'+a+';nwr["amenity"="library"]'+a+';nwr["landuse"="village_green"]'+a+';'+
+');out geom 400;('+
+'way["highway"~"^(motorway|trunk|primary|secondary|motorway_link|trunk_link|primary_link|secondary_link)$"]'+b+';'+
+'way["railway"~"^(rail|light_rail|tram|subway|narrow_gauge)$"]'+b+';'+
+'way["natural"="water"]'+b+';way["waterway"~"^(river|stream|canal|ditch|drain)$"]'+b+';'+
+'way["landuse"~"^(industrial|military)$"]'+b+';'+
+');out geom 3000;'}
+async function fetchOne(url,body,ms){const ac=new AbortController(),t=setTimeout(()=>ac.abort(),ms);try{const r=await fetch(url,{method:'POST',body:'data='+encodeURIComponent(body),headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ac.signal});if(!r.ok)throw new Error('HTTP '+r.status);const j=await r.json();if(!j||!Array.isArray(j.elements))throw new Error('bad');return j}finally{clearTimeout(t)}}
+async function fetchAll(body){let err;for(const u of MIRRORS){try{return await fetchOne(u,body,13000)}catch(e){err=e}}throw err||new Error('offline')}
+const bb=pts=>{let a=[1e9,1e9,-1e9,-1e9];for(const p of pts){a[0]=Math.min(a[0],p[0]);a[1]=Math.min(a[1],p[1]);a[2]=Math.max(a[2],p[0]);a[3]=Math.max(a[3],p[1])}return a};
+const ring=g=>(g||[]).map(c=>[+c.lon.toFixed(6),+c.lat.toFixed(6)]);
+const closed=r=>r.length>3&&r[0][0]===r[r.length-1][0]&&r[0][1]===r[r.length-1][1];
+function kindOf(t){return t.leisure||(t.highway==='trailhead'?'trailhead':t.tourism==='viewpoint'?'viewpoint':t.amenity==='library'?'library':t.landuse==='village_green'?'village_green':'park')}
+function parse(j){const z=[],u=[];
+for(const e of j.elements){const t=e.tags||{};
+const isSafe=t.leisure||t.highway==='trailhead'||t.tourism==='viewpoint'||t.amenity==='library'||t.landuse==='village_green';
+const unsafeK=t.railway?'rail':t.waterway||(t.natural==='water'?'water':null)||(t.landuse==='industrial'||t.landuse==='military'?t.landuse:null)||(t.highway&&t.highway!=='trailhead'?t.highway:null);
+if(isSafe&&!unsafeK){const k=kindOf(t),n=t.name||(KIND[k]?KIND[k].replace(/^./,c=>c.toUpperCase()):'Park')+' nearby';
+ if(e.type==='node'){z.push({n,k,t:'p',b:[e.lon,e.lat,e.lon,e.lat],g:[e.lon,e.lat],live:1});continue}
+ const polys=[];if(e.type==='way'){const r=ring(e.geometry);if(closed(r))polys.push([r])}
+ else if(e.type==='relation')for(const m of e.members||[]){if(m.role==='outer'){const r=ring(m.geometry);if(closed(r))polys.push([r])}}
+ if(polys.length)z.push({n,k,t:'a',b:bb(polys.flatMap(p=>p[0])),g:polys,live:1});
+ else if(e.center)z.push({n,k,t:'p',b:[e.center.lon,e.center.lat,e.center.lon,e.center.lat],g:[e.center.lon,e.center.lat],live:1});continue}
+if(unsafeK&&e.type==='way'){const r=ring(e.geometry);if(r.length<2)continue;
+ if(closed(r)&&(t.natural==='water'||t.landuse))u.push({t:'a',k:unsafeK,b:bb(r),g:[[r]]});else u.push({t:'l',k:unsafeK,b:bb(r),g:[r]})}}
+return{z,u}}
+window.TTU_WANDER={q,parse,MIRRORS};
+const PREF={easy:[0.25,0.5,1],medium:[0.5,0.25,1],hard:[1,0.5,1.25]};
+async function wander(){const msg=document.getElementById('sxMsg');
+if(!$('agree').checked){const a=document.getElementById('sxAgree');a.classList.remove('nudge');void a.offsetWidth;a.classList.add('nudge');msg.textContent='Please agree to the safety terms first.';return}
+const btn=document.getElementById('sxWander');btn.disabled=true;document.body.classList.add('wandering');
+try{msg.textContent='Finding where you are…';let c;try{await loadData()}catch(e){DATA=DATA||{z:[],u:[]}}
+c=await getPos();msg.textContent='Looking for a friendly spot nearby…';
+let j;try{j=await fetchAll(q(c.lat.toFixed(5),c.lng.toFixed(5)))}catch(e){fail('The map helpers didn\u2019t answer just now. Take a breath and try again in a moment.');return}
+const L2=parse(j);if(L2.u.length)DATA.u=DATA.u.concat(L2.u);
+const live=L2.z.filter(z=>!DATA.z.some(o=>o.n===z.n&&Math.abs(o.b[0]-z.b[0])<1e-4));DATA.z=DATA.z.concat(live);
+const keep={mode,miSel};mode='radius';let res=null,used=null;
+for(const r of PREF[diffSel]||PREF.medium){const rg={type:'circle',c:{lat:c.lat,lng:c.lng},r:r*M_PER_MI};const p=placePin(rg,false);if(p){res=p;used=r;break}}
+if(!res){mode=keep.mode;fail('No calm, safe public spot turned up within walking distance here.');return}
+miSel=used;msg.textContent='Found a spot. Off you go…';await start();if(!S||!S.pin)mode=keep.mode;miSel=keep.miSel}
+catch(e){fail(e&&e.code===1?'Location is off, so I can\u2019t look nearby. Allow location and try again.':'Something hiccuped while looking nearby. Try again in a moment.')}
+finally{btn.disabled=false;document.body.classList.remove('wandering')}}
+async function fail(t){const msg=document.getElementById('sxMsg');msg.textContent='';const v=await ask(t,[['Try again','again','primary'],['Draw an area instead','draw'],['Close','ok']]);
+if(v==='again')return wander();if(v==='draw'){const b=document.querySelector('[data-mode="public"]');b&&b.click();typeof openS==='function'&&openS('up')}}
+window.TTU_WANDER.go=wander;
+function mount(){const g=document.getElementById('sxGo');if(!g||document.getElementById('sxWander'))return;
+g.insertAdjacentHTML('afterend','<button id="sxWander" type="button" aria-label="Wander nearby with no setup"><span class="wI">\u2766</span> or just <b>wander nearby</b><small>no setup \u00b7 finds a safe park near you</small></button>');
+document.getElementById('sxWander').onclick=wander}
+mount();setTimeout(mount,600);
+})();
+</script>
+<style id="wanderCSS">
+#sxWander{display:flex;flex-direction:column;align-items:center;gap:1px;margin:4px auto 0;padding:8px 30px;min-height:48px;border:0;border-radius:999px;background:radial-gradient(closest-side,var(--clr,rgba(255,255,255,.4)) 50%,transparent)!important;text-shadow:0 1px 2px var(--tsh,transparent),0 0 10px var(--tsh,transparent);box-shadow:none!important;color:var(--fg,inherit);font-family:var(--fh,Georgia,serif);font-size:1rem;font-style:italic;cursor:pointer;transition:transform .25s,opacity .3s;text-decoration:none}
+#sxWander b{font-weight:600;color:var(--sel,#b8612b)}#sxWander small{font-style:normal;font-family:var(--fb,system-ui);font-size:.72rem;opacity:.6}
+#sxWander .wI{display:none}#sxWander:active{transform:scale(.97)}#sxWander:disabled{opacity:.55}
+body.wandering #sxWander b{animation:wP 1.4s ease-in-out infinite}@keyframes wP{50%{opacity:.4}}
+@media (prefers-reduced-motion:reduce){body.wandering #sxWander b{animation:none}}
+</style>
 <script id="adjLbl">
 /* themed 'tap to adjust' label */
 (function(){const T={story:['Ink your map','Ink your quest map'],haunted:['Carve your jack-o\u2019-lantern','Brew your hunting potion'],winter:['Lace your snowshoes','Wax your sled runners'],golden:['Pack your satchel','Pack your adventurer\u2019s satchel'],spring:['Pick your path','Pick your enchanted path'],summer:['Ready your canoe','Ready your longboat']};
