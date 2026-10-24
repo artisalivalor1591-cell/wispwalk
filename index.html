@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241035"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241035"><link rel="icon" href="icon-192.png?v=202610241035"><link rel="apple-touch-icon" href="icon-192.png?v=202610241035"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241045"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241045"><link rel="icon" href="icon-192.png?v=202610241045"><link rel="apple-touch-icon" href="icon-192.png?v=202610241045"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -1440,6 +1440,11 @@ function tone(t,f,dur,o){o=o||{};const os=X.createOscillator(),g=X.createGain();
 function noise(t,dur,o){o=o||{};const s=X.createBufferSource();s.buffer=NB;s.loop=true;const f=X.createBiquadFilter();f.type=o.ft||'bandpass';f.frequency.setValueAtTime(o.f||1000,t);(o.fg||[]).forEach(([v,dt])=>f.frequency.linearRampToValueAtTime(v,t+dt));f.Q.value=o.q||1;
  const g=X.createGain();s.connect(f);f.connect(g);g.connect(M);env(g,t,o.a||.01,o.h||0,Math.max(.03,dur-(o.a||.01)-(o.h||0)),o.g||.3);s.start(t,Math.random());s.stop(t+dur+.1)}
 const S={
+wisp(t){/* original airy wisp: breath swell + rising detuned shimmer + soft echo tail (~2.3s) */
+ noise(t,1.9,{f:700,fg:[[2600,1.1],[3400,1.8]],q:2.5,a:.7,h:.3,g:.07});noise(t+.15,1.6,{ft:'highpass',f:5000,a:.6,g:.025});
+ const N=[[1175,0],[1568,.22],[1976,.42],[2349,.6]];
+ N.forEach(([f,d],i)=>{[[0,1],[4,.6],[-5,.5]].forEach(([c,k])=>tone(t+d,f*Math.pow(2,c/1200)*.94,1.6-i*.15,{type:i%2?'triangle':'sine',glide:[[f*Math.pow(2,c/1200),.35]],a:.25,h:.2,g:.022*k,vib:[5.5+i,f*.004]}))});
+ [[.32,.45],[.64,.22],[.96,.1]].forEach(([e,k])=>N.forEach(([f,d])=>tone(t+d+e,f,1,{a:.2,g:.012*k,vib:[6,f*.004],lp:3500})))},
 hoot(t){[0,.5,.75].forEach((d,i)=>tone(t+d,i?360:390,i?.3:.45,{glide:[[i?330:350,.3]],a:.06,g:.22,vib:[6,4],lp:900}))},
 loon(t){tone(t,520,2.6,{glide:[[880,.6],[860,1.6],[700,2.4]],a:.25,h:1,g:.16,vib:[5,8]});tone(t+2.9,700,1.4,{glide:[[900,.4],[760,1.3]],a:.2,g:.1,vib:[5,8]})},
 crickets(t){for(let k=0;k<4;k++)for(let i=0;i<4;i++)tone(t+k*.55+i*.05,4400,.04,{g:.05,a:.005})},
@@ -1478,7 +1483,7 @@ story:[['quill','any'],['page','any'],['bell','any'],['lap','any'],['creak','any
 const Q={squirrel:'chitter',chipmunk:'chitter',snowclump:'plop',bat:'squeak',lantern:'ghost',owl:'hoot',leaf:'rustle',deer:'rustle',butterfly:'twinkle',bee:'twinkle',bird:'chirp',loon:'loon',dragonfly:'twinkle',splash:'splash',firefly:'twinkle',ship:'bell',rose:'quill',
  moon:'boop',sun:'cheer',curtains:'swish',chimney:'pop',snowman:'pop',pine:'plop',tomb:'ghost',trees:'eyes',pumpkin:'pop',acorn:'bonk',scarecrow:'rustle',bloom:'twinkle',birdhouse:'chirp',snail:'pop',fish:'splash',boat:'lap',lighthouse:'bell',ness:'splash',dragon:'page'};
 function play(n){if(!enabled()||!X||X.state!=='running'||document.hidden||!S[n])return false;try{M.gain.setValueAtTime(vol()*.8,X.currentTime);S[n](T())}catch(e){return false}return true}
-document.addEventListener('ttu:quirk',e=>{const n=Q[e.detail];if(n)setTimeout(()=>play(n),120)});
+window.TTU_SND={play:n=>play(n)};document.addEventListener('ttu:quirk',e=>{const n=Q[e.detail];if(n)setTimeout(()=>play(n),120)});
 function ok(c){const t=b.dataset.tod||'day',w=b.dataset.wx||'clear';if(c[1]!=='any'&&!new RegExp('^('+c[1]+')$').test(t))return false;if(c[2]==='dry'&&/rain|storm|snow/.test(w))return false;return true}
 function tick(){const th=b.dataset.th,w=b.dataset.wx||'';let L=(AMB[th]||[]).filter(ok).map(c=>c[0]);if(/storm/.test(w))L=L.concat(['thunder','thunder']);if(/rain/.test(w))L.push('lap');
  if(L.length)play(L[Math.floor(Math.random()*L.length)]);setTimeout(tick,R(60000,180000))}
@@ -2281,8 +2286,10 @@ let Q=[],busy=false;function toast(m,extra){Q.push([m,extra]);if(!busy)next()}
 function next(){const it=Q.shift();if(!it){busy=false;return}if(b.classList.contains('setupv')||document.getElementById('sxIntro')){Q.unshift(it);busy=false;clearTimeout(window.__msW);window.__msW=setTimeout(()=>{if(!busy&&Q.length)next()},2500);return}busy=true;const [m,extra]=it;let t=document.getElementById('msT');if(!t){t=document.createElement('div');t.id='msT';t.setAttribute('role','status');t.setAttribute('aria-live','polite');b.appendChild(t)}
  t.innerHTML='<i>'+({story:'and so it was written…',haunted:'the lantern flickers…',winter:'a little frost-mark…',golden:'the woods remember…',spring:'something new bloomed…',summer:'the lake takes note…'}[b.dataset.th]||'a little milestone…')+'</i><b>'+m.title+'</b><small>'+m.sub+(extra?' · '+extra:'')+'</small>';
  requestAnimationFrame(()=>t.classList.add('on'));try{navigator.vibrate&&navigator.vibrate([10,60,10])}catch(e){}
- if(m.speak){const r=speak(m,m.force);if(r)window.TTU_MS.lastSpoken=r}else cue('chirp');
+ const big=NOTE(m);let r=null;if(m.speak)r=speak(m,m.force);if(r)window.TTU_MS.lastSpoken=r;else if(big&&window.TTU_SND&&TTU_SND.play('wisp'))window.TTU_MS.lastWisp=m.id;else cue('chirp');
  setTimeout(()=>{t.classList.remove('on');setTimeout(next,900)},5200)}
+/* notable milestones get the wisp sound (only when no voice speaks) */
+const NOTE=m=>/^(hu(1|10|25|50|100)|tr(1|10|25|50|100)|d_mi(10|26\.2|50|100)|sk(7|14|30)|st(100000|250000|500000|1000000)|hol_.*|wx_all|th_all|fan10|first|ten)$/.test(m.id);
 function check(silent){const s=stats(),E=J(EK,{}),nw=[];for(const m of M)if(!E[m.id]&&prog(m,s)>=1){E[m.id]=Date.now();nw.push(m)}SV(EK,E);
  if(!silent&&nw.length){nw.slice(0,2).forEach((m,i)=>{m.speak=Math.random()<1/3;toast(m,i===1&&nw.length>2?'and '+(nw.length-2)+' more in your journal':'')})}journal();return nw}
 function journal(){const p=document.getElementById('s_dn');if(!p)return;let el=document.getElementById('msJ');const s=stats(),E=J(EK,{});
