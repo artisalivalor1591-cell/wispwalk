@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232350"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232350"><link rel="icon" href="icon-192.png?v=202610232350"><link rel="apple-touch-icon" href="icon-192.png?v=202610232350"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232358"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232358"><link rel="icon" href="icon-192.png?v=202610232358"><link rel="apple-touch-icon" href="icon-192.png?v=202610232358"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -618,7 +618,7 @@ if(Math.abs(dx)<10&&Math.abs(dy)<10){const b=T.el.closest&&T.el.closest('button,
 if(Math.abs(dy)<50||Math.abs(dx)>Math.abs(dy))return;if(T.el.closest&&T.el.closest('#drawmap'))return;
 if(!open){openS(dy<0?'up':'dn');return}if((open==='up'||open==='wv')&&dy>0&&T.top)closeS();else if(open==='dn'&&dy<0&&T.bot)closeS()},{passive:false});
 function hiWord(){const h=new Date().getHours();return P.fan?(h<12?'Fair morning':h<18?'Good afternoon':'Good evening'):(h<12?'Good morning':h<18?'Good afternoon':'Good evening')}
-function paint(){const L=lvl(P.xp),D={easy:'an Easy',medium:'a Medium',hard:'a Hard'}[diffSel],mi=miSel<1?(miSel===0.25?'¼':'½')+' mile':miSel+' mile'+(miSel>1?'s':'');
+function paint(){const L=lvl(P.xp),D={easy:'an Easy',medium:'a Medium',hard:'a Hard'}[diffSel],mi=miSel===0.25?'¼ mile':miSel===0.5?'½ mile':miSel===1?'1 mile':(+(+miSel).toFixed(1))+' miles';
 if(!window.__g||window.__gf!==P.fan||window.__gn!==P.name){window.__g=pickGreeting();window.__gf=P.fan;window.__gn=P.name}q('#sxHi').textContent=window.__g;q('#sxLv').textContent='Level '+L.n+' · '+L.t;
 const line=mode==='radius'?D+' hunt within '+mi:mode==='public'?D+' hunt in a public area you draw':D+' hunt on your property';q('#sxLine').textContent=(P.fan?'Your quest: ':'')+line.charAt(0).toUpperCase()+line.slice(1);
 window.__bgQ=!!P.fan;if(window.TTU_BEGIN)TTU_BEGIN();else q('#sxGo').innerHTML=P.fan?'Begin<br>quest':'Begin<br>hunt';sx.classList.toggle('fan',!!P.fan);$('profBtn').textContent=P.av;$('profBtn').title='Profile';q('#sxRH').style.display=mode==='radius'?'':'none'}
@@ -2043,14 +2043,17 @@ const go=$$('#sxGo'),orig=go.onclick;const st=document.createElement('div');st.i
 let how=LS('ttu_profile_how');if(!how||how==='wander')how='radius';let dist=+(LS('ttu_profile_dist')||0.5),dif=LS('ttu_profile_dif')||((P.hist||[]).length?(typeof diffSel!=='undefined'?diffSel:'easy'):'easy');
 const FM={'0.25':'<span class="fr">¼</span> mile','0.5':'<span class="fr">½</span> mile','1':'1 mile','2':'2 miles','5':'5 miles','10':'10 miles','25':'25 miles'};
 const MV={walk:[0.25,0.5,1,2],combo:[1,2,5],drive:[5,10,25]},MD={walk:0.5,combo:2,drive:10};
-let mv=['walk','drive','combo'].includes(P.move)?P.move:'walk';const fit=()=>{if(!MV[mv].includes(dist))dist=MD[mv]};fit();
+const CR={walk:[0.1,3,0.1,1],combo:[0.5,10,0.5,3],drive:[1,30,1,15]};let CU={};try{CU=JSON.parse(LS('ttu_profile_cust')||'{}')}catch(e){}
+const cOn=()=>!!(CU[mv]&&CU[mv].on),cV=()=>{const r=CR[mv],v=CU[mv]&&+CU[mv].v;return v>=r[0]&&v<=r[1]?v:r[3]},cSave=()=>LS('ttu_profile_cust',JSON.stringify(CU));
+const mlab=v=>(v===1?'1 mile':(+v.toFixed(1))+' miles');
+let mv=['walk','drive','combo'].includes(P.move)?P.move:'walk';const fit=()=>{if(cOn()){dist=cV();return}if(!MV[mv].includes(dist))dist=MD[mv]};fit();
 function draw(){fit();st.innerHTML=`<p class="ld">How will you travel?</p>
 <div class="row">${[['walk','On foot'],['drive','By car'],['combo','A bit of both']].map(([k,l])=>`<button class="opt${k===mv?' sel':''}" data-mv="${k}"><b>${l}</b></button>`).join('')}</div>
 ${mv==='walk'?'':'<p class="nt">Park somewhere safe, then finish on foot.</p>'}
 <div class="hr"></div><p class="ld">${P.fan?'Where shall the quest lead?':'Where shall we wander?'}</p>
 <button class="opt" data-h="wander" hidden style="display:none"><b>❦ Wander nearby</b><small>We’ll find a friendly park close by. No setup.</small></button>
 <button class="opt" data-h="radius"><b>A set distance</b><small>${mv==='walk'?'Hidden somewhere within a walk you choose.':mv==='drive'?'Hidden at a public spot within a short drive.':'A short drive, then a walk to the treasure.'}</small></button>
-${how==='radius'?'<div class="row">'+MV[mv].map(k=>`<button class="opt${+k===dist?' sel':''}" data-mi="${k}"><b>${FM[k]}</b></button>`).join('')+'</div>':''}
+${how==='radius'?'<div class="row">'+MV[mv].map(k=>`<button class="opt${!cOn()&&+k===dist?' sel':''}" data-mi="${k}"><b>${FM[k]}</b></button>`).join('')+`<button class="opt${cOn()?' sel':''}" data-cu="1"><b>Custom</b></button></div>`+(cOn()?`<div class="cus"><input type="range" id="stCu" min="${CR[mv][0]}" max="${CR[mv][1]}" step="${CR[mv][2]}" value="${cV()}" aria-label="Custom distance"><output id="stCuL">${mlab(cV())}</output></div>`:''):''}
 <button class="opt" data-h="public"><b>Draw my own area</b><small>Outline a public park on the map.</small></button>
 <div class="hr"></div><p class="ld">How tricky?</p>
 <div class="row">${['easy','medium','hard'].map(d=>`<button class="opt${d===dif?' sel':''}" data-d="${d}"><b>${d[0].toUpperCase()+d.slice(1)}</b></button>`).join('')}</div>
@@ -2058,7 +2061,9 @@ ${how==='radius'?'<div class="row">'+MV[mv].map(k=>`<button class="opt${+k===dis
 <div><button class="lnk2" id="stBack">Back</button><button class="lnk2" id="stMore">More settings</button></div>`;
 st.querySelectorAll('[data-h]').forEach(b=>{b.classList.toggle('sel',b.dataset.h===how);b.onclick=()=>{how=b.dataset.h;tick();draw()}});
 st.querySelectorAll('[data-mv]').forEach(b=>b.onclick=()=>{mv=b.dataset.mv;P.move=mv;try{pSave()}catch(e){}tick();draw()});
-st.querySelectorAll('[data-mi]').forEach(b=>b.onclick=()=>{dist=+b.dataset.mi;tick();draw()});
+st.querySelectorAll('[data-mi]').forEach(b=>b.onclick=()=>{dist=+b.dataset.mi;CU[mv]=Object.assign(CU[mv]||{},{on:false});cSave();tick();draw()});
+st.querySelectorAll('[data-cu]').forEach(b=>b.onclick=()=>{CU[mv]=Object.assign(CU[mv]||{},{on:true,v:cV()});cSave();tick();draw()});
+{const r=st.querySelector('#stCu');if(r){r.oninput=()=>{const v=+r.value;dist=v;CU[mv]={on:true,v};st.querySelector('#stCuL').textContent=mlab(v)};r.onchange=()=>{cSave();tick()}}}
 st.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{dif=b.dataset.d;tick();draw()});
 $$('#stBack').onclick=close;$$('#stMore').onclick=()=>{close();window.sxOpen&&sxOpen('dn')};$$('#stGo').onclick=launch}
 const tick=()=>{try{TTU_QSND.click()}catch(e){}};
@@ -2067,7 +2072,7 @@ function clk(s){const b=document.querySelector(s);b&&b.click()}
 function launch(){LS('ttu_profile_how',how);LS('ttu_profile_dist',String(dist));LS('ttu_profile_dif',dif);clk('.dd[data-d="'+dif+'"]');close();
  if(how==='wander'){clk('.m[data-mode="radius"]');window.TTU_WANDER&&TTU_WANDER.go();return}
  if(how==='public'){clk('.m[data-mode="public"]');window.sxOpen&&sxOpen('up');how='publicReady';return}
- clk('.m[data-mode="radius"]');clk('.rr[data-mi="'+dist+'"]');{const g=$$('#sxGo');(g.onclick||orig).call(g)}}
+ clk('.m[data-mode="radius"]');clk('.rr[data-mi="'+dist+'"]');miSel=dist;{const g=$$('#sxGo');(g.onclick||orig).call(g)}}
 document.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest('#sxGo');if(!g||!$('agree').checked)return;if(how==='publicReady'){how='public';LS('ttu_profile_how','public');return}e.stopImmediatePropagation();e.preventDefault();open()},true);
 window.TTU_STEP={open,close,launch};
 /* 3) first-run 3-card intro, skippable, once */
@@ -2089,5 +2094,10 @@ const mt=()=>$$('#msT');new MutationObserver(()=>{const t=mt();if(!t)return;cons
 let lastC=0;function hook(){const c=$$('#crit');if(!c)return setTimeout(hook,2000);new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes)if(n.classList&&n.classList.contains('cr')&&!document.hidden&&Date.now()-lastC>4000){lastC=Date.now();const v=(+LS('ttu_ms_crit')||0)+1;LS('ttu_ms_crit',String(v));setTimeout(()=>{try{TTU_MS.check()}catch(e){}},2500)}}).observe(c,{childList:true})}hook();
 })();
 </script>
-<style id="travelCSS">#sxStep .row .opt b{white-space:nowrap;font-variant-numeric:normal}#sxStep .row{flex-wrap:wrap;column-gap:18px}#sxStep .fr{font-family:var(--fb,system-ui);font-size:1.15em;margin-right:.12em}#sxStep .nt{font-style:italic;font-size:.85rem;opacity:.72;margin:4px 0 0}</style>
+<style id="travelCSS">#sxStep .row .opt b{white-space:nowrap;font-variant-numeric:normal}#sxStep .row{flex-wrap:wrap;column-gap:18px}#sxStep .fr{font-family:var(--fb,system-ui);font-size:1.15em;margin-right:.12em}#sxStep .cus{display:flex;align-items:center;justify-content:center;gap:14px;margin:6px auto 2px;width:min(300px,86%)}
+#stCu{flex:1;-webkit-appearance:none;appearance:none;height:2px;background:linear-gradient(90deg,transparent,var(--fg,#444) 12%,var(--fg,#444) 88%,transparent);opacity:.75;outline:none}
+#stCu::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--sel,#b8612b);box-shadow:0 0 12px var(--aglow,transparent);border:0}
+#stCu::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--sel,#b8612b);border:0}
+#stCuL{font-family:var(--fh,Georgia,serif);font-style:italic;min-width:5.2em;text-align:left;white-space:nowrap}
+#sxStep .nt{font-style:italic;font-size:.85rem;opacity:.72;margin:4px 0 0}</style>
 </body></html>
