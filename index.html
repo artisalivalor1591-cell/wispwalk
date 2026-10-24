@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610240035"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610240035"><link rel="icon" href="icon-192.png?v=202610240035"><link rel="apple-touch-icon" href="icon-192.png?v=202610240035"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241015"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Wispwalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241015"><link rel="icon" href="icon-192.png?v=202610241015"><link rel="apple-touch-icon" href="icon-192.png?v=202610241015"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Wispwalk">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -152,7 +152,7 @@ html body[data-th] .pnl .sxH:not(.pT),html body[data-th] .pnl h2,html body[data-
 </head><body>
 <button id="resetAll" style="position:fixed;top:10px;right:10px;z-index:50;background:#fffdf7;color:#1f4d3a;padding:8px 10px;font-size:.85rem">↺ Start fresh</button>
 <div id="ask" class="hidden" style="position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fffdf7;padding:16px;box-shadow:0 -6px 18px rgba(0,0,0,.25)"><p id="askmsg" style="margin:0 0 10px"></p><div class="row" id="askbtns"></div></div>
-<header><h1>🥾 Trail Trade-Up</h1><p>Solo hunt · Tier 1 prototype</p><button id="profBtn" class="sec" style="margin-top:8px;padding:6px 12px;font-size:.9rem">👤 Profile</button></header>
+<header><h1>🥾 Wispwalk</h1><p>Solo hunt · Tier 1 prototype</p><button id="profBtn" class="sec" style="margin-top:8px;padding:6px 12px;font-size:.9rem">👤 Profile</button></header>
 <main>
 <div class="card safety"><b>Stay safe out there:</b> stay on marked trails, respect private property and closed areas, and watch your step instead of your screen. If the pin lands somewhere you can’t reach safely, just hit <b>Reroll</b>.</div>
 
@@ -1199,7 +1199,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)userExit=fa
 function mountUI(){const a=$q('thG');if(!a||$q('fsSec'))return;const box=document.createElement('div');box.id='fsSec';
  if(standalone)box.innerHTML='';
  else if(can)box.innerHTML='<h3 class="sxH" style="margin-top:4px">Screen</h3><div style="display:flex;gap:8px;margin:4px 0 6px"><button class="sec" id="fsNow">Go full screen</button></div><label style="display:flex;align-items:center;gap:10px;margin:0 0 6px;font-size:.92rem"><input type="checkbox" id="fsAuto" style="width:22px;height:22px"> Full screen by default (turns on with your first tap)</label><p id="fsHint">Tip: for a true app feel, tap ⋮ → <b>Add to Home screen</b> / <b>Install app</b> in Chrome.</p>';
- else box.innerHTML='<h3 class="sxH" style="margin-top:4px">Screen</h3><p id="fsHint">For full screen, tap Share → <b>Add to Home Screen</b>, then open Trail Trade-Up from your home screen.</p>';
+ else box.innerHTML='<h3 class="sxH" style="margin-top:4px">Screen</h3><p id="fsHint">For full screen, tap Share → <b>Add to Home Screen</b>, then open Wispwalk from your home screen.</p>';
  const anchor=a.parentNode.querySelector('#skTog')?.closest('label')||a;anchor.after(box);
  if($q('fsNow'))$q('fsNow').onclick=toggle;const c=$q('fsAuto');if(c){c.checked=auto();c.onchange=()=>{try{localStorage.setItem(K,c.checked?'1':'0')}catch(e){}if(!c.checked&&isFs()){userExit=true;exit()}}}paint()}
 const _a=window.applyTheme;if(_a)window.applyTheme=function(){const r=_a.apply(this,arguments);try{mountUI()}catch(e){}return r};mountUI();
@@ -1730,6 +1730,262 @@ html body[data-th] #sxWander{font-family:var(--fx)!important}
 html body[data-th] .pnl .sxH:not(.pT),html body[data-th] .pnl h2,html body[data-th] #prof h3{font-family:var(--fx)!important;font-style:italic;font-size:calc(1.3rem*var(--fxs))!important;letter-spacing:.02em;text-shadow:0 1px 2px var(--tsh,transparent),0 0 14px var(--aglow,transparent)}
 html body[data-th] .pnl label small,html body[data-th] .pnl .muted{font-style:italic;opacity:.7}
 </style>
+<script id="beginRot">
+/* Rotating Begin invitations: soft narrator, two lines, never the same as the last few */
+(function(){
+const L=s=>s.split('\n').filter(Boolean).map(x=>x.split('|'));
+const BASE={
+story:[L(`Once upon a walk…|Turn the page?
+A new chapter waits…|Shall we begin?
+The story needs a hero…|Will it be you?
+Somewhere, a clue is hiding…|Let’s go find it.
+Every path has a tale…|Let’s hear this one.
+The ink is still wet…|Write the next line?
+A quiet page, a fresh start…|Ready when you are.
+The map has a blank spot…|Let’s fill it in.
+Today’s tale is unwritten…|Pick up the pen?
+A little mystery stirs…|Come and see.
+The trail has been waiting…|Shall we go?
+Every good story starts outside…|Off we go.
+A treasure, a path, and you…|What a story.`),
+L(`And so the quest begins…|Turn the page.
+The kingdom needs a hero…|Will you answer?
+An old map unfolds…|Shall we follow it?
+The bard has a new verse…|It’s about you.
+A riddle waits beyond the gate…|Dare we solve it?
+The quill is poised…|Begin your legend.
+Somewhere, a dragon hides its gold…|Let’s find it first.
+The castle bells are ringing…|The quest is yours.
+A knight’s road unrolls…|Step onto it.
+The wizard left a clue…|Shall we chase it?
+Your legend is one page long…|Let’s add another.
+The prophecy names a wanderer…|Sounds like you.`)],
+haunted:[L(`The lantern is lit…|Shall we?
+The old spell stirs…|Shall we?
+Something whispers your name…|Shall we listen?
+The fog is rolling in…|Walk with me?
+A door creaks open somewhere…|Let’s see where.
+The crows are restless…|Something’s out there.
+The candles flicker…|The hunt awakens.
+A cold breeze, a faint glow…|Follow it?
+The old woods remember…|Shall we wander?
+Footsteps in the leaves…|Not ours. Shall we?
+The moon is keeping watch…|Off we creep.
+A secret is buried nearby…|Dig it up?`),
+L(`The old spell stirs…|Shall we?
+The witch’s map glows faintly…|Follow the mark.
+A raven brings a riddle…|Shall we answer?
+The cauldron is bubbling…|A quest rises.
+The spirits are restless…|Let’s calm them.
+A cursed treasure waits…|Brave enough?
+The graveyard gate is open…|Step lightly.
+A phantom points the way…|Shall we go?
+The hex is cast…|Now we seek.
+An old ghost owes us a favor…|Let’s collect.
+The bones are telling tales…|Come listen.
+The midnight path awakens…|Shall we tread it?`)],
+winter:[L(`The snow is waiting…|Off we go.
+Fresh tracks to make…|Shall we?
+The cold air is crisp…|Bundle up, let’s go.
+A quiet, frosty path…|Ready to roam?
+The pines are dusted white…|Come explore.
+Something’s hidden in the snow…|Let’s find it.
+Your mittens are on…|Out we go.
+The world is hushed and bright…|Shall we wander?
+Hot cocoa later…|Adventure first.
+Every snowflake points somewhere…|Let’s follow one.
+The trail is sparkling…|Off we go.
+A winter secret waits…|Shall we look?`),
+L(`The frost road is open…|Off we go.
+The Ice Queen hid a gem…|Let’s take it back.
+A snow sprite beckons…|Follow it?
+The frozen gate is thawing…|Step through.
+The north wind sings a quest…|Will you answer?
+A crystal path appears…|Shall we tread it?
+The yeti left a clue…|Let’s track it.
+The winter realm awakens…|Your quest awaits.
+Glittering runes in the snow…|Read them?
+The aurora points the way…|Onward.
+An icebound treasure calls…|Shall we seek it?
+The frost giants are sleeping…|Tiptoe on.`)],
+golden:[L(`The woods are ready…|Come along.
+The leaves are turning…|Let’s go see.
+A golden afternoon awaits…|Shall we?
+The path is crunchy today…|Off we go.
+Something’s tucked in the leaves…|Let’s find it.
+The air smells like apples…|Come wander.
+The trees are glowing…|Walk with me?
+A warm light on the trail…|Follow it.
+The squirrels are hiding things…|So are we.
+Every leaf has a story…|Let’s hear one.
+A cozy little adventure…|Ready?
+The sun is low and kind…|Let’s go.`),
+L(`The golden road awaits…|Onward.
+The harvest moon is rising…|A quest begins.
+The forest king left a riddle…|Shall we solve it?
+An enchanted orchard calls…|Come along.
+The amber gate stands open…|Step through.
+A fox spirit knows the way…|Follow it?
+The leaves are whispering clues…|Listen close.
+The old oak guards a secret…|Let’s ask it.
+A traveller’s tale waits…|Make it yours.
+The autumn crown is hidden…|Let’s find it.
+The wind carries a map…|Catch it?
+The realm turns gold…|Onward we go.`)],
+spring:[L(`Something’s blooming…|Let’s go see.
+The birds are singing…|Shall we?
+A fresh green morning…|Come wander.
+The puddles are waiting…|Boots on?
+Little buds everywhere…|Let’s explore.
+The trail just woke up…|So should we.
+Something new is growing…|Let’s find it.
+The breeze smells sweet…|Off we go.
+Every path is greener today…|Walk with me?
+A small secret in the clover…|Shall we look?
+The world is stretching awake…|Let’s join it.
+New season, new trail…|Ready?`),
+L(`The fae path is open…|Let’s go see.
+A pixie left a trail of petals…|Follow it?
+The fairy ring is glowing…|Step inside?
+The flower queen sends word…|A quest awaits.
+The enchanted meadow stirs…|Shall we wander?
+A sprite is giggling nearby…|Let’s find it.
+The blossom gate opens…|Walk through.
+Dewdrops hold a riddle…|Shall we read it?
+The forest spirits wake…|Greet them?
+A wish is hidden in the green…|Let’s find it.
+The mossy door is ajar…|Peek inside?
+The fae are watching…|Make it a good one.`)],
+summer:[L(`The lake is calling…|Let’s answer.
+The sun is out…|So are we.
+A long, bright day ahead…|Shall we?
+Somewhere, a treasure is warm…|Let’s find it.
+The breeze is easy…|Come wander.
+The trail is sun-dappled…|Off we go.
+Flip-flops or sneakers?|Either way, let’s go.
+The cicadas are humming…|Adventure time.
+A sunny secret waits…|Shall we look?
+The day is wide open…|Let’s fill it.
+The shade is calling…|And so is the hunt.
+Summer’s here…|Let’s explore.`),
+L(`The tide carries a quest…|Cast off.
+The sea serpent is napping…|Now’s our chance.
+A message in a bottle…|Shall we read it?
+The sun god smiles…|Set sail.
+A pirate’s map washed ashore…|Follow it?
+The mermaids sing a riddle…|Listen close.
+The island is calling…|Hoist the sails.
+Buried gold, marked with an X…|Let’s dig.
+The captain needs a crew…|Sign on?
+The horizon holds a secret…|Onward.
+A lighthouse blinks a clue…|Shall we chase it?
+The trade winds are fair…|Cast off.`)]};
+/* context lines: [normal pool, fantasy pool] */
+const CTX={
+dawn:[L(`The sun is just waking…|Shall we?
+Early light on the trail…|Let’s go.
+The world is still quiet…|Come wander.
+A fresh start to the day…|Off we go.`),L(`Dawn breaks over the realm…|The quest begins.
+The morning star fades…|Rise, wanderer.
+First light reveals a path…|Follow it?
+The rooster heralds a quest…|Onward.`)],
+day:[L(`A bright day for a hunt…|Shall we?
+Plenty of daylight left…|Let’s use it.
+The day is wide awake…|So are we.`),L(`The sun stands high…|A quest awaits.
+Daylight favors the bold…|Onward.
+The realm is bright today…|Let’s explore it.`)],
+dusk:[L(`The light is getting golden…|One more adventure?
+Evening is settling in…|Shall we?
+The sky is turning pink…|Let’s go see.
+Before the stars come out…|A quick hunt?`),L(`The twilight hour arrives…|Shall we?
+The sun bows low…|The quest stirs.
+Dusk paints the realm…|Onward, quietly.
+Shadows grow long…|Follow them.`)],
+night:[L(`The stars are out…|Shall we?
+A quiet night for wandering…|Bring a light.
+The moon is keeping watch…|Let’s go.
+The night is calm…|Stay safe out there.`),L(`The moon rises over the realm…|Shall we?
+The night quest awakens…|Bring your lantern.
+Stars map a secret path…|Follow them?
+The owls know the way…|Onward.`)],
+rain:[L(`A little rain never hurt…|Shall we?
+The trail smells like rain…|Boots on?
+Puddles ahead…|Splash along?
+The rain is soft today…|Let’s wander.`),L(`The storm spirits are restless…|Brave the rain?
+Rain washes a hidden rune clean…|Let’s read it.
+The sky weeps silver…|Onward.
+A rain-soaked quest awaits…|Cloak on?`)],
+snow:[L(`Fresh snow on the ground…|Make the first tracks?
+The flakes are falling…|Let’s go see.
+A snowy little adventure…|Bundle up.`),L(`The snow is enchanted today…|Shall we?
+Frost magic in the air…|Onward.
+Every flake carries a wish…|Let’s catch one.`)],
+clear:[L(`Not a cloud in the sky…|Shall we?
+Clear skies today…|Perfect for a hunt.
+The air is clear and kind…|Let’s go.`),L(`The skies are clear…|Fair winds for a quest.
+Nothing but blue above…|Onward.
+The heavens are open…|Shall we?`)],
+fog:[L(`The fog is rolling in…|Walk softly.
+A misty kind of day…|Let’s wander.`),L(`The mists are parting…|Step through.
+A veil of fog hides the way…|Shall we find it?`)],
+spring:[L(`Spring is in the air…|Let’s go see.
+Everything is waking up…|Shall we?`),L(`The spring realm stirs…|A quest blooms.
+The thaw reveals a path…|Follow it?`)],
+summer:[L(`Long summer days…|Let’s make the most.
+A warm summer trail…|Shall we?`),L(`Midsummer magic is afoot…|Onward.
+The summer court calls…|Shall we answer?`)],
+autumn:[L(`Autumn leaves are falling…|Let’s go see.
+Sweater weather…|Perfect for a hunt.`),L(`The autumn realm turns gold…|Onward.
+The harvest quest begins…|Shall we?`)],
+winter:[L(`Winter is here…|Bundle up, let’s go.
+A chilly little hunt…|Shall we?`),L(`The long winter stirs…|A quest awakens.
+The frost court calls…|Will you answer?`)],
+halloween:[L(`Halloween is near…|Dare to wander?
+The pumpkins are glowing…|Shall we?
+Spooky season is here…|Let’s go hunting.`),L(`All Hallows’ Eve draws near…|The veil is thin.
+The pumpkins hold a spell…|Shall we break it?
+The spirits are out tonight…|Join them?`)],
+thanksgiving:[L(`A thankful little walk…|Shall we?
+Before the feast…|A quick hunt?`),L(`The harvest feast awaits…|First, a quest.
+Give thanks, then wander…|Onward.`)],
+christmas:[L(`The holidays are here…|A festive hunt?
+Something’s wrapped and waiting…|Let’s find it.
+A merry little adventure…|Shall we?`),L(`The winter star shines…|A merry quest begins.
+An elf hid a gift…|Let’s find it.
+Sleigh bells on the wind…|Follow them?`)],
+newyear:[L(`A brand new year…|A brand new trail.
+New year, first adventure…|Shall we?`),L(`The new year dawns…|A fresh legend begins.
+The old year’s map is done…|Unroll a new one.`)],
+valentine:[L(`A little love for the trail…|Shall we?
+Bring someone you like…|Let’s go.`),L(`Cupid hid a treasure…|Shall we find it?
+A heart-shaped quest awaits…|Onward.`)],
+stpatrick:[L(`Feeling lucky?|Let’s go see.
+Something green is hiding…|Find it?`),L(`A leprechaun hid his gold…|Let’s find it.
+The rainbow’s end is near…|Follow it?`)],
+easter:[L(`Something’s hidden in the grass…|Let’s go look.
+A springtime hunt…|Shall we?`),L(`The spring hare left clues…|Follow them?
+A painted egg holds a secret…|Let’s find it.`)],
+july4:[L(`A summer holiday…|Let’s celebrate outside.
+Before the fireworks…|A little adventure?`),L(`The sky will sparkle tonight…|First, a quest.
+A festival of lights awaits…|Onward.`)]};
+const md=()=>{const d=new Date();return(d.getMonth()+1)*100+d.getDate()};
+function ctx(){const b=document.body,o=[],t=b.dataset.tod||'',w=(b.dataset.wx||'').toLowerCase();
+ if(t&&CTX[t])o.push(t);
+ if(/rain|storm|drizzle|shower/.test(w))o.push('rain');else if(/snow|sleet/.test(w))o.push('snow');else if(/fog|mist/.test(w))o.push('fog');else if(/clear|sun/.test(w))o.push('clear');
+ const m=md(),mo=Math.floor(m/100);o.push(mo>=3&&mo<=5?'spring':mo>=6&&mo<=8?'summer':mo>=9&&mo<=11?'autumn':'winter');
+ [['halloween',1015,1101],['thanksgiving',1115,1130],['christmas',1210,1226],['valentine',207,215],['stpatrick',310,318],['easter',320,425],['july4',628,706]].forEach(([k,s,e])=>{if(m>=s&&m<=e)o.push(k)});if(m>=1228||m<=103)o.push('newyear');
+ if(window.__bgCtx)return window.__bgCtx;return o}
+const K='ttu_begin_recent';
+function pick(th,f){const base=(BASE[th]||BASE.story)[f]||[],c=ctx(),ext=[];c.forEach(k=>{const p=CTX[k];if(p)p[f].forEach(x=>{ext.push(x);if(!/^(day|clear|spring|summer|autumn|winter)$/.test(k))ext.push(x)})});
+ /* about 40% from context, the rest from the theme's own voice */
+ let rec=[];try{rec=JSON.parse(localStorage.getItem(K)||'[]')}catch(e){}
+ const ok=a=>a.filter(x=>!rec.includes(x.join('|')));let pool=ext.length&&Math.random()<.4?ok(ext):ok(base);if(!pool.length)pool=ok(base.concat(ext));if(!pool.length)pool=base.filter(x=>x.join('|')!==rec[0]);
+ const r=pool[Math.floor(Math.random()*pool.length)];rec=[r.join('|')].concat(rec.filter(x=>x!==r.join('|'))).slice(0,8);try{localStorage.setItem(K,JSON.stringify(rec))}catch(e){}return r}
+let cur=null,key='',wasVis=false;
+window.TTU_BEGIN_PICK=(th,f)=>{const vis=!!document.querySelector('#sxGo')&&document.querySelector('#sxGo').offsetParent!==null,k=th+f;if(!cur||k!==key||(vis&&!wasVis)){cur=pick(th,f);key=k}wasVis=vis;return cur};
+window.TTU_BEGIN_NEW=()=>{cur=null};window.TTU_BEGIN_DATA={BASE,CTX,ctx};
+})();
+</script>
 <script id="voiceJS">
 /* In-world microcopy: a gentle narrator leaving notes, not system status */
 (function(){
@@ -1739,7 +1995,7 @@ const T={'Look':'How the world looks','Sound':'What you’ll hear','Screen':'You
 'Sky effects':'Let the sky follow the day','time of day & local weather':'sunrise, dusk and the real weather','Little surprises':'Little surprises along the way','rare critter moments':'now and then, a critter says hello','Sounds':'Soft sounds','Soft sound cues':'Soft sounds','Random fact pop-ups':'Little facts as you walk','Keep controls visible':'Keep the controls close by','Full screen by default (turns on with your first tap)':'Fill the whole screen when I tap','Go full screen':'Fill the screen now','Show one':'Tell me one','Facts you discover on hunts collect here.':'Nothing here yet. The trail will fill these pages.','Not set up':'Tell us a little about yourself','no setup · finds a safe park near you':'we’ll find a friendly park close by · public paths only, please','Coming soon: group · local · world · holiday & themed hunts':'one day soon: hunts with friends, neighbors and holidays'};
 const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]);
 function run(){try{const b=document.body,th=b.dataset.th||'story',f=(typeof P!=='undefined'&&P&&P.fan)?1:0;
-const B=(BEGIN[th]||BEGIN.story)[f],A=(ADJ[th]||ADJ.story)[f];
+const B=(window.TTU_BEGIN_PICK&&TTU_BEGIN_PICK(th,f))||(BEGIN[th]||BEGIN.story)[f],A=(ADJ[th]||ADJ.story)[f];
 const bl=document.querySelector('#sxGo .bl'),bh='<i>'+esc(B[0])+'</i><b>'+esc(B[1])+'</b>';if(bl&&bl.innerHTML!==bh)bl.innerHTML=bh;
 const sm=document.querySelector('#sxSug small'),ah=esc(A[0])+' <b>'+esc(A[1])+'</b>';if(sm&&sm.innerHTML!==ah)sm.innerHTML=ah;
 const w=document.createTreeWalker(b,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){const t=n.textContent.trim();if(t&&T[t]&&T[t]!==t)n.textContent=n.textContent.replace(t,T[t])}}catch(e){}}
@@ -1774,8 +2030,8 @@ const saveL=a=>{try{localStorage.setItem(FK,JSON.stringify(a.slice(-100)))}catch
 const build=()=>{const m=document.querySelector('meta[name="ttu-build"]');return m?m.content:''};
 const mi=m=>(m/1609.34).toFixed(2)+' mi';const dur=ms=>Math.floor(ms/60000)+'m '+Math.floor(ms/1000)%60+'s';
 function line(e){return (e.res==='win'?'Found it':'Ended early')+' · '+e.theme+' · '+e.diff+' · '+dur(e.ms)+' · '+mi(e.m)+' · '+(e.rating?e.rating+'/5':'no rating')+(e.chips.length?' · '+e.chips.join(', '):'')+(e.note?' · "'+e.note+'"':'')}
-function mailto(list){const sub='Trail Trade-Up feedback ('+(list.length>1?list.length+' hunts':list[0].theme+', '+list[0].diff)+')';
-const body='Hi! Here is my Trail Trade-Up feedback.\n\n'+list.map(e=>'• '+new Date(e.t).toLocaleString()+'\n  Result: '+(e.res==='win'?'treasure found':'hunt ended early')+'\n  Theme: '+e.theme+' ('+e.tod+')\n  Difficulty: '+e.diff+'\n  Duration: '+dur(e.ms)+'\n  Distance: '+mi(e.m)+'\n  Rating: '+(e.rating?e.rating+'/5':'—')+'\n  Chips: '+(e.chips.join(', ')||'—')+'\n  Note: '+(e.note||'—')+'\n  Build: '+e.build).join('\n\n')+'\n\n(Sent from my phone. No location included.)';
+function mailto(list){const sub='Wispwalk feedback ('+(list.length>1?list.length+' hunts':list[0].theme+', '+list[0].diff)+')';
+const body='Hi! Here is my Wispwalk feedback.\n\n'+list.map(e=>'• '+new Date(e.t).toLocaleString()+'\n  Result: '+(e.res==='win'?'treasure found':'hunt ended early')+'\n  Theme: '+e.theme+' ('+e.tod+')\n  Difficulty: '+e.diff+'\n  Duration: '+dur(e.ms)+'\n  Distance: '+mi(e.m)+'\n  Rating: '+(e.rating?e.rating+'/5':'—')+'\n  Chips: '+(e.chips.join(', ')||'—')+'\n  Note: '+(e.note||'—')+'\n  Build: '+e.build).join('\n\n')+'\n\n(Sent from my phone. No location included.)';
 return 'mailto:'+TO+'?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body)}
 window.TTU_FB={load,mailto,line};
 let cur=null;
@@ -1881,14 +2137,14 @@ async function draw(h,hide){const th=document.body.dataset.th||'story',a=A[th]||
  const mi=(h.m/1609.34).toFixed(2)+' mi',mn=Math.max(1,Math.round(h.ms/60000))+' min',dd={easy:'easy',medium:'medium',hard:'hard'}[h.d]||h.d,dt=new Date(h.t).toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'});
  F('italic',44);x.fillText(mi+'  ·  '+mn+'  ·  '+dd,W/2,y2);F('',32);x.globalAlpha=.6;x.fillText(dt,W/2,y2+56);x.globalAlpha=1;
  const ms=window.TTU_MS&&TTU_MS.latest&&TTU_MS.latest();if(ms){F('italic',34);x.globalAlpha=.8;x.fillText('✦ '+Cap(ms),W/2,y2+120);x.globalAlpha=1}
- x.shadowColor='rgba(0,0,0,.45)';x.shadowBlur=14;x.fillStyle=th==='haunted'||night?'#ffffffdd':'#ffffffee';F('bold',54);x.fillText('Trail Trade-Up',W/2,H-118);F('italic',30);x.globalAlpha=.85;x.fillText(URL,W/2,H-70);x.globalAlpha=1;x.shadowBlur=0;
+ x.shadowColor='rgba(0,0,0,.45)';x.shadowBlur=14;x.fillStyle=th==='haunted'||night?'#ffffffdd':'#ffffffee';F('bold',54);x.fillText('Wispwalk',W/2,H-118);F('italic',30);x.globalAlpha=.85;x.fillText(URL,W/2,H-70);x.globalAlpha=1;x.shadowBlur=0;
  return c}
 async function share(){const msg=document.getElementById('shMsg');const h=P.hist[P.hist.length-1];if(!h){msg.textContent='finish a hunt first, then we can share it';return}
  const hide=document.getElementById('shHideC').checked;msg.textContent='painting your card…';const c=await draw(h,hide);
- const blob=await new Promise(r=>c.toBlob(r,'image/png'));const f=new File([blob],'trail-trade-up.png',{type:'image/png'});
- const txt=(h.r==='win'?'I found the '+(hide?'treasure':(document.getElementById('prize').textContent.replace(/^Mock:\s*/i,'')||'treasure'))+'!':'Out on a little treasure hunt!')+' '+(h.m/1609.34).toFixed(2)+' mi on Trail Trade-Up · https://'+URL+'/';
+ const blob=await new Promise(r=>c.toBlob(r,'image/png'));const f=new File([blob],'wispwalk.png',{type:'image/png'});
+ const txt=(h.r==='win'?'I found the '+(hide?'treasure':(document.getElementById('prize').textContent.replace(/^Mock:\s*/i,'')||'treasure'))+'!':'Out on a little treasure hunt!')+' '+(h.m/1609.34).toFixed(2)+' mi on Wispwalk · https://'+URL+'/';
  try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],text:txt});msg.textContent='off it goes, safe travels, little card';return}}catch(e){if(e&&e.name==='AbortError'){msg.textContent='';return}}
- const u=URL_.createObjectURL(blob),l=document.createElement('a');l.href=u;l.download='trail-trade-up.png';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL_.revokeObjectURL(u),4000);
+ const u=URL_.createObjectURL(blob),l=document.createElement('a');l.href=u;l.download='wispwalk.png';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL_.revokeObjectURL(u),4000);
  try{await navigator.clipboard.writeText(txt);msg.textContent='saved the picture, and the words are copied for you'}catch(e){msg.textContent='saved the picture to your downloads'}}
 const URL_=window.URL;
 function mount(){const w=document.getElementById('again');if(!w||document.getElementById('shRow'))return;const d=document.createElement('div');d.id='shRow';
@@ -2035,7 +2291,7 @@ body.msTop header,body.msTop #resetAll{opacity:0;transition:opacity .5s}
 <script id="simpleJS">
 (function(){const $$=s=>document.querySelector(s),LS=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}};
 /* 1) plain first screen: title + one line + Begin + agreement + safety link */
-function plain(){const hi=$$('#sxHi'),lv=$$('#sxLv');if(!hi||!lv)return;hi.textContent='Trail Trade-Up';lv.classList.add('plain');lv.textContent=P.fan?'Follow the compass to a treasure hidden in the realm.':'Follow the compass to hidden treasure nearby.'}
+function plain(){const hi=$$('#sxHi'),lv=$$('#sxLv');if(!hi||!lv)return;hi.textContent='Wispwalk';lv.classList.add('plain');lv.textContent=P.fan?'Follow the compass to a treasure hidden in the realm.':'Follow the compass to hidden treasure nearby.'}
 const _p=window.sxPaint;if(_p){window.sxPaint=function(){_p();plain()}}
 const _h=hdr;hdr=function(){_h();plain()};plain();setInterval(()=>{if(document.body.classList.contains('setupv'))plain()},1500);
 /* 2) one gentle step after Begin, smart defaults */
@@ -2090,7 +2346,7 @@ const short=n=>String(n||'').split(',').slice(0,2).map(x=>x.trim()).join(', ');
 function elR(){if(ePick)return `<p class="elP">${P.fan?'Bound for':'Headed to'} <b>${esc(short(ePick.n))}</b></p>`;return ers.map((r,i)=>`<button class="opt elO" data-ei="${i}"><small>${esc(short(r.n))}</small></button>`).join('')}
 const eMsg=t=>{const m=$$('#elM');if(m)m.textContent=t||''};
 async function geo(q){const now=Date.now();if(now-eLast<1100)await new Promise(r=>setTimeout(r,1100-(now-eLast)));eLast=Date.now();
- try{const r=await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&accept-language=en&q='+encodeURIComponent(q),{headers:{'Accept':'application/json'}});if(!r.ok)throw 0;const j=await r.json();return j.map(x=>({n:x.display_name,lat:+x.lat,lng:+x.lon}))}
+ try{const r=await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&accept-language=en&q='+encodeURIComponent(q),{headers:{'Accept':'application/json'}});if(!r.ok)throw 0;const j=await r.json();const rk=x=>{const t=(x.addresstype||x.type||'');return /^(city|town|village|hamlet|suburb|municipality|borough|neighbourhood)$/.test(t)?0:/^(county|state|region|province|administrative|state_district)$/.test(t)?2:1};return j.map((x,i)=>({n:x.display_name,lat:+x.lat,lng:+x.lon,r:rk(x),i})).sort((a,b)=>a.r-b.r||a.i-b.i)}
  catch(e){const r=await fetch('https://photon.komoot.io/api/?limit=5&lang=en&q='+encodeURIComponent(q));const j=await r.json();return(j.features||[]).map(f=>{const p=f.properties||{};return{n:[p.name,p.city||p.county,p.state,p.country].filter(Boolean).join(', '),lat:f.geometry.coordinates[1],lng:f.geometry.coordinates[0]}})}}
 async function rev(lat,lng){try{const r=await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=14&accept-language=en&lat='+lat+'&lon='+lng);const j=await r.json();const a=j.address||{};return [a.city||a.town||a.village||a.hamlet||a.county,a.state].filter(Boolean).join(', ')||'that spot'}catch(e){return 'that spot'}}
 function elWire(){const f=$$('#elF');if(!f)return;$$('#elQ').oninput=e=>{eq=e.target.value};
