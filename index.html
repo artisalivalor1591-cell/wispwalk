@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241020"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241020"><link rel="icon" href="icon-192.png?v=202610241020"><link rel="apple-touch-icon" href="icon-192.png?v=202610241020"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241030"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241030"><link rel="icon" href="icon-192.png?v=202610241030"><link rel="apple-touch-icon" href="icon-192.png?v=202610241030"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -1819,7 +1819,10 @@ A warm light on the trail…|Follow it.
 The squirrels are hiding things…|So are we.
 Every leaf has a story…|Let’s hear one.
 A cozy little adventure…|Ready?
-The sun is low and kind…|Let’s go.`),
+The sun is low and kind…|Let’s go.
+The old trail knows a secret…|Shall we ask?
+A cozy path awaits…|Come wander.
+Something’s tucked away out there…|Let’s look.`),
 L(`The golden road awaits…|Onward.
 The harvest moon is rising…|A quest begins.
 The forest king left a riddle…|Shall we solve it?
@@ -1831,7 +1834,9 @@ The old oak guards a secret…|Let’s ask it.
 A traveller’s tale waits…|Make it yours.
 The autumn crown is hidden…|Let’s find it.
 The wind carries a map…|Catch it?
-The realm turns gold…|Onward we go.`)],
+The realm turns gold…|Onward we go.
+An old lantern swings in the trees…|Follow its light?
+The forest keeps a secret…|Let’s earn it.`)],
 spring:[L(`Something’s blooming…|Let’s go see.
 The birds are singing…|Shall we?
 A fresh green morning…|Come wander.
@@ -1843,7 +1848,11 @@ The breeze smells sweet…|Off we go.
 Every path is greener today…|Walk with me?
 A small secret in the clover…|Shall we look?
 The world is stretching awake…|Let’s join it.
-New season, new trail…|Ready?`),
+New season, new trail…|Ready?
+The path is waiting…|Shall we wander?
+A little secret is tucked away…|Let’s go see.
+The trail has a surprise…|Come and find it.
+A gentle adventure awaits…|Ready?`),
 L(`The fae path is open…|Let’s go see.
 A pixie left a trail of petals…|Follow it?
 The fairy ring is glowing…|Step inside?
@@ -1855,7 +1864,9 @@ Dewdrops hold a riddle…|Shall we read it?
 The forest spirits wake…|Greet them?
 A wish is hidden in the green…|Let’s find it.
 The mossy door is ajar…|Peek inside?
-The fae are watching…|Make it a good one.`)],
+The fae are watching…|Make it a good one.
+A wisp is glowing ahead…|Follow it?
+The toadstool circle hums…|Shall we listen?`)],
 summer:[L(`The lake is calling…|Let’s answer.
 The sun is out…|So are we.
 A long, bright day ahead…|Shall we?
@@ -1867,7 +1878,11 @@ The cicadas are humming…|Adventure time.
 A sunny secret waits…|Shall we look?
 The day is wide open…|Let’s fill it.
 The shade is calling…|And so is the hunt.
-Summer’s here…|Let’s explore.`),
+Summer’s here…|Let’s explore.
+A little treasure is hiding…|Let’s go find it.
+The trail is wide open…|Shall we?
+A new path to wander…|Come along.
+Something’s waiting by the water…|Let’s see.`),
 L(`The tide carries a quest…|Cast off.
 The sea serpent is napping…|Now’s our chance.
 A message in a bottle…|Shall we read it?
@@ -1879,7 +1894,11 @@ Buried gold, marked with an X…|Let’s dig.
 The captain needs a crew…|Sign on?
 The horizon holds a secret…|Onward.
 A lighthouse blinks a clue…|Shall we chase it?
-The trade winds are fair…|Cast off.`)]};
+The trade winds are fair…|Cast off.
+The old sea chart is marked…|Shall we follow it?
+A treasure chest creaks somewhere…|Let’s find it.
+The crew is waiting…|All aboard?
+A siren hums a clue…|Listen close.`)]};
 /* context lines: [normal pool, fantasy pool] */
 const CTX={
 dawn:[L(`The sun is just waking…|Shall we?
@@ -1920,11 +1939,15 @@ The flakes are falling…|Let’s go see.
 A snowy little adventure…|Bundle up.`),L(`The snow is enchanted today…|Shall we?
 Frost magic in the air…|Onward.
 Every flake carries a wish…|Let’s catch one.`)],
-clear:[L(`Not a cloud in the sky…|Shall we?
+clear:[L(`The sky is clear and full of stars…|Shall we?
+A clear, starry night…|Bring a light.
+Not a cloud in the sky…|Shall we?
 Clear skies today…|Perfect for a hunt.
 The air is clear and kind…|Let’s go.`),L(`The skies are clear…|Fair winds for a quest.
 Nothing but blue above…|Onward.
-The heavens are open…|Shall we?`)],
+The heavens are open…|Shall we?
+The stars are bright tonight…|A quest awaits.
+Not a cloud between us and the moon…|Onward.`)],
 fog:[L(`The fog is rolling in…|Walk softly.
 A misty kind of day…|Let’s wander.`),L(`The mists are parting…|Step through.
 A veil of fog hides the way…|Shall we find it?`)],
@@ -1968,6 +1991,23 @@ A painted egg holds a secret…|Let’s find it.`)],
 july4:[L(`A summer holiday…|Let’s celebrate outside.
 Before the fireworks…|A little adventure?`),L(`The sky will sparkle tonight…|First, a quest.
 A festival of lights awaits…|Onward.`)]};
+/* lines that assume a time, season or weather: only shown when it fits */
+const LIT=t=>t==='dawn'||t==='day'||!t,DAY=c=>LIT(c.t),DUSK=c=>c.t==='dusk'||c.t==='night',DRY=c=>!c.wet;
+const COND={
+'The moon is keeping watch…':DUSK,
+'A golden afternoon awaits…':c=>c.t==='day'||!c.t,
+'The sun is low and kind…':c=>(c.t==='day'||c.t==='dusk'||!c.t)&&DRY(c),
+'The leaves are turning…':c=>c.s==='autumn','The air smells like apples…':c=>c.s==='autumn',
+'The harvest moon is rising…':c=>c.s==='autumn'&&DUSK(c),
+'A fresh green morning…':c=>(c.t==='dawn'||c.t==='day'||!c.t)&&c.s!=='winter','The birds are singing…':c=>DAY(c)&&c.s!=='winter',
+'Little buds everywhere…':c=>c.s==='spring','New season, new trail…':c=>c.s==='spring','The world is stretching awake…':c=>c.s==='spring',
+'The trail just woke up…':c=>c.t==='dawn','Dewdrops hold a riddle…':c=>c.t==='dawn'||c.t==='day'||!c.t,
+'The sun is out…':c=>DAY(c)&&DRY(c),'A long, bright day ahead…':c=>(c.t==='dawn'||!c.t)&&DRY(c),'The trail is sun-dappled…':c=>DAY(c)&&DRY(c),
+'The cicadas are humming…':c=>c.s==='summer','Summer’s here…':c=>c.s==='summer','Flip-flops or sneakers?':c=>c.s==='summer'&&DRY(c),
+'The shade is calling…':c=>DAY(c)&&DRY(c)&&c.s==='summer','The sun god smiles…':c=>DAY(c)&&DRY(c),
+'A bright day for a hunt…':DRY,'The sun stands high…':DRY,'The realm is bright today…':DRY,
+'Not a cloud in the sky…':DAY,'Clear skies today…':DAY,'Nothing but blue above…':DAY,'The skies are clear…':DAY,
+'The sky is clear and full of stars…':c=>!DAY(c),'A clear, starry night…':c=>!DAY(c),'The stars are bright tonight…':c=>!DAY(c),'Not a cloud between us and the moon…':c=>!DAY(c)};
 const md=()=>{const d=new Date();return(d.getMonth()+1)*100+d.getDate()};
 function ctx(){const b=document.body,o=[],t=b.dataset.tod||'',w=(b.dataset.wx||'').toLowerCase();
  if(t&&CTX[t])o.push(t);
@@ -1976,14 +2016,16 @@ function ctx(){const b=document.body,o=[],t=b.dataset.tod||'',w=(b.dataset.wx||'
  [['halloween',1015,1101],['thanksgiving',1115,1130],['christmas',1210,1226],['valentine',207,215],['stpatrick',310,318],['easter',320,425],['july4',628,706]].forEach(([k,s,e])=>{if(m>=s&&m<=e)o.push(k)});if(m>=1228||m<=103)o.push('newyear');
  if(window.__bgCtx)return window.__bgCtx;return o}
 const K='ttu_begin_recent';
-function pick(th,f){const base=(BASE[th]||BASE.story)[f]||[],c=ctx(),ext=[];c.forEach(k=>{const p=CTX[k];if(p)p[f].forEach(x=>{ext.push(x);if(!/^(day|clear|spring|summer|autumn|winter)$/.test(k))ext.push(x)})});
+function cobj(){const b=document.body,c=ctx(),m=new Date().getMonth()+1;return{t:b.dataset.tod||'',wet:/rain|storm|drizzle|shower|snow|sleet/.test((b.dataset.wx||'').toLowerCase()),s:c.find(k=>/^(spring|summer|autumn|winter)$/.test(k))||(m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'autumn':'winter')}}
+const fits=(x,c)=>{const f=COND[x[0]];return !f||f(c)};
+function pick(th,f){const co=cobj(),base=((BASE[th]||BASE.story)[f]||[]).filter(x=>fits(x,co)),c=ctx(),ext=[];c.forEach(k=>{const p=CTX[k];if(p)p[f].forEach(x=>{if(!fits(x,co))return;ext.push(x);if(!/^(day|clear|spring|summer|autumn|winter)$/.test(k))ext.push(x)})});
  /* about 40% from context, the rest from the theme's own voice */
  let rec=[];try{rec=JSON.parse(localStorage.getItem(K)||'[]')}catch(e){}
  const ok=a=>a.filter(x=>!rec.includes(x.join('|')));let pool=ext.length&&Math.random()<.4?ok(ext):ok(base);if(!pool.length)pool=ok(base.concat(ext));if(!pool.length)pool=base.filter(x=>x.join('|')!==rec[0]);
  const r=pool[Math.floor(Math.random()*pool.length)];rec=[r.join('|')].concat(rec.filter(x=>x!==r.join('|'))).slice(0,8);try{localStorage.setItem(K,JSON.stringify(rec))}catch(e){}return r}
 let cur=null,key='',wasVis=false;
 window.TTU_BEGIN_PICK=(th,f)=>{const vis=!!document.querySelector('#sxGo')&&document.querySelector('#sxGo').offsetParent!==null,k=th+f;if(!cur||k!==key||(vis&&!wasVis)){cur=pick(th,f);key=k}wasVis=vis;return cur};
-window.TTU_BEGIN_NEW=()=>{cur=null};window.TTU_BEGIN_DATA={BASE,CTX,ctx};
+window.TTU_BEGIN_NEW=()=>{cur=null};window.TTU_BEGIN_DATA={BASE,CTX,ctx,COND,cobj,fits};
 })();
 </script>
 <script id="voiceJS">
