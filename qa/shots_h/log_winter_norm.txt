@@ -1,0 +1,45 @@
+hunting hunting uiHide
+{'pin': {'lng': -89.40422750831769, 'lat': 44.434633704126874}, 'diff': 'medium', 'zone': 'XC Short Loop', 'start': {'lat': 44.43601, 'lng': -89.41313, 'acc': 10}}
+follow translate -20.8px 20.5px
+anim ['peek', 'bob', 'yawn', 'twirl']
+decoy X present True {'st': 'decoy', 'stolen': None, 'detour': None}
+decoy msg: Caught you, frosty trickster. The north star knows better.
+mirage X present True {'st': 'mirage', 'stolen': None, 'detour': None}
+mirage msg: Caught you, frosty trickster. The north star knows better.
+acc text GPS: Timeout expired
+detour {"st":"detour","stolen":null,"detour":{"pin":{"lng":-89.4107796853879,"lat":44.44086486999391},"n":"Super Duper Looper","follow":false}} I'm a winter wisp, so naturally I'm a little flaky. Follow it to Super Duper Looper? Follow the wisp Stay the course
+OVL []
+links ['Follow the wisp', 'Stay the course']
+S.detour {"pin":{"lng":-89.4107796853879,"lat":44.44086486999391},"n":"Super Duper Looper","follow":false}
+after follow The wisp waits about 548 m to the north, at Super Duper Looper. The compass still points to the real treasure. {"pin":{"lng":-89.4107796853879,"lat":44.44086486999391},"n":"Super Duper Looper","follow":true}
+reward msg You found Super Duper Looper Midnight Frost Crystal. “In deep winter, wisps sleep inside snowdrifts and wake for quiet footsteps.” | toast A little frost-mark…
+Path Less Traveled
+Super Duper Looper Midnight Frost Crystal
+star api ['fly', 'caught', 'name']
+star el True
+{'x': 257.62762451171875, 'y': 122.85932922363281, 'width': 96, 'height': 96}
+star caught 1 ['↺ Start fresh', 'Star-caught', 'You caught Star-caught Midnight Wish Crystal. A wish for you, tucked away for later.']
+claim disabled [False, False]
+WIN TEXT uiHide ['reveal: ', 'win: 🦌 | Treasure found! | Your mock prize: Mock: Free ice cream cone | 🌲 | COMMON · NEW! | Pinecone Pin | Added to your collection — equip it on your profile. | 🎁 Real-world prize | MOCK: Free ice cream cone | At a local partner shop | Prototype only — not a real reward. Sponsor prizes will plug in here later. | Difficulty: 😎 Medium · XC Short Loop | +41 points · Level 1 | New badge: 🏅 First find | 1m 4s | time | 77 ft | walked | Tell someone about it Share the find | keep the real prize a secret | New hunt', 'shRow: Tell someone about it Share the find | keep the real prize a secret', 'msT: A little frost-mark… | Star-caught | You caught Star-caught Midnight Wish Crystal. A wish for you, tucked away for later.', 'fbCard: How was the snow? | Treasure in hand · 0.01 mi · 1m 4s | ❄️ | ❄️ | ❄️ | ❄️ | ❄️ | Made me smile | Got confused | Too easy | Too hard | Loved the critters | Maybe later | Keep this note']
+OVLwin ['OVERLAP "🎁 Real-world prize" x "Treasure in hand · 0.01 mi · 1" 312x16', 'OVERLAP "MOCK: Free ice cream cone" x "❄️" 10x9', 'OVERLAP "MOCK: Free ice cream cone" x "❄️" 50x9', 'OVERLAP "At a local partner shop" x "❄️" 50x20', 'OVERLAP "Prototype only — not a real re" x "❄️" 50x21', 'OVERLAP "Difficulty: 😎 Medium · XC Sho" x "Made me smile" 113x9', 'OVERLAP "Difficulty: 😎 Medium · XC Sho" x "Got confused" 107x9', 'OVERLAP "Difficulty: 😎 Medium · XC Sho" x "Too easy" 69x9', 'OVERLAP "Difficulty: 😎 Medium · XC Sho" x "Too hard" 76x9', 'OVERLAP "Difficulty: 😎 Medium · XC Sho" x "Loved the critters" 147x9', 'OVERLAP "+41 points · Level 1" x "✕" 11x12', 'OVERLAP "+41 points · Level 1" x "🎃 Halloween note" 328x10', 'OVERLAP "+41 points · Level 1" x "Too hard" 76x17', 'OVERLAP "+41 points · Level 1" x "Loved the critters" 147x17', 'OVERLAP "New badge: 🏅 First find" x "Trick-or-treating has roots in" 328x20', 'OVERLAP "1m 4s\ntime" x "Maybe later" 121x48', 'OVERLAP "1m 4s" x "Maybe later" 121x27', 'OVERLAP "77 ft\nwalked" x "Keep this note" 147x48', 'OVERLAP "77 ft" x "Keep this note" 137x27', 'OVERLAP "✕" x "🎃 Halloween note" 7x14', 'OVERLAP "🎃 Halloween note" x "Too hard" 76x7', 'OVERLAP "🎃 Halloween note" x "Loved the critters" 147x7']
+toast later A little frost-mark…
+your very first hunt
+Every one counts
+share msg Saved the picture to your downloads
+fbCard True How was the snow?
+
+Treasure in hand · 0.01 mi · 1m 4s
+
+❄️
+❄️
+❄️
+❄️
+❄️
+Made me smile
+Got confused
+Too easy
+Too hard
+Loved the critters
+Maybe later
+Keep this note
+["warning: Failed to execute 'requestFullscreen' on 'Element': API can only be initiated by a user gesture."]

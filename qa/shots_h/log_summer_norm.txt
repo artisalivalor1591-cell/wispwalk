@@ -1,0 +1,45 @@
+hunting hunting uiHide
+{'pin': {'lng': -89.40435899917063, 'lat': 44.43457460711433}, 'diff': 'medium', 'zone': 'XC Short Loop', 'start': {'lat': 44.43601, 'lng': -89.41313, 'acc': 10}}
+follow translate -17px 17px
+anim ['peek', 'bob', 'yawn', 'twirl']
+decoy X present True {'st': 'decoy', 'stolen': None, 'detour': None}
+decoy msg: Caught you, firefly. Nice try.
+mirage X present True {'st': 'mirage', 'stolen': None, 'detour': None}
+mirage msg: Caught you, firefly. Nice try.
+acc text GPS: Timeout expired
+detour {"st":"detour","stolen":null,"detour":{"pin":{"lng":-89.4066501044815,"lat":44.44031491408287},"n":"Northwest Passage","follow":false}} A second wisp blinks toward a quiet spot nearby. Follow it to Northwest Passage? Follow the wisp Stay the course
+OVL []
+links ['Follow the wisp', 'Stay the course']
+S.detour {"pin":{"lng":-89.4066501044815,"lat":44.44031491408287},"n":"Northwest Passage","follow":false}
+after follow The wisp waits about 681 m to the northeast, at Northwest Passage. The compass still points to the real treasure. {"pin":{"lng":-89.4066501044815,"lat":44.44031491408287},"n":"Northwest Passage","follow":true}
+reward msg You found Northwest Passage Midnight Firefly Glass. “A summer wisp’s gift is warmest when you need it least.” | toast The lake takes note…
+Path Less Traveled
+Northwest Passage Midnight Firefly Glass
+star api ['fly', 'caught', 'name']
+star el True
+{'x': 331.91094970703125, 'y': 255.1762237548828, 'width': 96, 'height': 95.99998474121094}
+star caught 1 ['↺ Start fresh', 'Star-caught', 'You caught Star-caught Midnight Wish Spark. A wish for you, tucked away for later.']
+claim disabled [False, False]
+WIN TEXT uiHide ['reveal: ', 'win: 🍁 | Treasure found! | Your mock prize: Mock: Free ice cream cone | 🦯 | COMMON · NEW! | Trail Staff | Added to your collection — equip it on your profile. | 🎁 Real-world prize | MOCK: Free ice cream cone | At a local partner shop | Prototype only — not a real reward. Sponsor prizes will plug in here later. | Difficulty: 😎 Medium · XC Short Loop | +41 points · Level 1 | New badge: 🏅 First find | 1m 4s | time | 77 ft | walked | Tell someone about it Share the find | keep the real prize a secret | New hunt', 'shRow: Tell someone about it Share the find | keep the real prize a secret', 'msT: The lake takes note… | Star-caught | You caught Star-caught Midnight Wish Spark. A wish for you, tucked away for later.', 'fbCard: How was the water? | Treasure in hand · 0.01 mi · 1m 4s | ☀️ | ☀️ | ☀️ | ☀️ | ☀️ | Made me smile | Got confused | Too easy | Too hard | Loved the critters | Maybe later | Keep this note']
+OVLwin ['OVERLAP "Trail Staff" x "How was the water?" 94x14', 'OVERLAP "Added to your collection — equ" x "How was the water?" 316x10', 'OVERLAP "Added to your collection — equ" x "Treasure in hand · 0.01 mi · 1" 316x19', 'OVERLAP "🎁 Real-world prize" x "☀️" 50x5', 'OVERLAP "MOCK: Free ice cream cone" x "Made me smile" 73x22', 'OVERLAP "MOCK: Free ice cream cone" x "Got confused" 88x22', 'OVERLAP "MOCK: Free ice cream cone" x "Too easy" 20x22', 'OVERLAP "At a local partner shop" x "Made me smile" 114x16', 'OVERLAP "At a local partner shop" x "Got confused" 88x16', 'OVERLAP "At a local partner shop" x "Too easy" 61x16', 'OVERLAP "Prototype only — not a real re" x "🧀 Wisconsin note" 312x13', 'OVERLAP "Prototype only — not a real re" x "Too hard" 64x36', 'OVERLAP "Prototype only — not a real re" x "Loved the critters" 119x36', 'OVERLAP "Difficulty: 😎 Medium · XC Sho" x "Wisconsin was the first state " 328x22', 'OVERLAP "+41 points · Level 1" x "Maybe later" 113x22', 'OVERLAP "+41 points · Level 1" x "Keep this note" 145x22', 'OVERLAP "New badge: 🏅 First find" x "Maybe later" 113x10', 'OVERLAP "New badge: 🏅 First find" x "Keep this note" 145x10', 'OVERLAP "✕" x "🧀 Wisconsin note" 7x16', 'OVERLAP "🧀 Wisconsin note" x "Too hard" 64x15', 'OVERLAP "🧀 Wisconsin note" x "Loved the critters" 119x15']
+toast later The lake takes note…
+your very first hunt
+Every one counts
+share msg Saved the picture to your downloads
+fbCard True How was the water?
+
+Treasure in hand · 0.01 mi · 1m 4s
+
+☀️
+☀️
+☀️
+☀️
+☀️
+Made me smile
+Got confused
+Too easy
+Too hard
+Loved the critters
+Maybe later
+Keep this note
+["warning: Failed to execute 'requestFullscreen' on 'Element': API can only be initiated by a user gesture."]

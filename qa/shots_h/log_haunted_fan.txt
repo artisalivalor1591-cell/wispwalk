@@ -1,0 +1,43 @@
+hunting hunting uiHide
+{'pin': {'lng': -89.41095865966705, 'lat': 44.437005975567885}, 'diff': 'medium', 'zone': "Dragon's Back", 'start': {'lat': 44.43601, 'lng': -89.41313, 'acc': 10}}
+follow translate -17.1px 17px
+anim ['peek', 'bob', 'yawn', 'twirl']
+decoy X present True {'st': 'decoy', 'stolen': None, 'detour': None}
+decoy msg: Caught you, little trickster. The lantern sees true.
+mirage X present True {'st': 'mirage', 'stolen': None, 'detour': None}
+mirage msg: Caught you, little trickster. The lantern sees true.
+acc text GPS: Timeout expired
+detour {"st":"detour","stolen":null,"detour":{"pin":{"lng":-89.40866662965449,"lat":44.43957342586377},"n":"Excalibur - SR 6","follow":false}} A second wisp beckons toward a quiet spot nearby. Follow it to Excalibur - SR 6? Follow the wisp Stay the course
+OVL []
+links ['Follow the wisp', 'Stay the course']
+S.detour {"pin":{"lng":-89.40866662965449,"lat":44.43957342586377},"n":"Excalibur - SR 6","follow":false}
+after follow The wisp waits about 509 m to the northeast, at Excalibur - SR 6. The compass still points to the real treasure. {"pin":{"lng":-89.40866662965449,"lat":44.43957342586377},"n":"Excalibur - SR 6","follow":true}
+reward msg You found Excalibur - SR 6 Midnight Lantern Shard. “Old lamplighters swore the wisps only showed themselves to walkers who took the long way home.” | toast The lantern flickers…
+Path Less Traveled
+Excalibur - SR 6 Midnight Lantern Shard
+star api ['fly', 'caught', 'name']
+star el False
+claim disabled [False, False]
+WIN TEXT uiHide msTop ['reveal: ', "win: 🏆 | Treasure found! | Your mock prize: Mock: $10 gift card | 🍄 | RARE · NEW! | Toadstool Hat | Added to your hoard — wear it on your character. | 🏰 Earthly reward | MOCK: $10 gift card | At a local partner restaurant | Prototype only — not a real reward. Sponsor prizes will plug in here later. | Difficulty: 😎 Medium · Dragon's Back | The Northwoods reward the bold. | ✨ +45 XP · Level 1 Wanderer | New badge: 🏅 First find | 1m 0s | time | 685 ft | walked | Tell someone about it Share the find | keep the real prize a secret | New hunt", 'shRow: Tell someone about it Share the find | keep the real prize a secret', 'msT: The lantern flickers… | 1,000 box turtles, end to end | A box turtle is about 15 cm, nose to tail', 'fbCard: How was tonight’s haunt? | Treasure in hand · 0.13 mi · 1m 0s | 🎃 | 🎃 | 🎃 | 🎃 | 🎃 | Made me smile | Got confused | Too easy | Too hard | Loved the critters | Maybe later | Keep this note']
+OVLwin ['OVERLAP "Toadstool Hat" x "How was tonight’s haunt?" 133x23', 'OVERLAP "Added to your hoard — wear it " x "How was tonight’s haunt?" 316x6', 'OVERLAP "Added to your hoard — wear it " x "Treasure in hand · 0.13 mi · 1" 316x20', 'OVERLAP "Added to your hoard — wear it " x "🎃" 50x6', 'OVERLAP "🏰 Earthly reward" x "Made me smile" 103x16', 'OVERLAP "🏰 Earthly reward" x "Got confused" 96x16', 'OVERLAP "🏰 Earthly reward" x "Too easy" 64x16', 'OVERLAP "MOCK: $10 gift card" x "Made me smile" 35x24', 'OVERLAP "MOCK: $10 gift card" x "Got confused" 96x24', 'OVERLAP "At a local partner restaurant" x "Too hard" 66x20', 'OVERLAP "At a local partner restaurant" x "Loved the critters" 122x20', 'OVERLAP "Prototype only — not a real re" x "📜 From the old tomes" 312x18', 'OVERLAP "Prototype only — not a real re" x "Too hard" 66x22', 'OVERLAP "Prototype only — not a real re" x "Loved the critters" 122x22', 'OVERLAP "Difficulty: 😎 Medium · Dragon" x "Sailors got tattoos as charms;" 328x5', 'OVERLAP "Difficulty: 😎 Medium · Dragon" x "Maybe later" 102x5', 'OVERLAP "Difficulty: 😎 Medium · Dragon" x "Keep this note" 143x5', 'OVERLAP "The Northwoods reward the bold" x "Maybe later" 75x24', 'OVERLAP "The Northwoods reward the bold" x "Keep this note" 116x24', 'OVERLAP "✕" x "📜 From the old tomes" 7x18', 'OVERLAP "📜 From the old tomes" x "Too hard" 66x5', 'OVERLAP "📜 From the old tomes" x "Loved the critters" 122x5']
+toast later The lantern flickers…
+1,000 bananas, end to end
+One banana is about 18 cm · and 9 more in your journal
+share msg Saved the picture to your downloads
+fbCard True How was tonight’s haunt?
+
+Treasure in hand · 0.13 mi · 1m 0s
+
+🎃
+🎃
+🎃
+🎃
+🎃
+Made me smile
+Got confused
+Too easy
+Too hard
+Loved the critters
+Maybe later
+Keep this note
+["warning: Failed to execute 'requestFullscreen' on 'Element': API can only be initiated by a user gesture."]

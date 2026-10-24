@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241425"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241425"><link rel="icon" href="favicon.ico?v=202610241345" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=202610241345"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=202610241345"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241500"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241500"><link rel="icon" href="favicon.ico?v=202610241345" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=202610241345"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=202610241345"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -149,10 +149,17 @@ html body[data-th] .pnl *:has(>input[type=checkbox])>:not(input),html body[data-
 html body[data-th] .pnl *:has(>input[type=checkbox])>input[type=checkbox],html body[data-th] #prof *:has(>input[type=checkbox])>input[type=checkbox]{grid-column:2;grid-row:1/span 4}
 html body[data-th] .pnl .sxH:not(.pT),html body[data-th] .pnl h2,html body[data-th] #prof h2,html body[data-th] #prof h3{color:color-mix(in srgb,var(--sel) 55%,var(--fg))!important}
 </style>
-</head><body>
+<style id="qafix">#ask,#askmsg{color:#2a2140!important}#ask button.sec{color:#2a2140}
+#sxGo .bl{display:flex;flex-direction:column;align-items:center}#sxGo .bl i{white-space:nowrap;font-size:min(calc(.95rem*var(--fxs,1)),4vw)}
+body[data-th=story] #sxStep,body[data-th=spring] #sxStep{--veil:rgba(20,18,30,.82)}body[data-th=story] #sxStep{--sel:#ffb98a}body[data-th=spring] #sxStep{--sel:#b6f5a2}
+#sxStep .opt{opacity:.78}#sxStep .opt small{opacity:.95}
+#fbCard{background:linear-gradient(var(--veil,rgba(250,244,230,.9)),var(--veil,rgba(250,244,230,.9))),linear-gradient(var(--veil,rgba(250,244,230,.9)),var(--veil,rgba(250,244,230,.9)))!important;-webkit-backdrop-filter:blur(14px)!important;backdrop-filter:blur(14px)!important;-webkit-mask:none!important;mask:none!important;border-top:1px solid rgba(255,255,255,.12)}
+#msT.top{top:calc(56px + env(safe-area-inset-top))!important}
+#cmp,#cmp *,.wisp,.wisp *,#hx,#hx *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+</style></head><body>
 <button id="resetAll" style="position:fixed;top:10px;right:10px;z-index:50;background:#fffdf7;color:#1f4d3a;padding:8px 10px;font-size:.85rem">↺ Start fresh</button>
 <div id="ask" class="hidden" style="position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fffdf7;padding:16px;box-shadow:0 -6px 18px rgba(0,0,0,.25)"><p id="askmsg" style="margin:0 0 10px"></p><div class="row" id="askbtns"></div></div>
-<header><h1>🥾 WispWalk</h1><p>Solo hunt · Tier 1 prototype</p><button id="profBtn" class="sec" style="margin-top:8px;padding:6px 12px;font-size:.9rem">👤 Profile</button></header>
+<header><h1>🥾 WispWalk</h1><button id="profBtn" class="sec" style="margin-top:8px;padding:6px 12px;font-size:.9rem">👤 Profile</button></header>
 <main>
 <div class="card safety"><b>Stay safe out there:</b> stay on marked trails, respect private property and closed areas, and watch your step instead of your screen. If the pin lands somewhere you can’t reach safely, just hit <b>Reroll</b>.</div>
 
@@ -203,7 +210,7 @@ html body[data-th] .pnl .sxH:not(.pT),html body[data-th] .pnl h2,html body[data-
 <button id="claim" class="primary" disabled>Claim treasure 🏆</button>
 <p class="muted" style="text-align:center">Claim unlocks within ~20 m of the treasure.</p>
 <h2>Trail tasks → hints</h2><div id="hints"></div>
-<p class="muted">Walked so far: <b id="walked">0</b></p>
+<p class="muted">Walked so far: <b id="walked">0 mi</b></p>
 <div class="row"><button id="reroll" class="sec">🎲 Reroll pin</button><button id="unsafe" class="sec">🚫 Report unsafe pin</button><button id="giveup" class="sec">🏳️ Give up / reveal</button></div>
 <p id="reveal" class="hidden"></p></section>
 
@@ -287,6 +294,9 @@ if(drawPts.length>=2)dpoly=L.polygon(drawPts.map(q=>[q[1],q[0]]),{color:'#1f4d3a
 $('undoPt').onclick=()=>{drawPts.pop();redraw()};$('clearPts').onclick=()=>{drawPts=[];redraw()};$('meBtn').onclick=()=>dmap&&locateDraw();$('own').onchange=updStart;
 const fmt=m=>m<300?Math.round(m*3.281)+' ft':(m/M_PER_MI).toFixed(2)+' mi';
 function save(){try{S.v=SCHEMA;localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
+function geoHelp(e){const th=document.body.dataset.th,lead={haunted:'The lantern can’t find you in the dark.',winter:'The frost has hidden your footprints.',golden:'The leaves are hiding where you are.',spring:'The wisps can’t see you through the blossoms.',summer:'The fireflies can’t find you.',story:'The map can’t find you on its page.'}[th]||'We can’t find you yet.';
+ if(e&&e.code===1)return lead+' Location is turned off for WispWalk. On Android, tap the icon beside the web address, choose Permissions, and allow Location. On iPhone, open Settings, then Privacy & Security, Location Services, Safari Websites, and choose While Using the App. Then try again.';
+ return lead+' Your phone couldn’t get a fix just now. Step outside or near a window, check that Location is on, and try again.'}
 function getPos(){return new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(p=>res({lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy}),rej,{enableHighAccuracy:true,timeout:20000}))}
 function makeHints(){const m=S.radiusMi*M_PER_MI,d=S.diff||'easy',H=(f,type,what)=>({at:m*f,type,label:'Walk '+fmt(m*f)+' → '+what});
 if(d==='hard')return[H(.5,'dir','compass direction'),H(1,'half','north or south?'),H(1.5,'type','what kind of place'),H(2,'exact','exact distance')];
@@ -295,12 +305,13 @@ return[H(.25,'dir','compass direction'),H(.5,'half','north or south?'),H(.9,'exa
 async function start(){if(!navigator.geolocation){$('gpsmsg').textContent='Geolocation not supported.';return}
 $('start').disabled=true;try{$('gpsmsg').textContent='Loading approved zones…';await loadData();
 $('gpsmsg').textContent='Getting your location…';let c;try{c=await getPos()}catch(e){if(mode==='radius')throw e;c=null}
-const rg=mode==='radius'?{type:'circle',c:{lat:c.lat,lng:c.lng},r:miSel*M_PER_MI}:{type:'poly',ring:drawPts.slice()};
-const res=placePin(rg,mode==='property');
-if(!res){$('gpsmsg').textContent='';await ask(mode==='radius'?'No approved public spots within '+miSel+' mi of you. Try a bigger radius.':mode==='property'?'That outline is too small to hide a treasure in. Try drawing it a little larger.':'No approved public spots inside the area you drew. Draw over a park, nature area, or trail, or make it bigger.',[['OK','ok','primary']]);return}
+let rg=mode==='radius'?{type:'circle',c:{lat:c.lat,lng:c.lng},r:miSel*M_PER_MI}:{type:'poly',ring:drawPts.slice()};
+let res=placePin(rg,mode==='property');
+if(!res&&mode==='radius'){for(const w of [1,2,3,5].filter(w=>w>miSel)){rg={type:'circle',c:{lat:c.lat,lng:c.lng},r:w*M_PER_MI};res=placePin(rg,false);if(res){miSel=w;break}}}
+if(!res){$('gpsmsg').textContent='';await ask(mode==='radius'?'There are no approved public spots within 5 miles of you yet. Try Wander, or draw your own area.':mode==='property'?'That outline is too small to hide a treasure in. Try drawing it a little larger.':'No approved public spots inside the area you drew. Draw over a park, nature area, or trail, or make it bigger.',[['OK','ok','primary']]);return}
 const st=c||{lat:res.pin.lat,lng:res.pin.lng};
 S={mode,diff:diffSel,region:rg,zone:res.zone,pin:res.pin,start:st,t0:Date.now(),walked:0,radiusMi:Math.max(0.25,mode==='radius'?miSel:dist(st,res.pin)/M_PER_MI)};if(diffSel==='medium')S.circle=makeCircle(res.pin,res.zone);S.hints=makeHints();save();prevD=null;last=c;$('gpsmsg').textContent='';run()}
-catch(e){$('gpsmsg').textContent='Problem: '+e.message+'. Allow location access and try again.'}finally{updStart()}}
+catch(e){$('gpsmsg').textContent=(e&&typeof e.code==='number')?geoHelp(e):'Something went wrong. Please try again.'}finally{updStart()}}
 function zoneLabel(z){return(z.k==='property'?'🏡 ':'🌲 ')+z.n+' <span class="muted">('+(KIND[z.k]||z.k)+')</span>'}
 function zoneUnlocked(){return(S.hints||[]).some(h=>h.type==='zone'&&S.walked>=h.at)}
 function whereText(){const d=S.diff||'easy',drawn=S.region.type==='poly';
@@ -325,7 +336,10 @@ if(d==='easy'&&z.t==='a'&&rg.type==='circle'){const c=L.circle([rg.c.lat,rg.c.ln
 if(d==='easy'&&z.t==='a'&&rg.type==='poly')bb=ls[0].getBounds();
 hmap.fitBounds(bb.pad(0.1));setTimeout(()=>hmap.invalidateSize(),50)}
 function run(){$('setup').classList.add('hidden');$('win').classList.add('hidden');$('hunt').classList.remove('hidden');$('reveal').classList.add('hidden');try{drawHunt()}catch(e){}
-if(watch!==null)navigator.geolocation.clearWatch(watch);watch=navigator.geolocation.watchPosition(onPos,e=>$('acc').textContent='GPS: '+e.message,{enableHighAccuracy:true,maximumAge:3000,timeout:30000});renderHints(null)}
+if(watch!==null)navigator.geolocation.clearWatch(watch);watch=navigator.geolocation.watchPosition(onPos,e=>{if(e.code===1)$('acc').textContent=geoHelp(e)},{enableHighAccuracy:true,maximumAge:3000,timeout:30000});renderHints(null);
+/* show something right away: last known spot, then a quick fix, while the watch warms up */
+{const k=last||S.lastC||S.start;if(k&&k.lat)try{onPos({coords:{latitude:k.lat,longitude:k.lng,accuracy:k.acc||35},timestamp:Date.now()})}catch(e){}}
+navigator.geolocation.getCurrentPosition(p=>{try{onPos(p)}catch(e){}},()=>{},{enableHighAccuracy:false,maximumAge:120000,timeout:8000})}
 function onPos(p){const c={lat:p.coords.latitude,lng:p.coords.longitude},acc=p.coords.accuracy;
 if(last&&acc<40){const step=dist(last,c);if(step>Math.max(3,acc*0.3)&&step<200){S.walked+=step;last=c}}else if(!last)last=c;
 if(hmap){if(!hme)hme=L.circleMarker([c.lat,c.lng],{radius:7,color:'#fff',fillColor:'#2a7de1',fillOpacity:1,weight:2}).addTo(hmap);else hme.setLatLng([c.lat,c.lng])}
@@ -467,7 +481,7 @@ const _run=run;run=function(){_run();lastUnl=-1;cmpTheme();drawCmp()};if(S&&!$('
 const RAR={common:['Common','#8a7f6a'],rare:['Rare','#3f7fb0'],epic:['Epic','#8a4fb0'],legendary:['Legendary','#d08a1f']};
 const ITEMS=[
 /* nature (always) */
-['acorn','🌰','Acorn Charm','charm','common','nature'],['feather','🪶','Feathered Cap','head','common','nature'],['staff','🦯','Trail Staff','hand','common','nature'],['pinecone','🌲','Pinecone Pin','charm','common','nature'],['mushroom','🍄','Toadstool Hat','head','rare','nature'],['compass','🧭','Brass Compass','hand','rare','nature'],['firefly','✨','Firefly Aura','aura','epic','nature'],['owl','🦉','Owl Companion','pet','epic','nature'],['stag','🦌','Spirit Stag','pet','legendary','nature'],['fern','🌿','Fern Cloak','back','rare','nature'],['river','💧','River Stone','charm','common','nature'],['fox','🦊','Fox Companion','pet','legendary','nature'],
+['acorn','🌰','Acorn Charm','charm','common','nature'],['feather','🪶','Feathered Cap','head','common','nature'],['staff','🪵','Trail Staff','hand','common','nature'],['pinecone','🌲','Pinecone Pin','charm','common','nature'],['mushroom','🍄','Toadstool Hat','head','rare','nature'],['compass','🧭','Brass Compass','hand','rare','nature'],['firefly','✨','Firefly Aura','aura','epic','nature'],['owl','🦉','Owl Companion','pet','epic','nature'],['stag','🦌','Spirit Stag','pet','legendary','nature'],['fern','🌿','Fern Cloak','back','rare','nature'],['river','💧','River Stone','charm','common','nature'],['fox','🦊','Fox Companion','pet','legendary','nature'],
 /* seasonal */
 ['pumpkin','🎃','Pumpkin Head','head','rare','halloween'],['wlantern','🏮','Witch’s Lantern','hand','epic','halloween'],['batcloak','🦇','Bat Cloak','back','epic','halloween'],['ghost','👻','Ghostly Aura','aura','legendary','halloween'],['candy','🍬','Candy Charm','charm','common','halloween'],
 ['maple','🍁','Maple Leaf Crown','head','rare','autumn'],['harvest','🌾','Harvest Satchel','back','common','autumn'],['apple','🍎','Orchard Charm','charm','common','autumn'],['moon','🌕','Harvest Moon Aura','aura','legendary','autumn'],
@@ -503,7 +517,7 @@ const _cl=$('claim').onclick;$('claim').onclick=()=>{const diff=S&&S.diff,mi=S&&
 let el=$('wloot');if(!el){el=document.createElement('div');el.id='wloot';$('wdiff').before(el)}const R=RAR[d.it.r];
 el.innerHTML='<div class="loot" style="--rc:'+R[1]+'"><div class="lootE">'+d.it.e+'</div><div class="lootR" style="color:'+R[1]+'">'+R[0]+(d.dup?' · duplicate (+10 '+(P.fan?'XP':'pts')+')':' · new!')+'</div><b>'+d.it.n+'</b><div class="muted">'+(P.fan?'Added to your hoard — wear it on your character.':'Added to your collection — equip it on your profile.')+'</div></div>'
 +'<div class="real"><div class="muted">'+(P.fan?'🏰 Earthly reward':'🎁 Real-world prize')+'</div><b>'+(rp.mock?'MOCK: ':'')+rp.title+'</b><div>at '+(rp.sponsor||rp.where)+'</div>'+(rp.mock?'<div class="muted" style="font-size:.8rem">Prototype only — not a real reward. Sponsor prizes will plug in here later.</div>':'')+'</div>';
-$('prize').textContent=(rp.mock?'Mock: ':'')+rp.title};
+$('prize').textContent=(rp.mock&&!/^mock/i.test(rp.title)?'Mock: ':'')+rp.title};
 </script>
 <script>
 /* Full-screen compass hunt view with swipe panels */
@@ -603,7 +617,7 @@ up.insertAdjacentHTML('beforeend','<h3 class="sxH" id="sxRH">How far</h3>');up.a
 const zi=[...st.querySelectorAll('p.muted')].find(p=>/Approved zones/.test(p.textContent));if(zi)up.appendChild(zi);
 /* waiver sheet: safety note + rules */
 const wv=st.querySelector('.card.safety'),sn=document.querySelector('main>.card.safety');const wb=q('#s_wv .pb');if(sn){sn.className='sxNote';wb.appendChild(sn)}
-const ag=$('agree').closest('label');wb.appendChild(wv);wv.className='sxNote';q('#sxAgree').appendChild(ag);ag.lastChild.textContent=' I agree to play at my own risk, and I won’t trespass!';
+const ag=$('agree').closest('label');wb.appendChild(wv);wv.className='sxNote';q('#sxAgree').appendChild(ag);ag.lastChild.textContent=' I agree to play at my own risk, and I won’t trespass.';
 /* settings sheet */
 const dn=q('#s_dn .pb');dn.innerHTML=`<h3 class="sxH">Settings</h3><label class="sxRow"><input type="checkbox" id="sxFan"> 🐉 Fantasy mode</label>
 <button class="sec" id="sxProf">👤 Profile, badges &amp; gear</button><button class="sec" id="sxFresh">↺ Start fresh</button>
@@ -1600,7 +1614,7 @@ const keep={mode,miSel};mode='radius';let res=null,used=null;
 for(const r of PREF[diffSel]||PREF.medium){const rg={type:'circle',c:{lat:c.lat,lng:c.lng},r:r*M_PER_MI};const p=placePin(rg,false);if(p){res=p;used=r;break}}
 if(!res){mode=keep.mode;fail('No calm, safe public spot turned up within walking distance here.');return}
 miSel=used;msg.textContent='Found a spot. Off you go…';await start();if(!S||!S.pin)mode=keep.mode;miSel=keep.miSel}
-catch(e){fail(e&&e.code===1?'Location is off, so I can\u2019t look nearby. Allow location and try again.':'Something hiccuped while looking nearby. Try again in a moment.')}
+catch(e){fail(e&&e.code===1?geoHelp(e):'Something hiccuped while looking nearby. Try again in a moment.')}
 finally{btn.disabled=false;document.body.classList.remove('wandering')}}
 async function fail(t){const msg=document.getElementById('sxMsg');msg.textContent='';const v=await ask(t,[['Try again','again','primary'],['Draw an area instead','draw'],['Close','ok']]);
 if(v==='again')return wander();if(v==='draw'){const b=document.querySelector('[data-mode="public"]');b&&b.click();typeof openS==='function'&&openS('up')}}
@@ -2091,7 +2105,7 @@ let cur=null;
 function card(h){if(document.getElementById('fbCard'))document.getElementById('fbCard').remove();const th=document.body.dataset.th||'story',ic=ICON[th]||'⭐';
 cur={t:Date.now(),res:h.r,theme:th,tod:document.body.dataset.tod||'',diff:h.d,ms:h.ms,m:h.m,rating:0,chips:[],note:'',build:build()};
 const d=document.createElement('div');d.id='fbCard';d.setAttribute('role','dialog');d.setAttribute('aria-label','How was it?');
-d.innerHTML='<h3>'+(TITLE[th]||'How was it?')+'</h3><p class="fbS">'+(h.r==='win'?'treasure in hand':'home early, and that’s just fine')+' · '+mi(h.m)+' · '+dur(h.ms)+'</p><div id="fbStars">'+[1,2,3,4,5].map(n=>'<button type="button" data-n="'+n+'" aria-label="'+n+' of 5">'+ic+'</button>').join('')+'</div><div id="fbChips">'+CHIPS.map(c=>'<button type="button">'+c+'</button>').join('')+'</div><textarea id="fbNote" maxlength="280" placeholder="anything you’d like to tell us? (optional)"></textarea><div class="fbB"><button id="fbSkip" type="button">Maybe later</button><button id="fbSave" type="button">Keep this note</button></div>';
+d.innerHTML='<h3>'+(TITLE[th]||'How was it?')+'</h3><p class="fbS">'+(h.r==='win'?'treasure in hand':'home early, and that’s just fine')+' · '+mi(h.m)+' · '+dur(h.ms)+'</p><div id="fbStars">'+[1,2,3,4,5].map(n=>'<button type="button" data-n="'+n+'" aria-label="'+n+' of 5">'+ic+'</button>').join('')+'</div><div id="fbChips">'+CHIPS.map(c=>'<button type="button">'+c+'</button>').join('')+'</div><textarea id="fbNote" maxlength="280" placeholder="Anything you’d like to tell us? (optional)"></textarea><div class="fbB"><button id="fbSkip" type="button">Maybe later</button><button id="fbSave" type="button">Keep this note</button></div>';
 document.body.appendChild(d);requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add('on')));
 d.querySelectorAll('#fbStars button').forEach(b=>b.onclick=()=>{cur.rating=+b.dataset.n;d.querySelectorAll('#fbStars button').forEach(x=>x.classList.toggle('on',+x.dataset.n<=cur.rating));try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}});
 d.querySelectorAll('#fbChips button').forEach(b=>b.onclick=()=>{b.classList.toggle('on');cur.chips=[...d.querySelectorAll('#fbChips button.on')].map(x=>x.textContent)});
@@ -2159,9 +2173,9 @@ html body #win .stats>div{background:none!important;box-shadow:none!important;bo
 const A={story:{sky:['#f6e7c8','#e9c99a'],hill:['#9a7a52','#6e5534','#4a3820'],ink:'#3b2a18',sel:'#9b2d20',font:'IM Fell DW Pica',orb:'#fff4d6',fx:'quill',greet:'a little tale, walked'},
 haunted:{sky:['#1c1430','#3a2450'],hill:['#2a1f3a','#1a1326','#0e0a16'],ink:'#efe6ff',sel:'#f0a640',font:'IM Fell English',orb:'#f3ead0',fx:'bats',greet:'a lantern-lit haunt'},
 winter:{sky:['#dce9f3','#a9c4da'],hill:['#eef4f8','#c9dbe8','#9fb8cc'],ink:'#1f3a52',sel:'#2f74b0',font:'Cormorant SC',orb:'#ffffff',fx:'snow',greet:'a snowy little wander'},
-golden:{sky:['#f7dca0','#e8a95a'],hill:['#b8642a','#8a4318','#5a2a0e'],ink:'#3d220c',sel:'#a3311a',font:'Playfair Display',orb:'#fff1c4',fx:'leaves',greet:'an afternoon in the golden woods'},
+golden:{sky:['#f7dca0','#e8a95a'],hill:['#b8642a','#8a4318','#5a2a0e'],ink:'#3d220c',sel:'#a3311a',font:'Playfair Display',orb:'#fff1c4',fx:'leaves',greet:'a ramble through the golden woods'},
 spring:{sky:['#fbe9ee','#cfe8dc'],hill:['#9fcfa8','#6fae84','#4a8a62'],ink:'#2e4d40',sel:'#b04a66',font:'Dancing Script',orb:'#fffbe8',fx:'petals',greet:'a blooming spring stroll'},
-summer:{sky:['#bfe6f2','#7fc7dd'],hill:['#4f9fb5','#2f7d96','#1d5a70'],ink:'#123a48',sel:'#bf3a2b',font:'Josefin Slab',orb:'#fff6cf',fx:'waves',greet:'a lazy lakeside afternoon'}};
+summer:{sky:['#bfe6f2','#7fc7dd'],hill:['#4f9fb5','#2f7d96','#1d5a70'],ink:'#123a48',sel:'#bf3a2b',font:'Josefin Slab',orb:'#fff6cf',fx:'waves',greet:'a lazy lakeside wander'}};
 const FAN={story:'a quest from the old storybook',haunted:'a quest through the spellbound dark',winter:'a quest down the frost road',golden:'a quest along the golden road',spring:'a quest on the fae path',summer:'a voyage across the bright water'};
 let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
 function hills(x,a,i){const y0=H*(.62+i*.09);x.fillStyle=a.hill[i];x.beginPath();x.moveTo(0,H);x.lineTo(0,y0);for(let px=0;px<=W;px+=40)x.lineTo(px,y0-Math.sin(px/(180+i*70)+i*2)*(50-i*10)-Math.sin(px/63+i)*12);x.lineTo(W,H);x.fill();
@@ -2187,7 +2201,7 @@ async function draw(h,hide){const th=document.body.dataset.th||'story',a=A[th]||
  F('',30);x.globalAlpha=.6;x.fillText(h.r==='win'?'I found the':'I went looking for the',W/2,H*.235);x.globalAlpha=1;
  F('bold',prize.length>18?84:110);x.fillStyle=a.sel;const n=wrap(x,prize+(h.r==='win'?'!':''),W/2,H*.33,W*.84,prize.length>18?96:120);
  x.fillStyle=a.ink;const y2=H*.33+n*(prize.length>18?96:120)+30;
- const mi=(h.m/1609.34).toFixed(2)+' mi',mn=Math.max(1,Math.round(h.ms/60000))+' min',dd={easy:'easy',medium:'medium',hard:'hard'}[h.d]||h.d,dt=new Date(h.t).toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'});
+ const mi=(h.m/1609.34).toFixed(2)+' mi',mn=Math.max(1,Math.round(h.ms/60000))+' min',dd={easy:'Easy',medium:'Medium',hard:'Hard'}[h.d]||h.d,dt=new Date(h.t).toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'});
  F('italic',44);x.fillText(mi+'  ·  '+mn+'  ·  '+dd,W/2,y2);F('',32);x.globalAlpha=.6;x.fillText(dt,W/2,y2+56);x.globalAlpha=1;
  const wi=window.__wispItem;if(wi&&Math.abs((h.t||Date.now())-wi.t)<6*3600000){F('italic',34);x.globalAlpha=.85;x.fillText('✧ '+wi.name,W/2,y2+176);x.globalAlpha=1}const ms=window.TTU_MS&&TTU_MS.latest&&TTU_MS.latest();if(ms){F('italic',34);x.globalAlpha=.8;x.fillText('✦ '+Cap(ms),W/2,y2+120);x.globalAlpha=1}
  x.shadowColor='rgba(0,0,0,.45)';x.shadowBlur=14;x.fillStyle=th==='haunted'||night?'#ffffffdd':'#ffffffee';F('bold',54);x.fillText('WispWalk',W/2,H-118);F('italic',30);x.globalAlpha=.85;x.fillText(URL,W/2,H-70);x.globalAlpha=1;x.shadowBlur=0;
@@ -2254,7 +2268,7 @@ for(const n of [30,60,120,300,600,1440,3000,6000])add('out'+n,'outdoors',(n<60?n
 for(const n of [30,60,90])add('lh'+n,'one hunt','a '+(n===90?'hour-and-a-half':n===60?'full hour':'half-hour')+' hunt','in no hurry at all',n,s=>Math.round(s.longest/6e4),'min');
 for(const n of [1,10,25,50,100])add('fc'+n,'curiosities',n===1?'your first field note':n+' field notes collected','little facts picked up along the way',n,s=>s.facts,'notes');
 for(const n of [1,5,10,25,50])add('se'+n,'curiosities',n===1?'a hidden secret, found':n+' secrets in the scenery','tap around: the world tends to answer',n,s=>s.secrets,'secrets');
-for(const n of [1,10,25,50])add('cr'+n,'curiosities',n===1?'a first critter sighting':n+' critter sightings','squirrels, owls, foxes and friends',n,s=>s.critters,'critters');
+for(const n of [1,10,25,50])add('cr'+n,'curiosities',n===1?'A first critter sighting':n+' critter sightings','squirrels, owls, foxes and friends',n,s=>s.critters,'critters');
 // stats
 function stats(){const L=J(LK,[]),H=(window.P&&P.hist)||[];const all=L.length?L:H.map(h=>({t:h.t,res:h.r,d:h.d,m:h.m,ms:h.ms}));
 const s={m:(window.P&&P.walkedM)||all.reduce((a,e)=>a+e.m,0),best:0,longest:0,hunts:all.length,wins:0,gives:0,early:0,night:0,wx:{},th:{},fan:0,dayH:0,nightH:0,hol:{},diff:{},ms:0,streak:0};
@@ -2364,7 +2378,7 @@ let mv=['walk','drive','combo'].includes(P.move)?P.move:'walk';const fit=()=>{if
 const rowH=()=>'<div class="row">'+MV[mv].map(k=>`<button class="opt${!cOn()&&+k===dist?' sel':''}" data-mi="${k}"><b>${FM[k]}</b></button>`).join('')+`<button class="opt${cOn()?' sel':''}" data-cu="1"><b>Custom</b></button></div>`+(cOn()?`<div class="cus"><input type="range" id="stCu" min="0" max="${VA[mv].length-1}" step="1" value="${ci(cV())}" aria-label="Custom distance"><output id="stCuL">${mlab(cV())}</output></div>`:'');
 function draw(){fit();st.innerHTML=`<p class="ld">How will you travel?</p>
 <div class="row">${[['walk','On foot'],['drive','By car'],['combo','A bit of both']].map(([k,l])=>`<button class="opt${k===mv?' sel':''}" data-mv="${k}"><b>${l}</b></button>`).join('')}</div>
-${mv==='walk'?'':'<p class="nt">Park somewhere safe, then finish on foot.</p>'}
+${mv==='walk'?'':'<p class="nt">'+(mv==='drive'?'Drive to the area, park somewhere safe, then look around on foot.':'Drive partway, park somewhere safe, then walk the rest.')+'</p>'}
 <div class="hr"></div><p class="ld">${P.fan?'Where shall the quest lead?':'Where shall we wander?'}</p>
 <button class="opt" data-h="radius"><b>A set distance</b><small>${mv==='walk'?'Hidden somewhere within a walk you choose.':mv==='drive'?'Hidden at a public spot within a short drive.':'A short drive, then a walk to the treasure.'}</small></button>
 ${how==='radius'?rowH():''}
@@ -2434,7 +2448,7 @@ async function findAround(c,radii,say){await loadData();const T0=Date.now(),log=
 window.TTU_FIND=findAround;
 const WR={walk:[1.1,2.5,5],combo:[2.5,5,10],drive:[5,10,25]};
 async function wanderGo(){const m=$$('#sxMsg'),say=t=>{if(m)m.textContent=t};if(!$('agree').checked){say('Please agree to the safety terms first.');return}
- document.body.classList.add('wandering');try{say('Finding where you are…');let c;try{c=await getPos()}catch(e){say('Location is off, so I can’t look nearby. Allow location and try again.');return}
+ document.body.classList.add('wandering');try{say('Finding where you are…');let c;try{c=await getPos()}catch(e){say(geoHelp({code:1}));return}
  const f=await findAround({lat:c.lat,lng:c.lng},WR[mv]||WR.walk,say);window.__lastWander=f;
  if(!f.res){say(P.fan?'The woods are shy tonight. Try “A set distance” instead.':'No calm spot turned up nearby just now. Try “A set distance” instead.');how='radius';return}
  say('');diffSel=dif;mode='radius';miSel=f.r;start()}finally{document.body.classList.remove('wandering')}}
@@ -2610,7 +2624,7 @@ function detour(){const c=window.__wispC;if(!c||typeof placePin!=='function')ret
  for(let k=0;k<12;k++){const res=placePin({type:'circle',c,r},false);if(!res||!res.zone||!res.zone.n||res.zone.n===(S.zone&&S.zone.n))continue;if(dist(res.pin,S.pin)<200||dist(res.pin,c)<120)continue;
   const x=mkX('dt');if(!x)return false;st='detour';S.detour={pin:res.pin,n:res.zone.n,follow:false};
   const go=()=>{S.detour.follow=true;show()},stay=()=>{S.detour.follow=false;S.detour.declined=true;say(TTU_WL('resist_detour')||'The wisp sighs and drifts off. The true path it is.');clear()};
-  x.onclick=e=>{e.stopPropagation();go()};say((Math.random()<.5&&TTU_WL('trickster')||Ln('detour'))+' Follow it to '+res.zone.n+'?',[['Follow the wisp',go],['Stay the course',stay]]);return true}return false}
+  x.onclick=e=>{e.stopPropagation();go()};say((Math.random()<.5&&TTU_WL('trickster')||Ln('detour'))+' It seems to be drifting toward '+res.zone.n+'. Shall we follow?',[['Follow the wisp',go],['Stay the course',stay]]);return true}return false}
 const DIRS=['north','northeast','east','southeast','south','southwest','west','northwest'];
 function show(){const d=S.detour,c=window.__wispC;if(!d||!c)return;const m=Math.round(dist(c,d.pin));say('The wisp waits about '+(m>1000?(m/1609.34).toFixed(1)+' mi':m+' m')+' to the '+DIRS[Math.round(bearing(c,d.pin)/45)%8]+', at '+d.n+'. The compass still points to the real treasure.')}
 /* Unique collectibles: composed from the real spot, time, weather, season/holiday, theme and history. Facts come from Wikipedia only; otherwise theme lore. */
@@ -2619,10 +2633,10 @@ const OBJ={haunted:['Lantern Shard','Moth Wing','Candle Wisp','Raven Feather','G
 const DESC={haunted:'It glows faintly violet when no one is looking.',winter:'It never quite melts, even in a warm pocket.',golden:'It still smells like woodsmoke and apples.',spring:'It hums softly, like bees in clover.',summer:'It holds a little warmth from the long day.',story:'Someone has written a single word on it, too faded to read.'};
 function tword(){const t=b.dataset.tod||'day',w=(b.dataset.wx||'').toLowerCase(),n=new Date(),md=(n.getMonth()+1)*100+n.getDate();
  const hol=md>=1015&&md<=1101?'Hallow':md>=1210&&md<=1226?'Yuletide':md>=1228||md<=103?'New Year':md>=207&&md<=215?'Sweetheart':md>=310&&md<=318?'Shamrock':null;
- const tw={dawn:'Dawn',day:'Daylight',dusk:'Dusk',night:'Midnight'}[t]||'Daylight';const ww=/rain|storm/.test(w)?'Rain-kissed':/snow/.test(w)?'Snowbound':/fog|mist/.test(w)?'Misty':null;
+ const tw={dawn:'Dawn',day:'Daylight',dusk:'Dusk',night:['Midnight','Moonlit','Starlit','Nightfall'][Math.floor(Math.random()*4)]}[t]||'Daylight';const ww=/rain|storm/.test(w)?'Rain-kissed':/snow/.test(w)?'Snowbound':/fog|mist/.test(w)?'Misty':null;
  const mo=n.getMonth()+1,se=mo>=3&&mo<=5?'Spring':mo>=6&&mo<=8?'Summer':mo>=9&&mo<=11?'Autumn':'Winter';return[tw,ww,hol,se].filter(Boolean)}
 const TC=w=>/^(of|the|and|at|on|in|by)$/i.test(w)?w.toLowerCase():w.charAt(0).toUpperCase()+w.slice(1);
-const shortN=n=>{let t=String(n||'').trim();if(!t||/^unnamed/i.test(t))return 'Hidden Glade';t=t.split(/\s+/).map((w,i)=>i?TC(w):w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+const shortN=n=>{let t=String(n||'').trim().split(/\s+[-–—]\s+/)[0].replace(/\b(SR|US|CR|I|Hwy|Route)[ -]?\d+\b/gi,'').trim();if(!t||/^unnamed/i.test(t))return 'Hidden Glade';t=t.split(/\s+/).map((w,i)=>i?TC(w):w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
  if(t.length>26)t=t.replace(/\s+(Recreation Area|State Recreation Trail|County Park|Nature Preserve|Natural Area)$/,'');if(t.length>26){const W=t.split(' ');while(W.length>2&&W.join(' ').length>26)W.pop();t=W.join(' ')}return t};
 async function fact(pin,name){try{const g=await fetch('https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord='+pin.lat.toFixed(5)+'|'+pin.lng.toFixed(5)+'&gsradius=1500&gslimit=10&format=json&origin=*').then(r=>r.json());
  const L=(g.query&&g.query.geosearch)||[];if(!L.length)return null;const full=String(name||'').toLowerCase(),key=full.replace(/\s+(park|county park|state park)$/,'');const BAD=/universit|college|campus|school|house|church|hospital|building|station|company|district|historic district|, /i,NAT=/park|lake|river|creek|falls|mountain|hill|forest|woods|trail|island|isle|garden|preserve|marsh|pond|bluff|beach|rock|glade|arboretum|nature/i;
@@ -2775,7 +2789,7 @@ function caught(x,y){sparkle(x,y);const th=b.dataset.th||'story',n=name(),line=L
  const snd=(()=>{try{return localStorage.getItem('ttu_profile_snd')!=='off'}catch(e){return true}})();
  try{snd&&window.TTU_WSND&&(TTU_WSND.sparkle(),setTimeout(()=>TTU_WSND.hum&&TTU_WSND.hum(),350))}catch(e){}
  if(snd&&'speechSynthesis' in window&&!document.hidden)setTimeout(()=>{try{const u=new SpeechSynthesisUtterance(line);u.pitch=1.25;u.rate=.85;u.volume=.5;speechSynthesis.speak(u)}catch(e){}},600);
- try{const T=window.TTU_MS;if(T){try{const E=JSON.parse(localStorage.getItem('ttu_ms_earned')||'{}');if(!E.w_star){E.w_star=Date.now();localStorage.setItem('ttu_ms_earned',JSON.stringify(E))}}catch(e){}T.toast({id:'w_star',title:'Star-caught',sub:'You caught '+n+'. '+line,speak:false});T.journal&&T.journal()}}catch(e){}
+ try{const T=window.TTU_MS;if(T){try{const E=JSON.parse(localStorage.getItem('ttu_ms_earned')||'{}');if(!E.w_star){E.w_star=Date.now();localStorage.setItem('ttu_ms_earned',JSON.stringify(E))}}catch(e){}T.toast({id:'w_star',title:'Star-caught',sub:n+' is yours. '+line,speak:false});T.journal&&T.journal()}}catch(e){}
  window.__lastStar=n}
 function fly(){if(!night()||document.hidden||document.getElementById('sStar'))return;const vw=innerWidth,vh=innerHeight,L2R=Math.random()<.5,ang=(12+Math.random()*28)*(Math.PI/180),dist=vw*(.45+Math.random()*.4),dur=(red?2600:900+Math.random()*900)*(dbg?2.2:1);
  const x0=L2R?vw*(.05+Math.random()*.4):vw*(.55+Math.random()*.4),y0=vh*(.05+Math.random()*.25),dx=(L2R?1:-1)*Math.cos(ang)*dist,dy=Math.sin(ang)*dist;

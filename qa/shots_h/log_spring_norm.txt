@@ -1,0 +1,45 @@
+hunting hunting uiHide
+{'pin': {'lng': -89.42005805920404, 'lat': 44.439314441683436}, 'diff': 'medium', 'zone': 'Hard Scrabble - SR 10', 'start': {'lat': 44.43601, 'lng': -89.41313, 'acc': 10}}
+follow translate -17.8px 16.2px
+anim ['peek', 'bob', 'yawn', 'twirl']
+decoy X present True {'st': 'decoy', 'stolen': None, 'detour': None}
+decoy msg: Caught you, petal sprite. Mischief managed.
+mirage X present True {'st': 'mirage', 'stolen': None, 'detour': None}
+mirage msg: 
+acc text GPS: Timeout expired
+detour {"st":"detour","stolen":null,"detour":{"pin":{"lng":-89.40515827965457,"lat":44.4384205263155},"n":"Super Duper Looper","follow":false}} A second wisp dances toward a quiet spot nearby. Follow it to Super Duper Looper? Follow the wisp Stay the course
+OVL []
+links ['Follow the wisp', 'Stay the course']
+S.detour {"pin":{"lng":-89.40515827965457,"lat":44.4384205263155},"n":"Super Duper Looper","follow":false}
+after follow The wisp waits about 670 m to the east, at Super Duper Looper. The compass still points to the real treasure. {"pin":{"lng":-89.40515827965457,"lat":44.4384205263155},"n":"Super Duper Looper","follow":true}
+reward msg You found Super Duper Looper Midnight Petal. “Spring wisps wake with the first frogs and hum along with them.” | toast Something new bloomed…
+Path Less Traveled
+Super Duper Looper Midnight Petal
+star api ['fly', 'caught', 'name']
+star el True
+{'x': 5.9200439453125, 'y': 242.48843383789062, 'width': 96, 'height': 96}
+star caught 1 ['↺ Start fresh', 'Star-caught', 'You caught Star-caught Midnight Wish Petal. Make a wish. I won’t tell.']
+claim disabled [False, False]
+WIN TEXT uiHide ['reveal: ', 'win: 🦌 | Treasure found! | Your mock prize: Mock: Free ice cream cone | 🦯 | COMMON · NEW! | Trail Staff | Added to your collection — equip it on your profile. | 🎁 Real-world prize | MOCK: Free ice cream cone | At a local partner shop | Prototype only — not a real reward. Sponsor prizes will plug in here later. | Difficulty: 😎 Medium · Hard Scrabble - SR 10 | +41 points · Level 1 | New badge: 🏅 First find | 1m 4s | time | 77 ft | walked | Tell someone about it Share the find | keep the real prize a secret | New hunt', 'shRow: Tell someone about it Share the find | keep the real prize a secret', 'msT: Something new bloomed… | Star-caught | You caught Star-caught Midnight Wish Petal. Make a wish. I won’t tell.', 'fbCard: How did the stroll feel? | Treasure in hand · 0.01 mi · 1m 4s | 🌸 | 🌸 | 🌸 | 🌸 | 🌸 | Made me smile | Got confused | Too easy | Too hard | Loved the critters | Maybe later | Keep this note']
+OVLwin ['OVERLAP "Trail Staff" x "How did the stroll feel?" 85x18', 'OVERLAP "Added to your collection — equ" x "How did the stroll feel?" 316x15', 'OVERLAP "Added to your collection — equ" x "Treasure in hand · 0.01 mi · 1" 316x19', 'OVERLAP "🎁 Real-world prize" x "🌸" 50x10', 'OVERLAP "MOCK: Free ice cream cone" x "Made me smile" 67x21', 'OVERLAP "MOCK: Free ice cream cone" x "Got confused" 92x21', 'OVERLAP "MOCK: Free ice cream cone" x "Too easy" 22x21', 'OVERLAP "At a local partner shop" x "Made me smile" 105x21', 'OVERLAP "At a local partner shop" x "Got confused" 92x21', 'OVERLAP "At a local partner shop" x "Too easy" 60x21', 'OVERLAP "Prototype only — not a real re" x "🧀 Wisconsin note" 312x19', 'OVERLAP "Prototype only — not a real re" x "Too hard" 64x35', 'OVERLAP "Prototype only — not a real re" x "Loved the critters" 123x35', 'OVERLAP "Difficulty: 😎 Medium · Hard S" x "Wisconsin’s state animal is th" 328x22', 'OVERLAP "+41 points · Level 1" x "Maybe later" 111x17', 'OVERLAP "+41 points · Level 1" x "Keep this note" 143x17', 'OVERLAP "New badge: 🏅 First find" x "Maybe later" 111x15', 'OVERLAP "New badge: 🏅 First find" x "Keep this note" 143x15', 'OVERLAP "✕" x "🧀 Wisconsin note" 7x16', 'OVERLAP "🧀 Wisconsin note" x "Too hard" 64x19', 'OVERLAP "🧀 Wisconsin note" x "Loved the critters" 123x19', 'OVERLAP "Wisconsin’s state animal is th" x "Too hard" 64x4', 'OVERLAP "Wisconsin’s state animal is th" x "Loved the critters" 123x4']
+toast later Something new bloomed…
+your very first hunt
+Every one counts
+share msg Saved the picture to your downloads
+fbCard True How did the stroll feel?
+
+Treasure in hand · 0.01 mi · 1m 4s
+
+🌸
+🌸
+🌸
+🌸
+🌸
+Made me smile
+Got confused
+Too easy
+Too hard
+Loved the critters
+Maybe later
+Keep this note
+["warning: Failed to execute 'requestFullscreen' on 'Element': API can only be initiated by a user gesture."]

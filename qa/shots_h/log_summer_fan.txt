@@ -1,0 +1,43 @@
+hunting hunting uiHide
+{'pin': {'lng': -89.40572092192785, 'lat': 44.43616624646984}, 'diff': 'medium', 'zone': 'Poplar Pass', 'start': {'lat': 44.43601, 'lng': -89.41313, 'acc': 10}}
+follow translate -17.6px 16px
+anim ['peek', 'bob', 'yawn', 'twirl']
+decoy X present True {'st': 'decoy', 'stolen': None, 'detour': None}
+decoy msg: Caught you, firefly. Nice try.
+mirage X present True {'st': 'mirage', 'stolen': None, 'detour': None}
+mirage msg: Caught you, firefly. Nice try.
+acc text GPS: Timeout expired
+detour {"st":"detour","stolen":null,"detour":{"pin":{"lng":-89.41038932707642,"lat":44.43811},"n":"Natalie's Cut Back","follow":false}} Is that a lake, or a mirage? Only one way to find out! Follow it to Natalie's Cut Back? Follow the wisp Stay the course
+OVL []
+links ['Follow the wisp', 'Stay the course']
+S.detour {"pin":{"lng":-89.41038932707642,"lat":44.43811},"n":"Natalie's Cut Back","follow":false}
+after follow The wisp waits about 297 m to the northeast, at Natalie's Cut Back. The compass still points to the real treasure. {"pin":{"lng":-89.41038932707642,"lat":44.43811},"n":"Natalie's Cut Back","follow":true}
+reward msg You found Natalie's Cut Back Midnight Firefly Glass. “A wisp’s sunstone is said to hold one perfect afternoon.” | toast The lake takes note…
+Path Less Traveled
+Natalie's Cut Back Midnight Firefly Glass
+star api ['fly', 'caught', 'name']
+star el False
+claim disabled [False, False]
+WIN TEXT uiHide ['reveal: ', 'win: 🍁 | Treasure found! | Your mock prize: Mock: $25 gift card | 🏮 | EPIC · NEW! | Witch’s Lantern | Added to your hoard — wear it on your character. | 🏰 Earthly reward | MOCK: $25 gift card | At a local outdoor outfitter | Prototype only — not a real reward. Sponsor prizes will plug in here later. | Difficulty: 😎 Medium · Poplar Pass | Legends will sing of this find, | ✨ +41 XP · Level 1 Wanderer | New badge: 🏅 First find | 1m 0s | time | 77 ft | walked | Tell someone about it Share the find | keep the real prize a secret | New hunt', 'shRow: Tell someone about it Share the find | keep the real prize a secret', "msT: The lake takes note… | Path Less Traveled | Natalie's Cut Back Midnight Firefly Glass", 'fbCard: How was the water? | Treasure in hand · 0.01 mi · 1m 0s | ☀️ | ☀️ | ☀️ | ☀️ | ☀️ | Made me smile | Got confused | Too easy | Too hard | Loved the critters | Maybe later | Keep this note']
+OVLwin ['OVERLAP "Witch’s Lantern" x "How was the water?" 144x14', 'OVERLAP "Added to your hoard — wear it " x "How was the water?" 316x10', 'OVERLAP "Added to your hoard — wear it " x "Treasure in hand · 0.01 mi · 1" 316x19', 'OVERLAP "🏰 Earthly reward" x "☀️" 50x5', 'OVERLAP "MOCK: $25 gift card" x "Made me smile" 45x22', 'OVERLAP "MOCK: $25 gift card" x "Got confused" 88x22', 'OVERLAP "At a local outdoor outfitter" x "Made me smile" 114x16', 'OVERLAP "At a local outdoor outfitter" x "Got confused" 88x16', 'OVERLAP "At a local outdoor outfitter" x "Too easy" 61x16', 'OVERLAP "Prototype only — not a real re" x "🍂 Autumn note" 312x27', 'OVERLAP "Prototype only — not a real re" x "Too hard" 64x36', 'OVERLAP "Prototype only — not a real re" x "Loved the critters" 119x36', 'OVERLAP "Difficulty: 😎 Medium · Poplar" x "Medieval villages slaughtered " 328x22', 'OVERLAP "Legends will sing of this find" x "Maybe later" 76x22', 'OVERLAP "Legends will sing of this find" x "Keep this note" 107x22', 'OVERLAP "✨ +41 XP · Level 1 Wanderer" x "Maybe later" 113x10', 'OVERLAP "✨ +41 XP · Level 1 Wanderer" x "Keep this note" 145x10', 'OVERLAP "✕" x "🍂 Autumn note" 7x16', 'OVERLAP "🍂 Autumn note" x "Too hard" 64x27', 'OVERLAP "🍂 Autumn note" x "Loved the critters" 119x27', 'OVERLAP "Medieval villages slaughtered " x "Too hard" 64x4', 'OVERLAP "Medieval villages slaughtered " x "Loved the critters" 119x4']
+toast later The lake takes note…
+your very first hunt
+Every one counts
+share msg Saved the picture to your downloads
+fbCard True How was the water?
+
+Treasure in hand · 0.01 mi · 1m 0s
+
+☀️
+☀️
+☀️
+☀️
+☀️
+Made me smile
+Got confused
+Too easy
+Too hard
+Loved the critters
+Maybe later
+Keep this note
+["warning: Failed to execute 'requestFullscreen' on 'Element': API can only be initiated by a user gesture."]

@@ -1,0 +1,43 @@
+hunting hunting uiHide
+{'pin': {'lng': -89.41381460204899, 'lat': 44.44004918613094}, 'diff': 'medium', 'zone': 'Hard Scrabble - SR 9', 'start': {'lat': 44.43601, 'lng': -89.41313, 'acc': 10}}
+follow translate -17.2px 17px
+anim ['peek', 'bob', 'yawn', 'twirl']
+decoy X present True {'st': 'decoy', 'stolen': None, 'detour': None}
+decoy msg: And so the trickster was caught.
+mirage X present True {'st': 'mirage', 'stolen': None, 'detour': None}
+mirage msg: And so the trickster was caught.
+acc text GPS: Timeout expired
+detour {"st":"detour","stolen":null,"detour":{"pin":{"lng":-89.40773922038308,"lat":44.43707712644075},"n":"Dragon's Back","follow":false}} A second wisp beckons toward a quieter chapter nearby. Follow it to Dragon's Back? Follow the wisp Stay the course
+OVL []
+links ['Follow the wisp', 'Stay the course']
+S.detour {"pin":{"lng":-89.40773922038308,"lat":44.43707712644075},"n":"Dragon's Back","follow":false}
+after follow The wisp waits about 429 m to the east, at Dragon's Back. The compass still points to the real treasure. {"pin":{"lng":-89.40773922038308,"lat":44.43707712644075},"n":"Dragon's Back","follow":true}
+reward msg You found Dragon's Back Midnight Gilded Page. “Some say wisps are the bookmarks of the world, saving our place.” | toast And so it was written…
+Path Less Traveled
+Dragon's Back Midnight Gilded Page
+star api ['fly', 'caught', 'name']
+star el False
+claim disabled [False, False]
+WIN TEXT uiHide ['reveal: ', 'win: 🍁 | Treasure found! | Your mock prize: Mock: $5 coffee voucher | 🦯 | COMMON · NEW! | Trail Staff | Added to your collection — equip it on your profile. | 🎁 Real-world prize | MOCK: $5 coffee voucher | At a local partner café | Prototype only — not a real reward. Sponsor prizes will plug in here later. | Difficulty: 😎 Medium · Hard Scrabble - SR 9 | +41 points · Level 1 | New badge: 🏅 First find | 1m 3s | time | 77 ft | walked | Tell someone about it Share the find | keep the real prize a secret | New hunt', 'shRow: Tell someone about it Share the find | keep the real prize a secret', "msT: And so it was written… | Path Less Traveled | Dragon's Back Midnight Gilded Page", 'fbCard: How did the tale go? | Treasure in hand · 0.01 mi · 1m 3s | 🪶 | 🪶 | 🪶 | 🪶 | 🪶 | Made me smile | Got confused | Too easy | Too hard | Loved the critters | Maybe later | Keep this note']
+OVLwin ['OVERLAP "MOCK: $5 coffee voucher" x "🪶" 6x20', 'OVERLAP "MOCK: $5 coffee voucher" x "🪶" 50x20', 'OVERLAP "At a local partner café" x "🪶" 50x20', 'OVERLAP "Prototype only — not a real re" x "🪶" 50x6', 'OVERLAP "Prototype only — not a real re" x "Made me smile" 80x18', 'OVERLAP "Prototype only — not a real re" x "Got confused" 87x18', 'OVERLAP "Prototype only — not a real re" x "Too easy" 60x18', 'OVERLAP "Prototype only — not a real re" x "Too hard" 43x18', 'OVERLAP "Difficulty: 😎 Medium · Hard S" x "Loved the critters" 116x21', 'OVERLAP "+41 points · Level 1" x "✕" 11x6', 'OVERLAP "+41 points · Level 1" x "🌿 Field note" 328x11', 'OVERLAP "+41 points · Level 1" x "Old mapmakers sometimes added " 328x6', 'OVERLAP "New badge: 🏅 First find" x "Old mapmakers sometimes added " 328x17', 'OVERLAP "1m 3s\ntime" x "Maybe later" 99x42', 'OVERLAP "1m 3s" x "Maybe later" 99x30', 'OVERLAP "77 ft\nwalked" x "Keep this note" 131x42', 'OVERLAP "77 ft" x "Keep this note" 121x30', 'OVERLAP "✕" x "🌿 Field note" 7x15', 'OVERLAP "🌿 Field note" x "Loved the critters" 116x8']
+toast later And so it was written…
+the first treasure
+Dug up, fair and square · and 4 more in your journal
+share msg Saved the picture to your downloads
+fbCard True How did the tale go?
+
+Treasure in hand · 0.01 mi · 1m 3s
+
+🪶
+🪶
+🪶
+🪶
+🪶
+Made me smile
+Got confused
+Too easy
+Too hard
+Loved the critters
+Maybe later
+Keep this note
+["warning: Failed to execute 'requestFullscreen' on 'Element': API can only be initiated by a user gesture."]

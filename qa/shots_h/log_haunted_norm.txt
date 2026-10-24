@@ -1,0 +1,43 @@
+hunting hunting uiHide
+{'pin': {'lng': -89.41927404824806, 'lat': 44.43868337354005}, 'diff': 'medium', 'zone': 'Hard Scrabble - SR 10', 'start': {'lat': 44.43601, 'lng': -89.41313, 'acc': 10}}
+follow translate -17.7px 16.1px
+anim ['peek', 'bob', 'yawn', 'twirl']
+decoy X present True {'st': 'decoy', 'stolen': None, 'detour': None}
+decoy msg: Caught you, little trickster. The lantern sees true.
+mirage X present True {'st': 'mirage', 'stolen': None, 'detour': None}
+mirage msg: Caught you, little trickster. The lantern sees true.
+acc text GPS: Timeout expired
+detour {"st":"detour","stolen":null,"detour":{"pin":{"lng":-89.40412900265396,"lat":44.43494234483381},"n":"Excalibur - SR 2","follow":false}} A second wisp beckons toward a quiet spot nearby. Follow it to Excalibur - SR 2? Follow the wisp Stay the course
+OVL []
+links ['Follow the wisp', 'Stay the course']
+S.detour {"pin":{"lng":-89.40412900265396,"lat":44.43494234483381},"n":"Excalibur - SR 2","follow":false}
+after follow The wisp waits about 718 m to the east, at Excalibur - SR 2. The compass still points to the real treasure. {"pin":{"lng":-89.40412900265396,"lat":44.43494234483381},"n":"Excalibur - SR 2","follow":true}
+reward msg You found Excalibur - SR 2 Midnight Lantern Shard. “Old lamplighters swore the wisps only showed themselves to walkers who took the long way home.” | toast The lantern flickers…
+a first critter sighting
+Squirrels, owls, foxes and friends
+star api ['fly', 'caught', 'name']
+star el False
+claim disabled [False, False]
+WIN TEXT uiHide msTop ['reveal: ', 'win: 🍁 | Treasure found! | Your mock prize: Mock: $10 gift card | 🍄 | RARE · NEW! | Toadstool Hat | Added to your collection — equip it on your profile. | 🎁 Real-world prize | MOCK: $10 gift card | At a local partner restaurant | Prototype only — not a real reward. Sponsor prizes will plug in here later. | Difficulty: 😎 Medium · Hard Scrabble - SR 10 | +41 points · Level 1 | New badge: 🏅 First find | 0m 59s | time | 77 ft | walked | Tell someone about it Share the find | keep the real prize a secret | New hunt', 'shRow: Tell someone about it Share the find | keep the real prize a secret', 'msT: The lantern flickers… | your very first hunt | Every one counts', 'fbCard: How was tonight’s haunt? | Treasure in hand · 0.01 mi · 0m 59s | 🎃 | 🎃 | 🎃 | 🎃 | 🎃 | Made me smile | Got confused | Too easy | Too hard | Loved the critters | Maybe later | Keep this note']
+OVLwin ['OVERLAP "Toadstool Hat" x "How was tonight’s haunt?" 133x23', 'OVERLAP "Added to your collection — equ" x "How was tonight’s haunt?" 316x6', 'OVERLAP "Added to your collection — equ" x "Treasure in hand · 0.01 mi · 0" 316x20', 'OVERLAP "Added to your collection — equ" x "🎃" 50x6', 'OVERLAP "🎁 Real-world prize" x "Made me smile" 103x16', 'OVERLAP "🎁 Real-world prize" x "Got confused" 96x16', 'OVERLAP "🎁 Real-world prize" x "Too easy" 64x16', 'OVERLAP "MOCK: $10 gift card" x "Made me smile" 35x24', 'OVERLAP "MOCK: $10 gift card" x "Got confused" 96x24', 'OVERLAP "At a local partner restaurant" x "Too hard" 66x20', 'OVERLAP "At a local partner restaurant" x "Loved the critters" 122x20', 'OVERLAP "Prototype only — not a real re" x "🌿 Field note" 312x18', 'OVERLAP "Prototype only — not a real re" x "Too hard" 66x22', 'OVERLAP "Prototype only — not a real re" x "Loved the critters" 122x22', 'OVERLAP "Difficulty: 😎 Medium · Hard S" x "The tallest known tree, a coas" 328x5', 'OVERLAP "Difficulty: 😎 Medium · Hard S" x "Maybe later" 102x5', 'OVERLAP "Difficulty: 😎 Medium · Hard S" x "Keep this note" 143x5', 'OVERLAP "+41 points · Level 1" x "Maybe later" 102x24', 'OVERLAP "+41 points · Level 1" x "Keep this note" 143x24', 'OVERLAP "✕" x "🌿 Field note" 7x18', 'OVERLAP "🌿 Field note" x "Too hard" 66x5', 'OVERLAP "🌿 Field note" x "Loved the critters" 122x5']
+toast later The lantern flickers…
+the first treasure
+Dug up, fair and square · and 4 more in your journal
+share msg Saved the picture to your downloads
+fbCard True How was tonight’s haunt?
+
+Treasure in hand · 0.01 mi · 0m 59s
+
+🎃
+🎃
+🎃
+🎃
+🎃
+Made me smile
+Got confused
+Too easy
+Too hard
+Loved the critters
+Maybe later
+Keep this note
+["warning: Failed to execute 'requestFullscreen' on 'Element': API can only be initiated by a user gesture."]

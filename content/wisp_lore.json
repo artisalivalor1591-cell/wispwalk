@@ -1,0 +1,462 @@
+{
+  "lore": [
+    {
+      "id": "lore_01",
+      "region": "General",
+      "text": "In folklore, a will-o'-the-wisp is a ghostly light seen by night travelers, especially over bogs, swamps, and marshes.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp"
+    },
+    {
+      "id": "lore_02",
+      "region": "Latin",
+      "text": "Its Latin name, ignis fatuus, means \"foolish fire,\" or more playfully, \"giddy flame.\"",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Etymology"
+    },
+    {
+      "id": "lore_03",
+      "region": "Germany",
+      "text": "The Latin term ignis fatuus is not recorded before the 16th century, when it appears to have been coined in Germany as a translation of the German Irrlicht, or \"wandering light.\"",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Etymology"
+    },
+    {
+      "id": "lore_04",
+      "region": "England",
+      "text": "The name comes from \"wisp,\" a bundle of sticks or paper used as a torch, plus the name Will, so it means something like \"Will of the torch.\"",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Etymology"
+    },
+    {
+      "id": "lore_05",
+      "region": "Britain",
+      "text": "In the United Kingdom, the light has gone by many names, including jack-o'-lantern, friar's lantern, and hinkypunk.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Etymology"
+    },
+    {
+      "id": "lore_06",
+      "region": "Britain",
+      "text": "The word jack-o'-lantern originally referred to a will-o'-the-wisp, long before it meant a carved pumpkin.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Etymology"
+    },
+    {
+      "id": "lore_07",
+      "region": "Ireland",
+      "text": "In Irish, the wisp is called tine ghealáin (\"flashing fire\") or Seán na Gealaí (\"Jack of the Moon\").",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Etymology"
+    },
+    {
+      "id": "lore_08",
+      "region": "Ireland",
+      "text": "In the Irish tale of Stingy Jack, the Devil refuses Jack entry to hell but gives him an ember to light his way, which Jack places inside a carved turnip.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Britain"
+    },
+    {
+      "id": "lore_09",
+      "region": "Britain",
+      "text": "When the lights appear in graveyards, they are known as ghost candles or corpse candles.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Synonyms"
+    },
+    {
+      "id": "lore_10",
+      "region": "England",
+      "text": "A Shropshire tale tells of Will the Smith, a wicked blacksmith who is given a single burning coal by the Devil and uses it to lure travelers into the marshes.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Britain"
+    },
+    {
+      "id": "lore_11",
+      "region": "Wales",
+      "text": "Welsh folklore says the light is \"fairy fire\" carried by a púca, a small goblin-like fairy who leads lone travelers off the beaten path.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Britain"
+    },
+    {
+      "id": "lore_12",
+      "region": "Wales",
+      "text": "In Wales, a wisp-light was said to foretell a funeral soon to take place nearby.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Britain"
+    },
+    {
+      "id": "lore_13",
+      "region": "Scotland",
+      "text": "In the Scottish Highlands, the wisp was called the Spunkie and could take the form of a linkboy, a boy who carried a torch to light the way for a fee.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Britain"
+    },
+    {
+      "id": "lore_14",
+      "region": "Scotland",
+      "text": "Spunkies were blamed for shipwrecks when sailors mistook their lights on land for a harbor light.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Britain"
+    },
+    {
+      "id": "lore_15",
+      "region": "Scotland",
+      "text": "A strange light sometimes seen in the Hebrides is called the teine sìth, or \"fairy light.\"",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Britain"
+    },
+    {
+      "id": "lore_16",
+      "region": "Guernsey",
+      "text": "On Guernsey, the light is the faeu boulanger, or \"rolling fire,\" and turning your cap or coat inside out was said to stop it in its tracks.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Britain"
+    },
+    {
+      "id": "lore_17",
+      "region": "Devon & Cornwall",
+      "text": "Pixy-lights of Devon and Cornwall were said to lead travelers away from safe paths and into the bogs.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Britain"
+    },
+    {
+      "id": "lore_18",
+      "region": "Ireland",
+      "text": "In 1938, an Irish schoolboy recorded his father's story of a little red ball of fire in County Kildare that rolled faster when chased and stopped when he stopped.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Ireland"
+    },
+    {
+      "id": "lore_19",
+      "region": "Scandinavia & Baltics",
+      "text": "Danes, Finns, Swedes, Estonians, Latvians, Lithuanians, and the Irish believed a wisp could mark the spot of a treasure hidden deep in the ground or water.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Europe"
+    },
+    {
+      "id": "lore_20",
+      "region": "Finland",
+      "text": "In Finnish mythology, aarnivalkea are spots where an eternal wisp-flame burns, said to mark buried faerie gold.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Europe"
+    },
+    {
+      "id": "lore_21",
+      "region": "Japan",
+      "text": "Japanese folklore describes hitodama, literally \"human soul,\" a ball of energy associated with graveyards.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Asia"
+    },
+    {
+      "id": "lore_22",
+      "region": "Japan",
+      "text": "Kitsunebi, or \"fox-fire,\" is a Japanese ghost light linked to kitsune, the mythical foxes.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Asia"
+    },
+    {
+      "id": "lore_23",
+      "region": "Korea",
+      "text": "In Korea, dokkebi bul, or \"goblin fire,\" was said to lure passersby into losing their way at night.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Asia"
+    },
+    {
+      "id": "lore_24",
+      "region": "China",
+      "text": "The ancient Chinese character 粦 (lín), found on Shang dynasty oracle bones, seems to show a dancing figure surrounded by glowing dots of ghost fire.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Asia"
+    },
+    {
+      "id": "lore_25",
+      "region": "China",
+      "text": "That old character survives inside 磷 (lín), the Chinese word for phosphorus, an element tied to scientific explanations of the wisp.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Asia"
+    },
+    {
+      "id": "lore_26",
+      "region": "Bangladesh & India",
+      "text": "Bengali fishermen tell of aleya, marsh lights believed to be the ghosts of drowned fishermen that sometimes confuse them and sometimes help them avoid danger.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Asia"
+    },
+    {
+      "id": "lore_27",
+      "region": "India",
+      "text": "Chir batti, or \"ghost light,\" is a dancing light reported on dark nights in the Banni grasslands and the Rann of Kutch.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Asia"
+    },
+    {
+      "id": "lore_28",
+      "region": "Brazil",
+      "text": "Brazil's boitatá takes its name from Old Tupi words meaning \"fiery serpent.\"",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Americas"
+    },
+    {
+      "id": "lore_29",
+      "region": "Brazil",
+      "text": "Legend says the boitatá was a giant snake that survived a great flood and gained its fiery gaze from the eyes it ate.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Americas"
+    },
+    {
+      "id": "lore_30",
+      "region": "Mexico",
+      "text": "In Mexico, some lights are called luces del dinero (\"money lights\") and are said to mark buried treasure that only children can help find.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Americas"
+    },
+    {
+      "id": "lore_31",
+      "region": "Argentina & Uruguay",
+      "text": "In Argentina and Uruguay, the luz mala (\"evil light\") is described as a shining ball floating a few inches above the ground.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Americas"
+    },
+    {
+      "id": "lore_32",
+      "region": "Australia",
+      "text": "Australia's Min Min light is reported in the outback after dark, mostly in the Channel Country region.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Oceania"
+    },
+    {
+      "id": "lore_33",
+      "region": "Science",
+      "text": "Scientists suggest wisps may come from the oxidation of phosphine, diphosphane, and methane produced by decay; phosphine can ignite on contact with air and light the methane.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Scientific_explanations"
+    },
+    {
+      "id": "lore_34",
+      "region": "Science",
+      "text": "In 1776, Alessandro Volta proposed that natural electricity igniting methane marsh gas might cause the ignis fatuus.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Historical_explanations"
+    },
+    {
+      "id": "lore_35",
+      "region": "Science",
+      "text": "In 1832, Major Louis Blesson reported that marsh flames retreated whenever he approached, probably because his movement stirred the air and scattered the gas.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Historical_explanations"
+    },
+    {
+      "id": "lore_36",
+      "region": "Science",
+      "text": "In 2025, researchers reported that tiny sparks of \"microlightning\" between rising methane microbubbles in water could produce a glow, offering a new explanation for the wisp.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Scientific_explanations"
+    },
+    {
+      "id": "lore_37",
+      "region": "Science",
+      "text": "Some wisp sightings may be glowing fungi such as honey fungus, called foxfire, or even barn owls with moonlit white feathers.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Scientific_explanations"
+    },
+    {
+      "id": "lore_38",
+      "region": "Science",
+      "text": "Wisp sightings are rare today, probably because so many marshes, like England's fens, have been drained for farmland.",
+      "source_url": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp#Scientific_explanations"
+    }
+  ],
+  "themes": {
+    "story": {
+      "helpful": [
+        "Once upon a time, a little light waited for you right here. Shall we turn the page together?",
+        "The wisp hums an old tune and drifts ahead, as if the next chapter knows your name.",
+        "Every good tale needs a guide, and tonight, it seems, that guide is me.",
+        "Follow the glow, dear reader; the ink is still wet on this part of the story.",
+        "I've kept a bookmark at the next clue, tucked between two very patient trees.",
+        "A hero never walks alone in the old stories, so let me light the margins for you.",
+        "Look there, where the path curls like a question mark. Your answer waits beyond it.",
+        "The storyteller in me insists we go this way. The storyteller is rarely wrong."
+      ],
+      "trickster": [
+        "Ah, but what if the real story is over there? I'm only asking for a friend.",
+        "Every fairy tale has a shortcut that isn't. Want to find out which one this is?",
+        "I might be the wise guide, or I might be the mischievous sprite in chapter three. Who can say?",
+        "Psst! The plot thickens just past that bush. Probably.",
+        "Legends say I've never once led a traveler astray. Legends, admittedly, are written by me.",
+        "Let's skip ahead a few pages, shall we? The middle bits can be so dull.",
+        "Follow me, and I promise a twist you'll never see coming. Mostly because I haven't decided it yet.",
+        "A wise old owl once told me this was the way. Or was it a squirrel? Details, details."
+      ],
+      "resist_detour": [
+        "You close that chapter before it begins. A sensible reader, I see.",
+        "Very well, we'll keep to the main plot. I'll save that tangent for an epilogue.",
+        "A steady hand on the story. The wisp bows and floats back to your side.",
+        "Not every side quest needs taking. Onward, then, to the heart of the tale.",
+        "The wisp sighs dramatically, as wisps do, and follows you down the proper path.",
+        "You know your own story best. I'll simply keep the lantern lit."
+      ],
+      "path_less_traveled": [
+        "Ah, a reader who turns to the unexpected page! This is where the best tales hide.",
+        "You've stepped off the map and into the footnotes. Wonderful things live in footnotes.",
+        "Now the story is truly yours. No one else has walked these lines.",
+        "The narrator gasps in delight. Nobody saw this plot twist coming.",
+        "Off we go into the unwritten part, where every step is a new sentence.",
+        "Bold choice! Somewhere, an old storyteller just smiled."
+      ]
+    },
+    "haunted": {
+      "helpful": [
+        "Don't mind the shadows; they only want to watch. Stay close to my glow.",
+        "The old ones who lit candles here would want you to find your way. Let me help.",
+        "Hush now. If we're quiet, the clue will reveal itself just past the crooked gate.",
+        "I'm the friendly sort of ghost light, I promise. The next clue is this way.",
+        "The fog parts for us, little by little. Keep your eyes on the shimmer ahead.",
+        "Even in the gloomiest woods, a kind light lingers. Tonight, that's me.",
+        "Listen. That rustle is only the wind, and the wind is pointing us onward.",
+        "Follow the faint blue flicker. I've walked this lonely path a thousand times."
+      ],
+      "trickster": [
+        "Ooooh, what's that sound behind you? Never mind, keep walking. This way!",
+        "The corpse candles say hello. They also say this path is lovely this time of night.",
+        "I wouldn't follow that shadow if I were you. Follow mine instead.",
+        "Some say this hollow is haunted. I say it's merely well-attended.",
+        "Come closer, closer... oh, don't look so worried. I only wanted to show you something.",
+        "Boo! Sorry, old habit. The detour is right over here.",
+        "The graveyard shortcut is perfectly safe, unless you count the gossip from the tombstones.",
+        "I've been guiding travelers since before your great-grandmother was born. Mostly in circles."
+      ],
+      "resist_detour": [
+        "Wise to keep your wits about you. The wisp's flame dims, then flickers with respect.",
+        "You won't be lured tonight! The spirits murmur their approval.",
+        "The shadows sigh, disappointed. Your path stays bright and true.",
+        "Clever traveler. Not every eerie light is worth following.",
+        "The wisp shrugs its little ghostly shoulders and drifts back beside you.",
+        "No spooky shortcuts for you, then. Onward, brave one."
+      ],
+      "path_less_traveled": [
+        "Into the mist we go! Hold your breath, and hold your courage closer.",
+        "The moon peeks through the branches to watch your daring little detour.",
+        "A ghostly cheer rises from somewhere unseen. They love a brave visitor.",
+        "Few follow the wisp this far. Fewer still come back with a story this good.",
+        "The air turns cool and curious around you. Something wonderful is near.",
+        "You took the haunted path! Every owl in the woods just hooted your name."
+      ]
+    },
+    "winter": {
+      "helpful": [
+        "Follow my glow through the snow; I'll keep your path warm and bright.",
+        "The frost sparkles like a trail of stars, and every one points the same way.",
+        "Bundle up and come along. The next clue is waiting by the evergreens.",
+        "I'm as cozy as a candle in a window. Let me light the way home to your clue.",
+        "Each crunch of snow under your boots is a step closer. Keep it up!",
+        "The icicles are chiming softly, a little song to guide you on.",
+        "The winter wind is in a kind mood tonight, nudging us toward treasure.",
+        "Look for the soft gold flicker among the snowflakes. That's me, waiting for you."
+      ],
+      "trickster": [
+        "Snowball fight? No? Then perhaps a tiny detour through the drifts.",
+        "I hid something under one of these snowbanks. Which one? Oh, I forget.",
+        "The reindeer told me this way was quicker. Reindeer are terrible at directions.",
+        "Let's take the long way; the hot cocoa tastes better when you've earned it.",
+        "I may have rearranged a few footprints in the snow. Just for fun.",
+        "That icy trail looks slippery, and I think that's exactly what makes it exciting.",
+        "Brr! Let's dash through those pines and see who reaches the clearing first.",
+        "I'm a winter wisp, so naturally I'm a little flaky."
+      ],
+      "resist_detour": [
+        "Staying on the cleared path? Very sensible in this weather.",
+        "The wisp twirls a snowflake, then floats back to your side.",
+        "No snowy wanderings for you today. Warm toes are a fine reason.",
+        "Steady as a sled on a well-worn track. Onward we glide.",
+        "A cozy choice! The detour will still be there after the thaw.",
+        "The wisp's glow softens like a hearth fire. You know best."
+      ],
+      "path_less_traveled": [
+        "Fresh snow and no footprints but yours! What a marvelous feeling.",
+        "Into the winter woods you go, where the quiet is deep and lovely.",
+        "The pines bow under their snow as if to greet you.",
+        "An adventurous heart keeps you warmer than any mitten.",
+        "You've found a trail only the foxes know about. How delightful!",
+        "The snow sparkles a little brighter wherever you choose to wander."
+      ]
+    },
+    "golden": {
+      "helpful": [
+        "The sun is low and generous. Let's chase the warm light while it lasts.",
+        "Golden hour is when I shine my best. Come, the next clue is close.",
+        "Follow the long shadows; they're all pointing somewhere wonderful.",
+        "Every leaf seems lit from within right now. Walk with me through the glow.",
+        "The sky is turning honey-colored, and I think it wants you to find your treasure.",
+        "Slow down and breathe in the amber air. The path will wait for you.",
+        "See how the light pools there, just ahead? That's our next step.",
+        "Like a lantern at dusk, I'll stay a few steps ahead to light your way."
+      ],
+      "trickster": [
+        "Let's race the sunset! I'll give you a head start. Maybe.",
+        "The golden light makes everything look like treasure. Some of it even is.",
+        "I know a spot where the sunset is twice as lovely. It's only slightly out of the way.",
+        "Look at that glittering field! Surely something precious is hiding there.",
+        "Shadows grow long at this hour, and so do my little detours.",
+        "Follow the glimmer! Which glimmer? Oh, there are so many to choose from.",
+        "I've been told I'm more golden than the sunset. I've mostly told myself.",
+        "Quick, before the sun dips! There's no time to explain, only time to wander."
+      ],
+      "resist_detour": [
+        "You'd rather savor the golden glow right here. A lovely choice.",
+        "The wisp drifts back, glowing like a lazy firefly in the warm air.",
+        "Steady and sure, like the sun sinking right on time.",
+        "No need to chase every glimmer. Your path is golden enough.",
+        "The detour fades with the daylight. Onward, at your own pace.",
+        "A calm heart at golden hour. The wisp approves."
+      ],
+      "path_less_traveled": [
+        "Off you go into the amber light! Every step glows.",
+        "This little detour looks like it was painted just for you.",
+        "The sunset leans in to watch your adventure unfold.",
+        "Gold on the grass, gold in the trees, and now a golden memory too.",
+        "You followed the glimmer, and the evening grew a little brighter.",
+        "What a glorious wander! The sun will set happily tonight."
+      ]
+    },
+    "spring": {
+      "helpful": [
+        "Everything is waking up, and so is the trail. Follow me past the blossoms.",
+        "Listen to the birds; they're cheering you toward the next clue.",
+        "The buds are peeking out to see who's passing. Let's give them a show.",
+        "A soft breeze carries petals this way, and I think we should follow them.",
+        "The puddles shine like little mirrors, each one reflecting your path ahead.",
+        "New leaves, new paths, new treasures. Come, let me show you.",
+        "Mind the clover; somewhere in there, the luck is waiting for you.",
+        "The world smells of rain and fresh green things. What a day for a hunt!"
+      ],
+      "trickster": [
+        "Let's hop through the puddles! The muddy way is the fun way.",
+        "I followed a butterfly once and ended up somewhere magical. Want to try?",
+        "That flower patch looks suspicious. Suspiciously delightful, that is.",
+        "The robins told me a secret about a hidden path. Robins love to gossip.",
+        "A spring shower might pop up, but who doesn't love a little adventure in the rain?",
+        "I've tangled a few vines into a new trail. You're welcome.",
+        "Is this the way? Is that the way? Oh, spring makes me so giddy!",
+        "Follow the bumblebees! They know where the sweetest spots are hiding."
+      ],
+      "resist_detour": [
+        "You'll stay on the dry path today? Your socks thank you.",
+        "The wisp bobs among the blossoms, then floats back to your side.",
+        "No muddy wanderings this time. The tulips wave you onward.",
+        "A steady stride through springtime. The trail is yours.",
+        "Fair enough! The meadow will bloom again tomorrow.",
+        "The wisp tucks its detour away like a seed for later."
+      ],
+      "path_less_traveled": [
+        "Into the blooming unknown! Every step smells of fresh petals.",
+        "You've found a path the bunnies use. How charming!",
+        "Spring rewards the curious, and you're curious indeed.",
+        "The birds burst into song as you wander off the beaten trail.",
+        "A new path for a new season. How perfectly springlike!",
+        "Look at you, blooming into an explorer. The wildflowers approve."
+      ]
+    },
+    "summer": {
+      "helpful": [
+        "The days are long and bright, so let's make the most of them. This way!",
+        "Follow the dragonflies; they always know where the cool shade is.",
+        "The breeze off the water is calling. Your next clue is near.",
+        "Stay hydrated, sunny adventurer! Then follow my sparkle down the trail.",
+        "The cicadas are buzzing a little song just for you. Let's find the clue.",
+        "There's shade beneath those trees ahead, and something worth finding too.",
+        "On a warm evening like this, the fireflies and I are happy to light your way.",
+        "The trail is sun-warmed and welcoming. Let's stroll on together."
+      ],
+      "trickster": [
+        "Last one to the shady tree is a soggy sandwich!",
+        "I heard the ice cream truck went this way. I'm almost certain.",
+        "That glimmer over there might be treasure, or it might just be a very shiny rock.",
+        "Let's take the long way; summer days are made for wandering.",
+        "The fireflies dared me to lead you astray. I never refuse a dare.",
+        "Is that a lake, or a mirage? Only one way to find out!",
+        "I may have hidden the clue near a beehive. I'm kidding! Probably.",
+        "Summer makes me restless. Let's zig a little before we zag."
+      ],
+      "resist_detour": [
+        "You'll keep to the shady trail? Clever, on a day this warm.",
+        "The wisp sizzles a little, then drifts back beside you.",
+        "No sunny side trips today. Your sunscreen thanks you.",
+        "A steady path under a summer sky. Onward we go.",
+        "The detour can wait for a cooler day. Lead the way.",
+        "The wisp shimmers like a heat wave and nods in agreement."
+      ],
+      "path_less_traveled": [
+        "Off into the summer wilds! Smell that warm pine air.",
+        "You've found a sun-dappled secret. Not many people come this way.",
+        "The fireflies are delighted. They knew you'd follow.",
+        "Long days are meant for long wanders, and yours is perfect.",
+        "Somewhere a breeze just picked up to cool your daring steps.",
+        "What a summer adventure! This is the sort of day you'll remember."
+      ]
+    }
+  }
+}

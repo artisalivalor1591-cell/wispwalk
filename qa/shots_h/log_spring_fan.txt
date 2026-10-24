@@ -1,0 +1,43 @@
+hunting hunting uiHide
+{'pin': {'lng': -89.40658394472538, 'lat': 44.437174644833235}, 'diff': 'medium', 'zone': 'Excalibur - SR 12b', 'start': {'lat': 44.43601, 'lng': -89.41313, 'acc': 10}}
+follow translate -18.1px 16.1px
+anim ['peek', 'bob', 'yawn', 'twirl']
+decoy X present True {'st': 'decoy', 'stolen': None, 'detour': None}
+decoy msg: Caught you, petal sprite. Mischief managed.
+mirage X present True {'st': 'mirage', 'stolen': None, 'detour': None}
+mirage msg: Caught you, petal sprite. Mischief managed.
+acc text GPS: Timeout expired
+detour {"st":"detour","stolen":null,"detour":{"pin":{"lng":-89.42018684610005,"lat":44.43930787040004},"n":"Hard Scrabble - SR 10","follow":false}} That flower patch looks suspicious. Suspiciously delightful, that is. Follow it to Hard Scrabble - SR 10? Follow the wisp Stay the course
+OVL []
+links ['Follow the wisp', 'Stay the course']
+S.detour {"pin":{"lng":-89.42018684610005,"lat":44.43930787040004},"n":"Hard Scrabble - SR 10","follow":false}
+after follow The wisp waits about 667 m to the northwest, at Hard Scrabble - SR 10. The compass still points to the real treasure. {"pin":{"lng":-89.42018684610005,"lat":44.43930787040004},"n":"Hard Scrabble - SR 10","follow":true}
+reward msg You found Hard Scrabble - SR 10 Midnight Petal. “Where a wisp rests for a moment, clover grows a little thicker.” | toast Something new bloomed…
+Path Less Traveled
+Hard Scrabble - SR 10 Midnight Petal
+star api ['fly', 'caught', 'name']
+star el False
+claim disabled [False, False]
+WIN TEXT uiHide ['reveal: ', 'win: 🍁 | Treasure found! | Your mock prize: Mock: Free ice cream cone | 🪶 | COMMON · NEW! | Feathered Cap | Added to your hoard — wear it on your character. | 🏰 Earthly reward | MOCK: Free ice cream cone | At a local partner shop | Prototype only — not a real reward. Sponsor prizes will plug in here later. | Difficulty: 😎 Medium · Excalibur - SR 12b | The Northwoods reward the bold. | ✨ +41 XP · Level 1 Wanderer | New badge: 🏅 First find | 1m 0s | time | 77 ft | walked | Tell someone about it Share the find | keep the real prize a secret | New hunt', 'shRow: Tell someone about it Share the find | keep the real prize a secret', 'msT: Something new bloomed… | your very first hunt | Every one counts', 'fbCard: How did the stroll feel? | Treasure in hand · 0.01 mi · 1m 0s | 🌸 | 🌸 | 🌸 | 🌸 | 🌸 | Made me smile | Got confused | Too easy | Too hard | Loved the critters | Maybe later | Keep this note']
+OVLwin ['OVERLAP "Feathered Cap" x "How did the stroll feel?" 108x18', 'OVERLAP "Added to your hoard — wear it " x "How did the stroll feel?" 316x15', 'OVERLAP "Added to your hoard — wear it " x "Treasure in hand · 0.01 mi · 1" 316x19', 'OVERLAP "🏰 Earthly reward" x "🌸" 50x10', 'OVERLAP "MOCK: Free ice cream cone" x "Made me smile" 67x21', 'OVERLAP "MOCK: Free ice cream cone" x "Got confused" 92x21', 'OVERLAP "MOCK: Free ice cream cone" x "Too easy" 22x21', 'OVERLAP "At a local partner shop" x "Made me smile" 105x21', 'OVERLAP "At a local partner shop" x "Got confused" 92x21', 'OVERLAP "At a local partner shop" x "Too easy" 60x21', 'OVERLAP "Prototype only — not a real re" x "Too hard" 64x35', 'OVERLAP "Prototype only — not a real re" x "Loved the critters" 123x35', 'OVERLAP "Difficulty: 😎 Medium · Excali" x "Ancient peoples grouped stars " 328x22', 'OVERLAP "The Northwoods reward the bold" x "Maybe later" 93x17', 'OVERLAP "The Northwoods reward the bold" x "Keep this note" 125x17', 'OVERLAP "✨ +41 XP · Level 1 Wanderer" x "Maybe later" 111x15', 'OVERLAP "✨ +41 XP · Level 1 Wanderer" x "Keep this note" 143x15', 'OVERLAP "✕" x "🌙 Night note" 7x16', 'OVERLAP "🌙 Night note" x "Too hard" 64x7', 'OVERLAP "🌙 Night note" x "Loved the critters" 123x7']
+toast later Something new bloomed…
+the first treasure
+Dug up, fair and square · and 6 more in your journal
+share msg Saved the picture to your downloads
+fbCard True How did the stroll feel?
+
+Treasure in hand · 0.01 mi · 1m 0s
+
+🌸
+🌸
+🌸
+🌸
+🌸
+Made me smile
+Got confused
+Too easy
+Too hard
+Loved the critters
+Maybe later
+Keep this note
+["warning: Failed to execute 'requestFullscreen' on 'Element': API can only be initiated by a user gesture."]
