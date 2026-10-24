@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232358"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232358"><link rel="icon" href="icon-192.png?v=202610232358"><link rel="apple-touch-icon" href="icon-192.png?v=202610232358"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610240035"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610240035"><link rel="icon" href="icon-192.png?v=202610240035"><link rel="apple-touch-icon" href="icon-192.png?v=202610240035"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -2043,37 +2043,112 @@ const go=$$('#sxGo'),orig=go.onclick;const st=document.createElement('div');st.i
 let how=LS('ttu_profile_how');if(!how||how==='wander')how='radius';let dist=+(LS('ttu_profile_dist')||0.5),dif=LS('ttu_profile_dif')||((P.hist||[]).length?(typeof diffSel!=='undefined'?diffSel:'easy'):'easy');
 const FM={'0.25':'<span class="fr">¼</span> mile','0.5':'<span class="fr">½</span> mile','1':'1 mile','2':'2 miles','5':'5 miles','10':'10 miles','25':'25 miles'};
 const MV={walk:[0.25,0.5,1,2],combo:[1,2,5],drive:[5,10,25]},MD={walk:0.5,combo:2,drive:10};
-const CR={walk:[0.1,3,0.1,1],combo:[0.5,10,0.5,3],drive:[1,30,1,15]};let CU={};try{CU=JSON.parse(LS('ttu_profile_cust')||'{}')}catch(e){}
-const cOn=()=>!!(CU[mv]&&CU[mv].on),cV=()=>{const r=CR[mv],v=CU[mv]&&+CU[mv].v;return v>=r[0]&&v<=r[1]?v:r[3]},cSave=()=>LS('ttu_profile_cust',JSON.stringify(CU));
+const rng=(a,b,st)=>{const o=[];for(let v=a;v<=b+1e-9;v+=st)o.push(+v.toFixed(2));return o};
+const VA={walk:rng(0.1,3,0.1),combo:rng(0.5,25,0.5),drive:rng(1,30,1).concat(rng(35,100,5))},CD={walk:1,combo:3,drive:15};
+const CR={walk:[0.1,3],combo:[0.5,25],drive:[1,100]};let CU={};try{CU=JSON.parse(LS('ttu_profile_cust')||'{}')}catch(e){}
+const cOn=()=>!!(CU[mv]&&CU[mv].on),cV=()=>{const r=CR[mv],v=CU[mv]&&+CU[mv].v;return v>=r[0]&&v<=r[1]?v:CD[mv]},cSave=()=>LS('ttu_profile_cust',JSON.stringify(CU));
+const ci=v=>{const a=VA[mv];let b=0;a.forEach((x,i)=>{if(Math.abs(x-v)<Math.abs(a[b]-v))b=i});return b};
 const mlab=v=>(v===1?'1 mile':(+v.toFixed(1))+' miles');
 let mv=['walk','drive','combo'].includes(P.move)?P.move:'walk';const fit=()=>{if(cOn()){dist=cV();return}if(!MV[mv].includes(dist))dist=MD[mv]};fit();
+const rowH=()=>'<div class="row">'+MV[mv].map(k=>`<button class="opt${!cOn()&&+k===dist?' sel':''}" data-mi="${k}"><b>${FM[k]}</b></button>`).join('')+`<button class="opt${cOn()?' sel':''}" data-cu="1"><b>Custom</b></button></div>`+(cOn()?`<div class="cus"><input type="range" id="stCu" min="0" max="${VA[mv].length-1}" step="1" value="${ci(cV())}" aria-label="Custom distance"><output id="stCuL">${mlab(cV())}</output></div>`:'');
 function draw(){fit();st.innerHTML=`<p class="ld">How will you travel?</p>
 <div class="row">${[['walk','On foot'],['drive','By car'],['combo','A bit of both']].map(([k,l])=>`<button class="opt${k===mv?' sel':''}" data-mv="${k}"><b>${l}</b></button>`).join('')}</div>
 ${mv==='walk'?'':'<p class="nt">Park somewhere safe, then finish on foot.</p>'}
 <div class="hr"></div><p class="ld">${P.fan?'Where shall the quest lead?':'Where shall we wander?'}</p>
-<button class="opt" data-h="wander" hidden style="display:none"><b>❦ Wander nearby</b><small>We’ll find a friendly park close by. No setup.</small></button>
 <button class="opt" data-h="radius"><b>A set distance</b><small>${mv==='walk'?'Hidden somewhere within a walk you choose.':mv==='drive'?'Hidden at a public spot within a short drive.':'A short drive, then a walk to the treasure.'}</small></button>
-${how==='radius'?'<div class="row">'+MV[mv].map(k=>`<button class="opt${!cOn()&&+k===dist?' sel':''}" data-mi="${k}"><b>${FM[k]}</b></button>`).join('')+`<button class="opt${cOn()?' sel':''}" data-cu="1"><b>Custom</b></button></div>`+(cOn()?`<div class="cus"><input type="range" id="stCu" min="${CR[mv][0]}" max="${CR[mv][1]}" step="${CR[mv][2]}" value="${cV()}" aria-label="Custom distance"><output id="stCuL">${mlab(cV())}</output></div>`:''):''}
+${how==='radius'?rowH():''}
+<button class="opt" data-h="else"><b>Somewhere else</b><small>Plan a hunt in another town, even far away.</small></button>
+${how==='else'?`<div class="elw"><form id="elF" autocomplete="off"><span class="elG">⌕</span><input id="elQ" type="search" enterkeyhint="search" placeholder="A town or place, like Santa Cruz" value="${esc(eq)}" aria-label="Search for a place"></form>
+<div id="elR">${elR()}</div>${rowH()}<button class="lnk2" id="elMap" type="button">${P.fan?'Or point to it on the map':'Or tap a spot on the map'}</button><div id="elMp"></div></div>`:''}
+<button class="opt" data-h="wander"><b><span class="wG">❦</span> Wander nearby</b><small>No setup. We’ll find a friendly park close by.</small></button>
 <button class="opt" data-h="public"><b>Draw my own area</b><small>Outline a public park on the map.</small></button>
 <div class="hr"></div><p class="ld">How tricky?</p>
 <div class="row">${['easy','medium','hard'].map(d=>`<button class="opt${d===dif?' sel':''}" data-d="${d}"><b>${d[0].toUpperCase()+d.slice(1)}</b></button>`).join('')}</div>
-<button class="go" id="stGo">${how==='public'?'Open the map':P.fan?'Onward!':'Off we go'}</button>
+<p class="nt" id="elM" role="status"></p><button class="go" id="stGo">${how==='else'?'Save this hunt':how==='public'?'Open the map':P.fan?'Onward!':'Off we go'}</button>
 <div><button class="lnk2" id="stBack">Back</button><button class="lnk2" id="stMore">More settings</button></div>`;
 st.querySelectorAll('[data-h]').forEach(b=>{b.classList.toggle('sel',b.dataset.h===how);b.onclick=()=>{how=b.dataset.h;tick();draw()}});
 st.querySelectorAll('[data-mv]').forEach(b=>b.onclick=()=>{mv=b.dataset.mv;P.move=mv;try{pSave()}catch(e){}tick();draw()});
 st.querySelectorAll('[data-mi]').forEach(b=>b.onclick=()=>{dist=+b.dataset.mi;CU[mv]=Object.assign(CU[mv]||{},{on:false});cSave();tick();draw()});
 st.querySelectorAll('[data-cu]').forEach(b=>b.onclick=()=>{CU[mv]=Object.assign(CU[mv]||{},{on:true,v:cV()});cSave();tick();draw()});
-{const r=st.querySelector('#stCu');if(r){r.oninput=()=>{const v=+r.value;dist=v;CU[mv]={on:true,v};st.querySelector('#stCuL').textContent=mlab(v)};r.onchange=()=>{cSave();tick()}}}
+{const r=st.querySelector('#stCu');if(r){r.oninput=()=>{const v=VA[mv][+r.value];dist=v;CU[mv]={on:true,v};st.querySelector('#stCuL').textContent=mlab(v)};r.onchange=()=>{cSave();tick()}}}
 st.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{dif=b.dataset.d;tick();draw()});
-$$('#stBack').onclick=close;$$('#stMore').onclick=()=>{close();window.sxOpen&&sxOpen('dn')};$$('#stGo').onclick=launch}
+elWire();$$('#stBack').onclick=close;$$('#stMore').onclick=()=>{close();window.sxOpen&&sxOpen('dn')};$$('#stGo').onclick=launch}
 const tick=()=>{try{TTU_QSND.click()}catch(e){}};
 function open(){draw();st.classList.add('on');document.body.classList.add('stepOn')}function close(){st.classList.remove('on');document.body.classList.remove('stepOn')}
 function clk(s){const b=document.querySelector(s);b&&b.click()}
-function launch(){LS('ttu_profile_how',how);LS('ttu_profile_dist',String(dist));LS('ttu_profile_dif',dif);clk('.dd[data-d="'+dif+'"]');close();
- if(how==='wander'){clk('.m[data-mode="radius"]');window.TTU_WANDER&&TTU_WANDER.go();return}
+function launch(){if(how==='else'){LS('ttu_profile_dist',String(dist));LS('ttu_profile_dif',dif);return plan()}LS('ttu_profile_how',how);LS('ttu_profile_dist',String(dist));LS('ttu_profile_dif',dif);clk('.dd[data-d="'+dif+'"]');close();
+ if(how==='wander'){clk('.m[data-mode="radius"]');wanderGo();return}
+ if(how==='else'){plan();return}
  if(how==='public'){clk('.m[data-mode="public"]');window.sxOpen&&sxOpen('up');how='publicReady';return}
  clk('.m[data-mode="radius"]');clk('.rr[data-mi="'+dist+'"]');miSel=dist;{const g=$$('#sxGo');(g.onclick||orig).call(g)}}
 document.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest('#sxGo');if(!g||!$('agree').checked)return;if(how==='publicReady'){how='public';LS('ttu_profile_how','public');return}e.stopImmediatePropagation();e.preventDefault();open()},true);
+
+/* 4) Somewhere else: plan a hunt anywhere */
+const esc=t=>String(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let eq='',ers=[],ePick=null,eBusy=false,eLast=0,emap=null,emk=null;
+const short=n=>String(n||'').split(',').slice(0,2).map(x=>x.trim()).join(', ');
+function elR(){if(ePick)return `<p class="elP">${P.fan?'Bound for':'Headed to'} <b>${esc(short(ePick.n))}</b></p>`;return ers.map((r,i)=>`<button class="opt elO" data-ei="${i}"><small>${esc(short(r.n))}</small></button>`).join('')}
+const eMsg=t=>{const m=$$('#elM');if(m)m.textContent=t||''};
+async function geo(q){const now=Date.now();if(now-eLast<1100)await new Promise(r=>setTimeout(r,1100-(now-eLast)));eLast=Date.now();
+ try{const r=await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&accept-language=en&q='+encodeURIComponent(q),{headers:{'Accept':'application/json'}});if(!r.ok)throw 0;const j=await r.json();return j.map(x=>({n:x.display_name,lat:+x.lat,lng:+x.lon}))}
+ catch(e){const r=await fetch('https://photon.komoot.io/api/?limit=5&lang=en&q='+encodeURIComponent(q));const j=await r.json();return(j.features||[]).map(f=>{const p=f.properties||{};return{n:[p.name,p.city||p.county,p.state,p.country].filter(Boolean).join(', '),lat:f.geometry.coordinates[1],lng:f.geometry.coordinates[0]}})}}
+async function rev(lat,lng){try{const r=await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=14&accept-language=en&lat='+lat+'&lon='+lng);const j=await r.json();const a=j.address||{};return [a.city||a.town||a.village||a.hamlet||a.county,a.state].filter(Boolean).join(', ')||'that spot'}catch(e){return 'that spot'}}
+function elWire(){const f=$$('#elF');if(!f)return;$$('#elQ').oninput=e=>{eq=e.target.value};
+ f.onsubmit=async e=>{e.preventDefault();const q=$$('#elQ').value.trim();if(q.length<2||eBusy)return;eq=q;ePick=null;eBusy=true;eMsg('Looking it up…');
+  try{ers=await geo(q);eMsg(ers.length?'':'Hmm, nothing by that name. Try adding the state.')}catch(err){ers=[];eMsg('The map is quiet right now. Try again in a moment, or tap the map.')}eBusy=false;$$('#elR').innerHTML=elR();wireR()};
+ wireR();
+ $$('#elMap').onclick=()=>{const box=$$('#elMp');if(emap){box.classList.toggle('on');return}box.classList.add('on');
+  const c=ePick||{lat:39.5,lng:-98.35};emap=L.map(box,{zoomControl:false,attributionControl:true}).setView([c.lat,c.lng],ePick?11:3);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(emap);if(ePick)emk=L.circleMarker([c.lat,c.lng],{radius:8}).addTo(emap);
+  emap.on('click',async ev=>{const {lat,lng}=ev.latlng;if(emk)emk.setLatLng(ev.latlng);else emk=L.circleMarker(ev.latlng,{radius:8}).addTo(emap);ePick={n:'that spot',lat,lng};ers=[];$$('#elR').innerHTML=elR();ePick.n=await rev(lat.toFixed(5),lng.toFixed(5));$$('#elR').innerHTML=elR();tick()})}}
+function wireR(){st.querySelectorAll('[data-ei]').forEach(b=>b.onclick=()=>{ePick=ers[+b.dataset.ei];ers=[];tick();$$('#elR').innerHTML=elR();if(emap){emap.setView([ePick.lat,ePick.lng],11);emk?emk.setLatLng([ePick.lat,ePick.lng]):(emk=L.circleMarker([ePick.lat,ePick.lng],{radius:8}).addTo(emap))}})}
+const PQ=(la,lo,m)=>'[out:json][timeout:12];(nwr["leisure"~"^(park|playground|nature_reserve|garden|common)$"]["access"!~"private|no"](around:'+m+','+la+','+lo+');node["highway"="trailhead"](around:'+m+','+la+','+lo+');nwr["landuse"="village_green"](around:'+m+','+la+','+lo+'););out geom 120;';
+const SQ=(la,lo)=>{const a='(around:450,'+la+','+lo+')';return '[out:json][timeout:10];(way["highway"~"^(motorway|trunk|primary|secondary|motorway_link|trunk_link|primary_link|secondary_link)$"]'+a+';way["railway"~"^(rail|light_rail|tram|subway|narrow_gauge)$"]'+a+';way["natural"="water"]'+a+';way["waterway"~"^(river|stream|canal|ditch|drain)$"]'+a+';way["landuse"~"^(industrial|military)$"]'+a+';);out geom 400;'};
+function ovq(q,ms){return Promise.any(TTU_WANDER.MIRRORS.map(u=>{const ac=new AbortController(),t=setTimeout(()=>ac.abort(),ms);return fetch(u,{method:'POST',body:'data='+encodeURIComponent(q),headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ac.signal}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(j=>{clearTimeout(t);if(!j||!j.elements)throw 0;return j})}))}
+const inCov=c=>c.lng>-90.06&&c.lng<-88.36&&c.lat>44.33&&c.lat<45.53;
+const merge=L2=>{if(L2.u.length)DATA.u=DATA.u.concat(L2.u);DATA.z=DATA.z.concat(L2.z.filter(z=>!DATA.z.some(o=>o.n===z.n&&Math.abs(o.b[0]-z.b[0])<1e-4)))};
+/* find a safe pin around c, widening through radii (miles). local zones first, then a light live park search, then a tiny safety check near the pick */
+async function findAround(c,radii,say){await loadData();const T0=Date.now(),log=[];
+ const tryLocal=()=>{for(const r of radii){const res=placePin({type:'circle',c,r:r*M_PER_MI},false);if(res)return{res,r}}return null};
+ let hit=inCov(c)?tryLocal():null;if(hit){log.push('local');return Object.assign(hit,{ms:Date.now()-T0,via:'local',log})}
+ say&&say('Looking for a friendly spot…');
+ const big=Math.min(radii[radii.length-1]*M_PER_MI,9000);let pj=null;
+ try{pj=await ovq(PQ(c.lat.toFixed(5),c.lng.toFixed(5),Math.round(big)),12000)}catch(e){log.push('parks-fail')}
+ if(pj){const L2=TTU_WANDER.parse(pj);merge({z:L2.z,u:[]});log.push('parks:'+L2.z.length)}
+ for(let k=0;k<3;k++){hit=tryLocal();if(!hit)break;if(inCov(c))return Object.assign(hit,{ms:Date.now()-T0,via:'live',log});
+  say&&say('Checking it’s a calm, safe spot…');let sj=null;try{sj=await ovq(SQ(hit.res.pin.lat.toFixed(5),hit.res.pin.lng.toFixed(5)),9000)}catch(e){log.push('safety-fail');break}
+  const L3=TTU_WANDER.parse(sj),before=DATA.u.length;merge({z:[],u:L3.u});const again=placePin({type:'circle',c,r:hit.r*M_PER_MI},false);
+  if(again&&(L3.u.length===0||before===DATA.u.length||true)){const ok=placePin.length?again:again;/* re-placed with safety data loaded */return{res:again,r:hit.r,ms:Date.now()-T0,via:'live+safe',log}}}
+ return{res:null,ms:Date.now()-T0,log}}
+window.TTU_FIND=findAround;
+const WR={walk:[1.1,2.5,5],combo:[2.5,5,10],drive:[5,10,25]};
+async function wanderGo(){const m=$$('#sxMsg'),say=t=>{if(m)m.textContent=t};if(!$('agree').checked){say('Please agree to the safety terms first.');return}
+ document.body.classList.add('wandering');try{say('Finding where you are…');let c;try{c=await getPos()}catch(e){say('Location is off, so I can’t look nearby. Allow location and try again.');return}
+ const f=await findAround({lat:c.lat,lng:c.lng},WR[mv]||WR.walk,say);window.__lastWander=f;
+ if(!f.res){say(P.fan?'The woods are shy tonight. Try “A set distance” instead.':'No calm spot turned up nearby just now. Try “A set distance” instead.');how='radius';return}
+ say('');diffSel=dif;mode='radius';miSel=f.r;start()}finally{document.body.classList.remove('wandering')}}
+async function ovp(lat,lng){const body='data='+encodeURIComponent(TTU_WANDER.q(lat.toFixed(5),lng.toFixed(5)));
+ return Promise.any(TTU_WANDER.MIRRORS.map(u=>{const ac=new AbortController();setTimeout(()=>ac.abort(),25000);return fetch(u,{method:'POST',body,headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ac.signal}).then(r=>{if(!r.ok)throw 0;return r.json()})}))}
+async function plan(){if(!ePick){eMsg('First, choose a place.');return}if(eBusy)return;eBusy=true;const g=$$('#stGo');g&&(g.disabled=true);eMsg('Scouting a safe public spot there…');
+ try{const c={lat:ePick.lat,lng:ePick.lng},f=await findAround(c,[dist,Math.max(dist*2,2)],eMsg),res=f.res;window.__lastPlan=f;
+  if(!res){eMsg(f.log.includes('parks-fail')||f.log.includes('safety-fail')?'The map helpers are busy right now. Give it a minute and try again.':'No calm, safe public spot turned up there. Try a bigger distance or a nearby town.');return}
+  const pl={n:short(ePick.n).split(',')[0],full:short(ePick.n),c,mi:f.r,diff:dif,mv,pin:res.pin,zone:res.zone,t:Date.now()};LS('ttu_plan',JSON.stringify(pl));
+  close();ePick=null;ers=[];eq='';how='radius';showPlan();checkPlan(true)}
+ finally{eBusy=false;g&&(g.disabled=false)}}
+const getPl=()=>{try{return JSON.parse(LS('ttu_plan')||'null')}catch(e){return null}};
+function showPlan(){let el=$$('#sxPlan');const pl=getPl();const core=$$('#sxAgree');if(!pl){el&&el.remove();return}if(!core)return;
+ if(!el){el=document.createElement('div');el.id='sxPlan';core.parentNode.insertBefore(el,core)}
+ const nm=esc(pl.n);el.innerHTML=`<p class="plL"><i>${P.fan?'A quest awaits in '+nm+'. The compass wakes when you arrive.':'Waiting for you in '+nm+'. The compass wakes when you arrive.'}</i></p><div><button class="lnk2" id="plGo" type="button">I’m here</button><button class="lnk2" id="plX" type="button">Let it go</button></div>`;
+ $$('#plGo').onclick=()=>{tick();checkPlan(false)};$$('#plX').onclick=()=>{LS('ttu_plan','');try{localStorage.removeItem('ttu_plan')}catch(e){}tick();showPlan()}}
+async function checkPlan(quiet){const pl=getPl();if(!pl)return;const m=$$('#sxMsg');
+ if(!$('agree').checked){if(!quiet&&m)m.textContent='Please agree to the safety terms first.';return}
+ let c;try{if(!quiet&&m)m.textContent='Checking where you are…';c=await getPos()}catch(e){if(!quiet&&m)m.textContent='Allow location so the compass knows you’ve arrived.';return}
+ const hv=(a,b)=>{const r=x=>x*Math.PI/180,h=Math.sin(r(b.lat-a.lat)/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(r(b.lng-a.lng)/2)**2;return 2*6371000*Math.asin(Math.sqrt(h))};const away=hv(c,pl.c)/M_PER_MI;if(away>pl.mi+1){if(!quiet&&m)m.textContent='Still about '+(away>=10?Math.round(away).toLocaleString():away.toFixed(1))+' miles to go. Safe travels!';else if(m)m.textContent='';return}
+ if(m)m.textContent='';diffSel=pl.diff||'easy';mode='radius';miSel=pl.mi;
+ S={mode:'radius',diff:diffSel,region:{type:'circle',c:pl.c,r:pl.mi*M_PER_MI},zone:pl.zone,pin:pl.pin,start:c,t0:Date.now(),walked:0,radiusMi:Math.max(0.25,pl.mi),planned:pl.n};
+ if(diffSel==='medium')S.circle=makeCircle(pl.pin,pl.zone);S.hints=makeHints();save();prevD=null;last=c;try{localStorage.removeItem('ttu_plan')}catch(e){}showPlan();run()}
+showPlan();setTimeout(showPlan,900);
+window.TTU_PLAN={get:getPl,show:showPlan,check:checkPlan,geo};
 window.TTU_STEP={open,close,launch};
 /* 3) first-run 3-card intro, skippable, once */
 const CARDS=[['🧭','A treasure hunt, close to home','We hide a little treasure somewhere safe and public nearby. You go find it.'],
@@ -2099,5 +2174,19 @@ let lastC=0;function hook(){const c=$$('#crit');if(!c)return setTimeout(hook,200
 #stCu::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--sel,#b8612b);box-shadow:0 0 12px var(--aglow,transparent);border:0}
 #stCu::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--sel,#b8612b);border:0}
 #stCuL{font-family:var(--fh,Georgia,serif);font-style:italic;min-width:5.2em;text-align:left;white-space:nowrap}
+#sxStep .wG{font-style:normal;color:var(--sel);opacity:.85;margin-right:2px}
+#sxStep .elw{margin:2px auto 6px;max-width:340px}
+#elF{display:flex;align-items:center;justify-content:center;gap:8px;margin:2px auto}
+.elG{font-size:1.2rem;opacity:.6}
+#elQ{background:none!important;border:0!important;box-shadow:none!important;outline:none;color:inherit;font-family:var(--fh,Georgia,serif);font-style:italic;font-size:1.05rem;text-align:center;width:min(260px,70vw);padding:6px 2px;-webkit-appearance:none;appearance:none}
+#elQ::placeholder{color:inherit;opacity:.5}#elQ::-webkit-search-cancel-button{display:none}
+#sxStep .elO{margin:2px auto;padding:4px 8px}#sxStep .elO small{font-size:.92rem;font-style:normal}
+.elP{margin:6px 0 2px;font-style:italic}.elP b{font-style:normal;font-family:var(--fh);color:var(--sel)}
+#elMp{height:0;overflow:hidden;margin:6px auto 0;width:min(320px,88vw);border-radius:14px;transition:height .35s;-webkit-mask-image:radial-gradient(ellipse 72% 72% at 50% 50%,#000 60%,transparent 100%);mask-image:radial-gradient(ellipse 72% 72% at 50% 50%,#000 60%,transparent 100%)}
+#elMp.on{height:210px}
+#sxPlan{text-align:center;margin:14px auto 6px;max-width:22em;text-shadow:0 1px 2px var(--tsh,transparent),0 0 10px var(--tsh,transparent)}
+#sxPlan .plL{margin:0 0 2px;font-family:var(--fh,Georgia,serif);opacity:.9}
+#sxPlan .lnk2{background:none;border:0;box-shadow:none;color:var(--sel,inherit);font-family:var(--fh,Georgia,serif);font-size:1rem;padding:6px 12px;text-decoration:none}
+#sxPlan #plX{color:inherit;opacity:.6;font-style:italic}
 #sxStep .nt{font-style:italic;font-size:.85rem;opacity:.72;margin:4px 0 0}</style>
 </body></html>
