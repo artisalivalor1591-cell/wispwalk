@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232127"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232127"><link rel="icon" href="icon-192.png?v=202610232127"><link rel="apple-touch-icon" href="icon-192.png?v=202610232127"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232155"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232155"><link rel="icon" href="icon-192.png?v=202610232155"><link rel="apple-touch-icon" href="icon-192.png?v=202610232155"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -99,6 +99,55 @@ body[data-th] #prof label.pl{display:block;margin:14px 0;font-weight:400}
 body[data-th] .pnl .grab{font-size:.9rem;opacity:.75;min-height:44px}
 body[data-th] #prof .inv{border:0!important;background:var(--chipbg)!important;border-radius:16px!important;box-shadow:none!important}body[data-th] #prof .inv.lock{opacity:.45}body[data-th] #prof h3{font-family:var(--fh);font-weight:400;color:var(--sel);margin:24px 0 8px}body[data-th] #prof #pBadges>div{padding:6px 0}
 @media (prefers-reduced-motion:reduce){.pnl,details.more>.mb{transition:none;animation:none}}
+</style>
+<style id="menu2">
+/* Menus as the scene itself: no bubbles, text on the land like the Begin page */
+body[data-th]{--veil:color-mix(in srgb,var(--clr,rgba(250,244,230,.6)) 78%,transparent);--tk:'❂'}
+body[data-th=haunted]{--tk:'☾'}body[data-th=winter]{--tk:'❄'}body[data-th=golden]{--tk:'❦'}body[data-th=spring]{--tk:'✿'}body[data-th=summer]{--tk:'☼'}
+html body[data-th] .pnl,html body[data-th] #prof{background:var(--veil)!important;-webkit-backdrop-filter:blur(7px) saturate(.92);backdrop-filter:blur(7px) saturate(.92);box-shadow:none!important;border:0!important;border-radius:0!important;color:var(--fg)!important}
+html body[data-th] .pnl::before,html body[data-th] #prof::before{content:none!important}
+html body[data-th] .pnl *,html body[data-th] #prof *{text-shadow:0 1px 2px var(--tsh,transparent),0 0 12px var(--tsh,transparent)}
+html body[data-th] .pnl button,html body[data-th] .pnl summary,html body[data-th] .pnl .hint,html body[data-th] .pnl .row,html body[data-th] .pnl label,html body[data-th] .pnl details,html body[data-th] .pnl .card,
+html body[data-th] #prof button,html body[data-th] #prof summary,html body[data-th] #prof .inv,html body[data-th] #prof #charCard,html body[data-th] #prof details,html body[data-th] #prof .card{background:none!important;border:0!important;box-shadow:none!important;border-radius:0!important;color:inherit}
+html body[data-th] .pnl .sxH.pT,html body[data-th] #prof h2:first-of-type{font-size:calc(1.8rem*var(--hs,1))!important;margin:14px 0 6px!important;color:var(--fg)!important;letter-spacing:.03em}
+html body[data-th] .pnl .sxH,html body[data-th] .pnl h2,html body[data-th] #prof h2,html body[data-th] #prof h3{font-size:calc(1.25rem*var(--hs,1))!important;color:var(--sel)!important;margin:34px 0 6px!important;justify-content:center;font-weight:400}
+html body[data-th] .pnl .sxH::before,html body[data-th] .pnl h2::before,html body[data-th] #prof h2::before{content:var(--orn)!important;opacity:.6}
+html body[data-th] .pnl .sxH::after,html body[data-th] .pnl h2::after,html body[data-th] #prof h2::after{content:var(--orn);opacity:.6;font-size:.95em}
+html body[data-th] .pnl .sxH.pT::after,html body[data-th] .pnl .sxH.pT::before{content:none!important}
+html body[data-th] .pnl label:has(>input[type=checkbox]),html body[data-th] #prof label:has(>input[type=checkbox]){min-height:50px;font-size:1.05rem!important}
+/* glyph toggles: dim when off, lit when on */
+html body[data-th] .pnl input[type=checkbox],html body[data-th] #prof input[type=checkbox],html body[data-th] .pnl input[type=checkbox]:checked,html body[data-th] #prof input[type=checkbox]:checked{-webkit-appearance:none;appearance:none;width:44px!important;height:44px!important;border:0!important;border-radius:50%!important;background:none!important;box-shadow:none!important;display:grid;place-items:center;cursor:pointer;margin:0!important;transition:transform .25s}
+html body[data-th] .pnl input[type=checkbox]::after,html body[data-th] #prof input[type=checkbox]::after{content:var(--tk);font-size:1.45rem;line-height:1;color:var(--fg);opacity:.28;filter:grayscale(1);transition:opacity .3s,color .3s,text-shadow .3s,filter .3s}
+html body[data-th] .pnl input[type=checkbox]:checked::after,html body[data-th] #prof input[type=checkbox]:checked::after{color:var(--sel);opacity:1;filter:none;text-shadow:0 0 10px var(--aglow,var(--sel)),0 0 2px var(--sel)}
+html body[data-th] .pnl input[type=checkbox]:active,html body[data-th] #prof input[type=checkbox]:active{transform:scale(.88)}
+/* words that brighten */
+html body[data-th] .pnl button.r,html body[data-th] #prof button.r{opacity:.55;font-size:1rem;min-height:46px;padding:6px 10px!important;transition:opacity .25s,color .25s}
+html body[data-th] .pnl button.r.sel,html body[data-th] #prof button.r.sel{opacity:1;color:var(--sel)!important;font-weight:600}
+html body[data-th] .pnl button.sec,html body[data-th] #prof button.sec{justify-content:flex-start;padding:10px 0!important;min-height:48px;font-size:1.05rem;color:var(--fg)!important}
+html body[data-th] .pnl button.sec:active,html body[data-th] #prof button.sec:active{color:var(--sel)!important}
+/* thin themed sliders */
+html body[data-th] .pnl input[type=range],html body[data-th] #prof input[type=range]{-webkit-appearance:none;appearance:none;height:28px;background:none;width:100%}
+html body[data-th] .pnl input[type=range]::-webkit-slider-runnable-track,html body[data-th] #prof input[type=range]::-webkit-slider-runnable-track{height:2px;background:color-mix(in srgb,var(--fg) 35%,transparent);border-radius:2px}
+html body[data-th] .pnl input[type=range]::-webkit-slider-thumb,html body[data-th] #prof input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-8px;border-radius:50%;background:var(--sel);box-shadow:0 0 8px var(--aglow,transparent)}
+html body[data-th] .pnl input[type=range]::-moz-range-track{height:2px;background:color-mix(in srgb,var(--fg) 35%,transparent)}
+html body[data-th] .pnl input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radius:50%;background:var(--sel)}
+/* text inputs: a single hairline */
+html body[data-th] .pnl input[type=text],html body[data-th] .pnl input:not([type]),html body[data-th] .pnl select,html body[data-th] .pnl textarea,html body[data-th] #prof input[type=text],html body[data-th] #prof input:not([type]),html body[data-th] #prof select,html body[data-th] #prof textarea{background:none!important;border:0!important;border-bottom:1px solid color-mix(in srgb,var(--fg) 30%,transparent)!important;border-radius:0!important;color:var(--fg)!important;box-shadow:none!important;padding:8px 2px!important;font-family:var(--fb)}
+html body[data-th] .pnl select option,html body[data-th] #prof select option{color:#222}
+/* More rows */
+html body[data-th] details.more>summary{justify-content:center;gap:10px;padding:0!important;font-family:var(--fh);font-style:italic;opacity:.8;font-size:1.05rem}
+html body[data-th] details.more>summary::after{content:'›'}
+html body[data-th] .pnl .hint{padding:10px 0!important;margin:4px 0!important}
+html body[data-th] .pnl .grab{opacity:.7}
+html body[data-th] #prof{padding:22px 26px!important}
+html body[data-th] #prof progress,html body[data-th] #prof .bar{height:3px!important;border-radius:2px}
+html body[data-th] .pnl #temp,html body[data-th] .pnl #band,html body[data-th] .pnl #where,html body[data-th] .pnl #trend,html body[data-th] .pnl #acc,html body[data-th] .pnl #hxCard,html body[data-th] .pnl #hxCard *,html body[data-th] .pnl #mapBox{background:none!important;border:0!important;box-shadow:none!important;border-radius:0!important;color:inherit}
+html body[data-th] .pnl #temp{font-family:var(--fh)!important;color:var(--sel)!important;font-size:calc(1.5rem*var(--hs,1))!important;text-align:center}
+html body[data-th] .pnl #band{height:3px!important;opacity:.8}
+html body[data-th] .pnl *:has(>input[type=checkbox]),html body[data-th] #prof *:has(>input[type=checkbox]){display:grid!important;grid-template-columns:1fr auto;align-items:center;column-gap:12px;row-gap:0}
+html body[data-th] .pnl *:has(>input[type=checkbox])>:not(input),html body[data-th] #prof *:has(>input[type=checkbox])>:not(input){grid-column:1}
+html body[data-th] .pnl *:has(>input[type=checkbox])>input[type=checkbox],html body[data-th] #prof *:has(>input[type=checkbox])>input[type=checkbox]{grid-column:2;grid-row:1/span 4}
+html body[data-th] .pnl .sxH:not(.pT),html body[data-th] .pnl h2,html body[data-th] #prof h2,html body[data-th] #prof h3{color:color-mix(in srgb,var(--sel) 55%,var(--fg))!important}
 </style>
 </head><body>
 <button id="resetAll" style="position:fixed;top:10px;right:10px;z-index:50;background:#fffdf7;color:#1f4d3a;padding:8px 10px;font-size:.85rem">↺ Start fresh</button>
