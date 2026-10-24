@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241045"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241045"><link rel="icon" href="icon-192.png?v=202610241045"><link rel="apple-touch-icon" href="icon-192.png?v=202610241045"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241100"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241100"><link rel="icon" href="icon-192.png?v=202610241100"><link rel="apple-touch-icon" href="icon-192.png?v=202610241100"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -326,7 +326,7 @@ if(last&&acc<40){const step=dist(last,c);if(step>Math.max(3,acc*0.3)&&step<200){
 if(hmap){if(!hme)hme=L.circleMarker([c.lat,c.lng],{radius:7,color:'#fff',fillColor:'#2a7de1',fillOpacity:1,weight:2}).addTo(hmap);else hme.setLatLng([c.lat,c.lng])}
 const d=dist(c,S.pin);let t,col;
 if(d<30){t='🔥 ON FIRE';col='#d62828'}else if(d<120){t='♨️ HOT';col='#e07a2f'}else if(d<350){t='🌤️ WARM';col='#e9b44c'}else if(d<800){t='🍃 COLD';col='#5a8bb0'}else{t='❄️ FREEZING';col='#3a5a80'}
-$('temp').textContent=t;$('temp').style.background=col;
+window.__wispC=c;try{document.dispatchEvent(new CustomEvent('ttu:near',{detail:d}))}catch(e){}$('temp').textContent=t;$('temp').style.background=col;
 const bands=[[20,'Right here!'],[50,'Within 50 m'],[100,'Within 100 m'],[250,'Within 250 m'],[500,'Within 500 m'],[1000,'Within 1 km'],[1e9,'Over 1 km away']];$('band').textContent=bands.find(b=>d<b[0])[1];
 if(prevD!==null&&Math.abs(d-prevD)>4){$('trend').textContent=d<prevD?'⬆️ Getting closer':'⬇️ Getting farther';prevD=d}else if(prevD===null)prevD=d;
 $('acc').textContent='GPS accuracy ±'+Math.round(acc)+' m';$('walked').textContent=fmt(S.walked);
@@ -2286,7 +2286,7 @@ let Q=[],busy=false;function toast(m,extra){Q.push([m,extra]);if(!busy)next()}
 function next(){const it=Q.shift();if(!it){busy=false;return}if(b.classList.contains('setupv')||document.getElementById('sxIntro')){Q.unshift(it);busy=false;clearTimeout(window.__msW);window.__msW=setTimeout(()=>{if(!busy&&Q.length)next()},2500);return}busy=true;const [m,extra]=it;let t=document.getElementById('msT');if(!t){t=document.createElement('div');t.id='msT';t.setAttribute('role','status');t.setAttribute('aria-live','polite');b.appendChild(t)}
  t.innerHTML='<i>'+({story:'and so it was written…',haunted:'the lantern flickers…',winter:'a little frost-mark…',golden:'the woods remember…',spring:'something new bloomed…',summer:'the lake takes note…'}[b.dataset.th]||'a little milestone…')+'</i><b>'+m.title+'</b><small>'+m.sub+(extra?' · '+extra:'')+'</small>';
  requestAnimationFrame(()=>t.classList.add('on'));try{navigator.vibrate&&navigator.vibrate([10,60,10])}catch(e){}
- const big=NOTE(m);let r=null;if(m.speak)r=speak(m,m.force);if(r)window.TTU_MS.lastSpoken=r;else if(big&&window.TTU_SND&&TTU_SND.play('wisp'))window.TTU_MS.lastWisp=m.id;else cue('chirp');
+ const big=NOTE(m);let r=null;if(m.speak)r=speak(m,m.force);if(r)window.TTU_MS.lastSpoken=r;else if(big&&window.TTU_WISP){TTU_WISP.flare(true);window.TTU_MS.lastWisp=m.id}else cue('chirp');
  setTimeout(()=>{t.classList.remove('on');setTimeout(next,900)},5200)}
 /* notable milestones get the wisp sound (only when no voice speaks) */
 const NOTE=m=>/^(hu(1|10|25|50|100)|tr(1|10|25|50|100)|d_mi(10|26\.2|50|100)|sk(7|14|30)|st(100000|250000|500000|1000000)|hol_.*|wx_all|th_all|fan10|first|ten)$/.test(m.id);
@@ -2494,4 +2494,111 @@ let lastC=0;function hook(){const c=$$('#crit');if(!c)return setTimeout(hook,200
 #sxPlan .lnk2{background:none;border:0;box-shadow:none;color:var(--sel,inherit);font-family:var(--fh,Georgia,serif);font-size:1rem;padding:6px 12px;text-decoration:none}
 #sxPlan #plX{color:inherit;opacity:.6;font-style:italic}
 #sxStep .nt{font-style:italic;font-size:.85rem;opacity:.72;margin:4px 0 0}</style>
+<style id="wispCSS">
+/* Helpful wisps: CSS-only glow, transform/opacity animations only (GPU-cheap) */
+body{--wc:#ffd98a;--wc2:#fff6d8}
+body[data-th=haunted]{--wc:#b48cff;--wc2:#ffc27a}
+body[data-th=winter]{--wc:#8fd3ff;--wc2:#eaf8ff}
+body[data-th=summer]{--wc:#d9f06a;--wc2:#fbffd0}
+body[data-th=golden]{--wc:#ffad4a;--wc2:#ffe2b0}
+body[data-th=spring]{--wc:#ffa8c8;--wc2:#dcffd8}
+body[data-th=story]{--wc:#ffd36a;--wc2:#fff4cf}
+.wsp{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent;z-index:3;opacity:var(--wo,.55);transition:opacity 1.2s ease}
+.wsp i{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,var(--wc2) 0 14%,var(--wc) 30%,color-mix(in srgb,var(--wc) 35%,transparent) 52%,transparent 72%);animation:wspP var(--wp,3.2s) ease-in-out infinite;will-change:transform,opacity}
+.wsp i::after{content:'';position:absolute;inset:-60%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--wc) 28%,transparent),transparent 65%);opacity:.7}
+.wsp.fl i{animation:wspF 1.6s ease-out 1}
+@keyframes wspP{0%,100%{transform:scale(.86);opacity:.75}50%{transform:scale(1.08);opacity:1}}
+@keyframes wspF{0%{transform:scale(1)}25%{transform:scale(2.1);opacity:1}100%{transform:scale(1);opacity:.85}}
+#wspS{position:fixed;left:0;top:0;width:22px;height:22px;margin:0;z-index:2;display:none;animation:wspD 34s ease-in-out infinite alternate;will-change:transform}
+body.setupv:not(.stepOn):not(.hunting) #wspS{display:block}
+body:has(#sxIntro) #wspS,body:has(.sx.o) #wspS{display:none!important}
+@keyframes wspD{0%{transform:translate(12vw,12vh)}20%{transform:translate(26vw,9vh)}40%{transform:translate(40vw,15vh)}60%{transform:translate(55vw,10vh)}80%{transform:translate(33vw,17vh)}100%{transform:translate(18vw,11vh)}}
+#cmpWrap{position:relative}
+#wspC{left:calc(50% + min(42vw,150px));top:18%;animation:wspC 7s ease-in-out infinite alternate}
+@keyframes wspC{0%{transform:translate(0,0)}50%{transform:translate(-6px,-9px)}100%{transform:translate(5px,4px)}}
+@media (prefers-reduced-motion:reduce){.wsp i,#wspS,#wspC{animation:none!important}#wspS{transform:translate(20vw,12vh)}}
+</style>
+<script id="wispJS">
+(function(){const b=document.body;let sc,cc,lastFlare=0,inRange=false;
+function mk(id,par){const d=document.createElement('div');d.id=id;d.className='wsp';d.setAttribute('aria-hidden','true');d.innerHTML='<i></i>';d.addEventListener('click',e=>{e.stopPropagation();flare(d,false);window.TTU_SND&&TTU_SND.play('twinkle')});par.appendChild(d);return d}
+function flare(d,big){if(!d)return;d.classList.remove('fl');void d.offsetWidth;d.classList.add('fl');setTimeout(()=>d.classList.remove('fl'),1700);if(big&&Date.now()-lastFlare>8000){lastFlare=Date.now();window.TTU_SND&&TTU_SND.play('wisp')}}
+function init(){if(!sc)sc=mk('wspS',b);const w=document.getElementById('cmpWrap');if(w&&!cc){cc=mk('wspC',w)}}
+/* closeness 0 (1 km+) .. 1 (right there): brighter and quicker pulse as you near */
+function near(d){if(!cc)init();if(!cc||!(d>=0))return;const k=Math.max(0,Math.min(1,1-Math.log(Math.max(d,20)/20)/Math.log(50)));
+ cc.style.setProperty('--wo',(.35+.65*k).toFixed(2));cc.style.setProperty('--wp',(3.4-2.3*k).toFixed(2)+'s');
+ if(d<30&&!inRange){inRange=true;flare(cc,true)}else if(d>60)inRange=false}
+document.addEventListener('ttu:near',e=>near(e.detail));
+window.TTU_WISP={flare:big=>{init();flare(b.classList.contains('hunting')?cc:sc,big!==false)},near};
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
+</script>
+<style id="trickCSS">
+#wspX{left:calc(50% - min(42vw,150px));top:30%;filter:hue-rotate(38deg) saturate(1.35);animation:wspX 11s ease-in-out infinite alternate;opacity:.5}
+#wspX i{animation:wspK 2.3s steps(9,jump-none) infinite}
+#wspX.mir{left:calc(50% + min(30vw,110px));top:8%;opacity:.95}
+#wspX.mir i{animation:wspF 1.4s ease-out 2}
+#wspX.dt{filter:hue-rotate(-25deg) saturate(1.2);opacity:.85}
+#wspX.dt i{animation:wspP 2.2s ease-in-out infinite}
+@keyframes wspX{0%{transform:translate(0,0)}100%{transform:translate(-26px,14px)}}
+@keyframes wspK{0%{opacity:.9}12%{opacity:.35}20%{opacity:.85}47%{opacity:.6}52%{opacity:.15}60%{opacity:.9}83%{opacity:.5}100%{opacity:.85}}
+#wspMsg{min-height:1.2em;margin:6px 12px 0;text-align:center;font-style:italic;font-size:.95rem;opacity:.9;transition:opacity .6s}
+#wspMsg a{margin:0 10px;font-style:normal;color:inherit;opacity:.85;cursor:pointer;text-decoration:none}
+#hints .wspStolen{font-style:italic;opacity:.75}
+@media (prefers-reduced-motion:reduce){#wspX,#wspX i{animation:none!important}}
+</style>
+<script id="trickJS">
+/* Trickster wisps (Medium/Hard only, toggleable). Purely visual: the compass and hints stay truthful. */
+(function(){const b=document.body,KT='ttu_profile_trick',KC='ttu_wisp_counts';
+const on=()=>{try{return localStorage.getItem(KT)!=='off'}catch(e){return true}};
+const cnt=k=>{try{return(JSON.parse(localStorage.getItem(KC)||'{}')[k])||0}catch(e){return 0}};
+const bump=k=>{try{const o=JSON.parse(localStorage.getItem(KC)||'{}');o[k]=(o[k]||0)+1;localStorage.setItem(KC,JSON.stringify(o))}catch(e){}};
+const LINE={
+haunted:{caught:'Caught you, little trickster. The lantern sees true.',mirage:'Only a mirage. The needle never lies.',thief:'A wisp slipped off with a hint. Walk about 100 m more to win it back.',back:'The hint drifts home again.',detour:'A second wisp beckons toward a quiet spot nearby.'},
+winter:{caught:'Caught you, frosty trickster. The north star knows better.',mirage:'Just a glimmer on the snow. The needle holds steady.',thief:'A frost wisp ran off with a hint. Walk about 100 m more to earn it back.',back:'The hint thaws and returns.',detour:'A second wisp glitters toward a quiet spot nearby.'},
+golden:{caught:'Caught you, little ember. Back to the woods with you.',mirage:'Only a glint in the leaves. The needle knows the way.',thief:'An ember wisp ran off with a hint. Walk about 100 m more to win it back.',back:'The hint floats back on the breeze.',detour:'A second wisp glows toward a quiet spot nearby.'},
+spring:{caught:'Caught you, petal sprite. Mischief managed.',mirage:'Only a fairy glimmer. The needle stays true.',thief:'A petal wisp fluttered off with a hint. Walk about 100 m more to win it back.',back:'The hint blooms again.',detour:'A second wisp dances toward a quiet spot nearby.'},
+summer:{caught:'Caught you, firefly. Nice try.',mirage:'Only heat shimmer. The needle knows better.',thief:'A firefly wisp zipped off with a hint. Walk about 100 m more to win it back.',back:'The hint buzzes home.',detour:'A second wisp blinks toward a quiet spot nearby.'},
+story:{caught:'And so the trickster was caught.',mirage:'A mirage, nothing more. The needle tells the true tale.',thief:'A mischievous wisp tore a hint from the page. Walk about 100 m more to write it back.',back:'The page is whole again.',detour:'A second wisp beckons toward a quieter chapter nearby.'}};
+const Ln=k=>(LINE[b.dataset.th]||LINE.story)[k];
+const LORE=['Long ago, travellers said wisps led only the patient to quiet places.','Some say every overlook remembers who stopped to look.','An old tale says wisps guard the places people forget to visit.','The kindest wisps lead you somewhere you’d never have found alone.','Quiet places keep the oldest stories.'];
+let X,msg,st=null,lastT=0,stolen=null,timer=0;
+const hunting=()=>b.classList.contains('hunting')&&typeof S!=='undefined'&&S&&S.pin;
+const diff=()=>(typeof S!=='undefined'&&S&&S.diff)||'easy';
+function say(t,links){msg=msg||document.getElementById('wspMsg');if(!msg){const w=document.getElementById('cmpWrap');if(!w)return;msg=document.createElement('p');msg.id='wspMsg';w.appendChild(msg)}msg.innerHTML='';msg.append(document.createTextNode(t));(links||[]).forEach(([lb,fn])=>{const a=document.createElement('a');a.textContent=lb;a.onclick=e=>{e.preventDefault();fn()};msg.append(' ',a)})}
+function clear(){if(X){X.remove();X=null}st=null;clearTimeout(timer)}
+function mkX(cls){clear();const w=document.getElementById('cmpWrap');if(!w)return null;X=document.createElement('div');X.id='wspX';X.className='wsp '+(cls||'');X.innerHTML='<i></i>';w.appendChild(X);return X}
+function caught(k){window.TTU_SND&&TTU_SND.play('twinkle');bump('caught');say(Ln(k||'caught'));clear();setTimeout(()=>msg&&msg.textContent===Ln(k||'caught')&&(msg.textContent=''),7000)}
+function decoy(){const x=mkX('');if(!x)return;st='decoy';x.onclick=e=>{e.stopPropagation();caught('caught')};timer=setTimeout(()=>{if(st==='decoy')clear()},45000)}
+function mirage(){const x=mkX('mir');if(!x)return;st='mirage';x.onclick=e=>{e.stopPropagation();caught('caught')};timer=setTimeout(()=>{if(st==='mirage'){say(Ln('mirage'));clear()}},5000)}
+function thief(){if(stolen||!S.hints||!S.hints.some(h=>S.walked>=h.at))return false;stolen={at:S.walked+100};say(Ln('thief'));typeof renderHints==='function'&&renderHints(window.__wispC);return true}
+const _rh=window.renderHints;if(typeof _rh==='function')window.renderHints=function(c){_rh(c);if(!stolen||typeof S==='undefined'||!S)return;if(S.walked>=stolen.at){stolen=null;say(Ln('back'));_rh(c);return}
+ const els=[...document.querySelectorAll('#hints > *')],i=S.hints.map((h,j)=>S.walked>=h.at?j:-1).filter(j=>j>=0).pop();if(i!=null&&els[i]){els[i].classList.add('wspStolen');els[i].textContent='✧ A wisp has this hint for now. About '+Math.max(0,Math.round(stolen.at-S.walked))+' m more to win it back.'}};
+/* detour: a second approved safe public spot, chosen by the same pin logic used for real hunts */
+function detour(){const c=window.__wispC;if(!c||typeof placePin!=='function')return false;const r=Math.max(300,Math.min((S.radiusMi||.5)*1609.34,3000));
+ for(let k=0;k<12;k++){const res=placePin({type:'circle',c,r},false);if(!res||!res.zone||!res.zone.n||res.zone.n===(S.zone&&S.zone.n))continue;if(dist(res.pin,S.pin)<200||dist(res.pin,c)<120)continue;
+  const x=mkX('dt');if(!x)return false;st='detour';S.detour={pin:res.pin,n:res.zone.n,follow:false};
+  const go=()=>{S.detour.follow=true;show()},stay=()=>{S.detour.follow=false;S.detour.declined=true;say('The wisp sighs and drifts off. The true path it is.');clear()};
+  x.onclick=e=>{e.stopPropagation();go()};say(Ln('detour')+' Follow it to '+res.zone.n+'?',[['Follow the wisp',go],['Stay the course',stay]]);return true}return false}
+const DIRS=['north','northeast','east','southeast','south','southwest','west','northwest'];
+function show(){const d=S.detour,c=window.__wispC;if(!d||!c)return;const m=Math.round(dist(c,d.pin));say('The wisp waits about '+(m>1000?(m/1609.34).toFixed(1)+' mi':m+' m')+' to the '+DIRS[Math.round(bearing(c,d.pin)/45)%8]+', at '+d.n+'. The compass still points to the real treasure.')}
+function reward(){const d=S.detour;d.done=true;bump('path');clear();const lore=LORE[cnt('path')%LORE.length];say('You found the quiet spot. A rare lore scrap: “'+lore+'”');
+ earn('w_path',{title:'Path Less Traveled',sub:'followed a wisp to a quiet spot',speak:true})}
+function earn(id,m){const T=window.TTU_MS;if(!T)return;try{const E=JSON.parse(localStorage.getItem('ttu_ms_earned')||'{}');if(!E[id]){E[id]=Date.now();localStorage.setItem('ttu_ms_earned',JSON.stringify(E))}}catch(e){}T.toast(Object.assign({id},m));T.journal&&T.journal()}
+if(window.TTU_MS&&TTU_MS.M){TTU_MS.M.push({id:'w_path',cat:'wisps',title:'Path Less Traveled',sub:'followed a wisp to a quiet spot',need:1,val:()=>cnt('path'),unit:'detours'},{id:'w_wise',cat:'wisps',title:'Wisp-wise',sub:'stayed the course past a detour wisp',need:1,val:()=>cnt('wise'),unit:'times'})}
+document.addEventListener('ttu:near',e=>{if(!hunting())return;const c=window.__wispC,d=S.detour;
+ if(d&&d.follow&&!d.done&&c){if(dist(c,d.pin)<30)reward();else if(Date.now()-(d.sh||0)>8000){d.sh=Date.now();show()}}
+ if(e.detail<30&&d&&d.declined&&!d.wise){d.wise=true;bump('wise');earn('w_wise',{title:'Wisp-wise',sub:'stayed the course past a detour wisp',speak:false})}
+ if(stolen&&S.walked>=stolen.at&&typeof renderHints==='function')renderHints(c)});
+function rate(){const d=diff();if(d==='easy'||!d)return 0;let r=d==='hard'?.16:.08;const t=b.dataset.tod;if(t==='night'||t==='dusk')r*=2;const n=new Date(),md=(n.getMonth()+1)*100+n.getDate();if(md>=1015&&md<=1101)r*=1.7;return Math.min(r,.5)}
+function tick(force){if(!on()||!hunting()||document.hidden||st)return;if(!force&&(Date.now()-lastT<150000||Math.random()>rate()))return;
+ const kinds=['decoy','mirage','thief'];if(!S.detour)kinds.push('detour','detour');const k=force||kinds[Math.floor(Math.random()*kinds.length)];
+ const ok=k==='decoy'?(decoy(),true):k==='mirage'?(mirage(),true):k==='thief'?thief():detour();if(ok)lastT=Date.now()}
+setInterval(()=>tick(),60000);
+const dbg=new URLSearchParams(location.search).get('trick');
+window.TTU_TRICK={tick:k=>{lastT=0;tick(k||'decoy')},state:()=>({st,stolen,detour:typeof S!=='undefined'&&S&&S.detour}),on};
+/* settings toggle next to the other surprises */
+function mount(){const a=document.getElementById('critTog');if(!a||document.getElementById('trickTog'))return;a.closest('label').insertAdjacentHTML('afterend','<label style="display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:.92rem"><input type="checkbox" id="trickTog" style="width:22px;height:22px"> Trickster wisps · Medium and Hard only</label>');
+ const t=document.getElementById('trickTog');t.checked=on();t.onchange=()=>{try{localStorage.setItem(KT,t.checked?'on':'off')}catch(e){}if(!t.checked)clear()}}
+new MutationObserver(mount).observe(b,{childList:true,subtree:true});mount();
+})();
+</script>
 </body></html>
