@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232222"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232222"><link rel="icon" href="icon-192.png?v=202610232222"><link rel="apple-touch-icon" href="icon-192.png?v=202610232222"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232224"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232224"><link rel="icon" href="icon-192.png?v=202610232224"><link rel="apple-touch-icon" href="icon-192.png?v=202610232224"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -1734,5 +1734,60 @@ const sm=document.querySelector('#sxSug small'),ah=esc(A[0])+' <b>'+esc(A[1])+'<
 const w=document.createTreeWalker(b,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){const t=n.textContent.trim();if(t&&T[t]&&T[t]!==t)n.textContent=n.textContent.replace(t,T[t])}}catch(e){}}
 let q=0;new MutationObserver(()=>{if(!q)q=requestAnimationFrame(()=>{q=0;run()})}).observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['data-th']});
 run();window.TTU_VOICE={BEGIN,ADJ,T};})();
+</script>
+<style id="fbCSS">
+#fbCard{position:fixed;left:0;right:0;bottom:0;z-index:9000;padding:44px 26px calc(20px + env(safe-area-inset-bottom));background:linear-gradient(to bottom,transparent,var(--veil,var(--clr,rgba(250,244,230,.8))) 46px)!important;-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);-webkit-mask:linear-gradient(to bottom,transparent,#000 40px);mask:linear-gradient(to bottom,transparent,#000 40px);color:var(--fg,#3b2f22);transform:translateY(40px);opacity:0;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .6s;font-family:var(--fb,system-ui);text-align:center;text-shadow:0 1px 2px var(--tsh,transparent),0 0 12px var(--tsh,transparent)}
+#fbCard.on{transform:none;opacity:1}
+#fbCard h3{margin:0 0 2px;font-family:var(--fx,var(--fh,Georgia,serif));font-style:italic;font-weight:500;font-size:calc(1.5rem*var(--fxs,1));color:color-mix(in srgb,var(--sel) 55%,var(--fg))}
+#fbCard .fbS{opacity:.7;font-size:.85rem;font-style:italic;margin:0 0 10px}
+#fbStars{display:flex;justify-content:center;gap:4px;margin:2px 0 10px}
+#fbStars button{width:50px;height:50px;border:0;background:none!important;box-shadow:none;font-size:1.8rem;filter:grayscale(1);opacity:.3;transition:transform .25s,opacity .25s,filter .25s;cursor:pointer}
+#fbStars button.on{filter:drop-shadow(0 0 8px var(--aglow,transparent));opacity:1;transform:scale(1.1)}
+#fbChips{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 14px;margin:0 0 8px}
+#fbChips button{border:0;background:none!important;box-shadow:none;padding:8px 2px;min-height:42px;color:inherit;font-family:var(--fx,var(--fh));font-size:calc(1rem*var(--fxs,1));opacity:.55;cursor:pointer;transition:opacity .25s,color .25s}
+#fbChips button.on{opacity:1;color:var(--sel);font-weight:600}
+#fbNote{width:100%;box-sizing:border-box;border:0;border-bottom:1px solid color-mix(in srgb,var(--fg) 30%,transparent);border-radius:0;padding:8px 2px;background:none;color:inherit;font:inherit;font-style:italic;resize:none;height:44px;text-align:center}
+#fbCard .fbB{display:flex;justify-content:center;gap:28px;margin-top:10px}#fbCard .fbB button,#fbCard .fbB a{min-height:48px;border:0;background:none!important;box-shadow:none;color:inherit;font-family:var(--fx,var(--fh));font-size:calc(1.08rem*var(--fxs,1));cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none}
+#fbSave,#fbShare{color:var(--sel)!important;font-weight:600}#fbSave::before,#fbShare::before{content:var(--tk) ' ';opacity:.7;font-weight:400}#fbSkip{font-style:italic;opacity:.7}
+#fbList .fbE{padding:8px 0;font-size:.9rem}#fbList .fbE small{display:block;opacity:.6;font-style:italic}#fbList .fbA{display:flex;justify-content:center;gap:24px;margin-top:8px}#fbList .fbA a,#fbList .fbA button{min-height:46px;border:0;background:none!important;color:var(--sel)!important;font-family:var(--fx,var(--fh));display:flex;align-items:center;text-decoration:none}#fbList .fbA button{color:inherit!important;font-style:italic;opacity:.7}
+@media (prefers-reduced-motion:reduce){#fbCard{transition:opacity .2s}}
+</style>
+<script id="fbJS">
+/* Post-hunt feedback: themed "How was it?" card + local log + mailto share */
+(function(){const FK='ttu_feedback',TO='artisalivalor1591@gmail.com';
+const ICON={story:'🪶',haunted:'🎃',winter:'❄️',golden:'🍂',spring:'🌸',summer:'☀️'};
+const CHIPS=['Made me smile','Got confused','Too easy','Too hard','Loved the critters'];
+const TITLE={story:'how did the tale go?',haunted:'how was tonight’s haunt?',winter:'how was the snow?',golden:'how were the woods today?',spring:'how did the stroll feel?',summer:'how was the water?'};
+const load=()=>{try{return JSON.parse(localStorage.getItem(FK)||'[]')}catch(e){return[]}};
+const saveL=a=>{try{localStorage.setItem(FK,JSON.stringify(a.slice(-100)))}catch(e){}};
+const build=()=>{const m=document.querySelector('meta[name="ttu-build"]');return m?m.content:''};
+const mi=m=>(m/1609.34).toFixed(2)+' mi';const dur=ms=>Math.floor(ms/60000)+'m '+Math.floor(ms/1000)%60+'s';
+function line(e){return (e.res==='win'?'Found it':'Ended early')+' · '+e.theme+' · '+e.diff+' · '+dur(e.ms)+' · '+mi(e.m)+' · '+(e.rating?e.rating+'/5':'no rating')+(e.chips.length?' · '+e.chips.join(', '):'')+(e.note?' · "'+e.note+'"':'')}
+function mailto(list){const sub='Trail Trade-Up feedback ('+(list.length>1?list.length+' hunts':list[0].theme+', '+list[0].diff)+')';
+const body='Hi! Here is my Trail Trade-Up feedback.\n\n'+list.map(e=>'• '+new Date(e.t).toLocaleString()+'\n  Result: '+(e.res==='win'?'treasure found':'hunt ended early')+'\n  Theme: '+e.theme+' ('+e.tod+')\n  Difficulty: '+e.diff+'\n  Duration: '+dur(e.ms)+'\n  Distance: '+mi(e.m)+'\n  Rating: '+(e.rating?e.rating+'/5':'—')+'\n  Chips: '+(e.chips.join(', ')||'—')+'\n  Note: '+(e.note||'—')+'\n  Build: '+e.build).join('\n\n')+'\n\n(Sent from my phone. No location included.)';
+return 'mailto:'+TO+'?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body)}
+window.TTU_FB={load,mailto,line};
+let cur=null;
+function card(h){if(document.getElementById('fbCard'))document.getElementById('fbCard').remove();const th=document.body.dataset.th||'story',ic=ICON[th]||'⭐';
+cur={t:Date.now(),res:h.r,theme:th,tod:document.body.dataset.tod||'',diff:h.d,ms:h.ms,m:h.m,rating:0,chips:[],note:'',build:build()};
+const d=document.createElement('div');d.id='fbCard';d.setAttribute('role','dialog');d.setAttribute('aria-label','How was it?');
+d.innerHTML='<h3>'+(TITLE[th]||'How was it?')+'</h3><p class="fbS">'+(h.r==='win'?'treasure in hand':'home early, and that’s just fine')+' · '+mi(h.m)+' · '+dur(h.ms)+'</p><div id="fbStars">'+[1,2,3,4,5].map(n=>'<button type="button" data-n="'+n+'" aria-label="'+n+' of 5">'+ic+'</button>').join('')+'</div><div id="fbChips">'+CHIPS.map(c=>'<button type="button">'+c+'</button>').join('')+'</div><textarea id="fbNote" maxlength="280" placeholder="anything you’d like to tell us? (optional)"></textarea><div class="fbB"><button id="fbSkip" type="button">maybe later</button><button id="fbSave" type="button">keep this note</button></div>';
+document.body.appendChild(d);requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add('on')));
+d.querySelectorAll('#fbStars button').forEach(b=>b.onclick=()=>{cur.rating=+b.dataset.n;d.querySelectorAll('#fbStars button').forEach(x=>x.classList.toggle('on',+x.dataset.n<=cur.rating));try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}});
+d.querySelectorAll('#fbChips button').forEach(b=>b.onclick=()=>{b.classList.toggle('on');cur.chips=[...d.querySelectorAll('#fbChips button.on')].map(x=>x.textContent)});
+document.getElementById('fbSkip').onclick=close;
+document.getElementById('fbSave').onclick=()=>{cur.note=document.getElementById('fbNote').value.trim();const a=load();a.push(cur);saveL(a);list();
+d.querySelector('.fbB').outerHTML='<p class="fbS" style="margin-top:12px">thank you, tucked away on this phone</p><div class="fbB"><button id="fbSkip" type="button">all done</button><a id="fbShare" href="'+mailto([cur])+'">send it our way ✉</a></div>';
+document.getElementById('fbSkip').onclick=close;document.getElementById('fbShare').addEventListener('click',()=>setTimeout(close,400))}}
+function close(){const d=document.getElementById('fbCard');if(!d)return;d.classList.remove('on');setTimeout(()=>d.remove(),500)}
+window.TTU_FB.card=card;window.TTU_FB.close=close;
+function list(){const p=document.getElementById('s_dn');if(!p)return;let el=document.getElementById('fbList');const a=load();
+if(!el){el=document.createElement('details');el.id='fbList';el.className='more';const at=document.getElementById('sxProf');(at&&at.parentNode?at.parentNode:p).appendChild(el)}
+const open=el.open;el.innerHTML='<summary>your notes from the trail'+(a.length?' ('+a.length+')':'')+'</summary>'+(a.length?a.slice(-8).reverse().map(e=>'<div class="fbE">'+(ICON[e.theme]||'⭐').repeat(e.rating||0)+' '+(e.res==='win'?'Found it':'Ended early')+'<small>'+new Date(e.t).toLocaleDateString()+' · '+line(e).split(' · ').slice(1).join(' · ')+'</small></div>').join('')+'<div class="fbA"><a href="'+mailto(a.slice(-10))+'">send them our way ✉</a><button type="button" id="fbClr">clear the notes</button></div>':'<div class="fbE"><small>nothing here yet. After a hunt you can leave a little note, and it stays on this phone unless you choose to send it.</small></div>');el.open=open;
+const c=document.getElementById('fbClr');c&&(c.onclick=async e=>{e.preventDefault();if(await ask('Clear your saved feedback?',[['Clear','y','primary'],['Keep','n']])==='y'){saveL([]);list()}})}
+window.TTU_FB.list=list;
+const orig=record;record=function(res){const r=orig.apply(this,arguments);try{if(r!==null){const h=P.hist[P.hist.length-1];if(h)setTimeout(()=>card(h),res==='win'?1600:900)}}catch(e){}return r};
+list();setTimeout(list,1200);
+})();
 </script>
 </body></html>
