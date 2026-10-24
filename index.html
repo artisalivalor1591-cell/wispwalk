@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241015"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Wispwalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241015"><link rel="icon" href="icon-192.png?v=202610241015"><link rel="apple-touch-icon" href="icon-192.png?v=202610241015"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Wispwalk">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241020"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241020"><link rel="icon" href="icon-192.png?v=202610241020"><link rel="apple-touch-icon" href="icon-192.png?v=202610241020"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -152,7 +152,7 @@ html body[data-th] .pnl .sxH:not(.pT),html body[data-th] .pnl h2,html body[data-
 </head><body>
 <button id="resetAll" style="position:fixed;top:10px;right:10px;z-index:50;background:#fffdf7;color:#1f4d3a;padding:8px 10px;font-size:.85rem">↺ Start fresh</button>
 <div id="ask" class="hidden" style="position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fffdf7;padding:16px;box-shadow:0 -6px 18px rgba(0,0,0,.25)"><p id="askmsg" style="margin:0 0 10px"></p><div class="row" id="askbtns"></div></div>
-<header><h1>🥾 Wispwalk</h1><p>Solo hunt · Tier 1 prototype</p><button id="profBtn" class="sec" style="margin-top:8px;padding:6px 12px;font-size:.9rem">👤 Profile</button></header>
+<header><h1>🥾 WispWalk</h1><p>Solo hunt · Tier 1 prototype</p><button id="profBtn" class="sec" style="margin-top:8px;padding:6px 12px;font-size:.9rem">👤 Profile</button></header>
 <main>
 <div class="card safety"><b>Stay safe out there:</b> stay on marked trails, respect private property and closed areas, and watch your step instead of your screen. If the pin lands somewhere you can’t reach safely, just hit <b>Reroll</b>.</div>
 
@@ -1199,7 +1199,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)userExit=fa
 function mountUI(){const a=$q('thG');if(!a||$q('fsSec'))return;const box=document.createElement('div');box.id='fsSec';
  if(standalone)box.innerHTML='';
  else if(can)box.innerHTML='<h3 class="sxH" style="margin-top:4px">Screen</h3><div style="display:flex;gap:8px;margin:4px 0 6px"><button class="sec" id="fsNow">Go full screen</button></div><label style="display:flex;align-items:center;gap:10px;margin:0 0 6px;font-size:.92rem"><input type="checkbox" id="fsAuto" style="width:22px;height:22px"> Full screen by default (turns on with your first tap)</label><p id="fsHint">Tip: for a true app feel, tap ⋮ → <b>Add to Home screen</b> / <b>Install app</b> in Chrome.</p>';
- else box.innerHTML='<h3 class="sxH" style="margin-top:4px">Screen</h3><p id="fsHint">For full screen, tap Share → <b>Add to Home Screen</b>, then open Wispwalk from your home screen.</p>';
+ else box.innerHTML='<h3 class="sxH" style="margin-top:4px">Screen</h3><p id="fsHint">For full screen, tap Share → <b>Add to Home Screen</b>, then open WispWalk from your home screen.</p>';
  const anchor=a.parentNode.querySelector('#skTog')?.closest('label')||a;anchor.after(box);
  if($q('fsNow'))$q('fsNow').onclick=toggle;const c=$q('fsAuto');if(c){c.checked=auto();c.onchange=()=>{try{localStorage.setItem(K,c.checked?'1':'0')}catch(e){}if(!c.checked&&isFs()){userExit=true;exit()}}}paint()}
 const _a=window.applyTheme;if(_a)window.applyTheme=function(){const r=_a.apply(this,arguments);try{mountUI()}catch(e){}return r};mountUI();
@@ -2030,8 +2030,8 @@ const saveL=a=>{try{localStorage.setItem(FK,JSON.stringify(a.slice(-100)))}catch
 const build=()=>{const m=document.querySelector('meta[name="ttu-build"]');return m?m.content:''};
 const mi=m=>(m/1609.34).toFixed(2)+' mi';const dur=ms=>Math.floor(ms/60000)+'m '+Math.floor(ms/1000)%60+'s';
 function line(e){return (e.res==='win'?'Found it':'Ended early')+' · '+e.theme+' · '+e.diff+' · '+dur(e.ms)+' · '+mi(e.m)+' · '+(e.rating?e.rating+'/5':'no rating')+(e.chips.length?' · '+e.chips.join(', '):'')+(e.note?' · "'+e.note+'"':'')}
-function mailto(list){const sub='Wispwalk feedback ('+(list.length>1?list.length+' hunts':list[0].theme+', '+list[0].diff)+')';
-const body='Hi! Here is my Wispwalk feedback.\n\n'+list.map(e=>'• '+new Date(e.t).toLocaleString()+'\n  Result: '+(e.res==='win'?'treasure found':'hunt ended early')+'\n  Theme: '+e.theme+' ('+e.tod+')\n  Difficulty: '+e.diff+'\n  Duration: '+dur(e.ms)+'\n  Distance: '+mi(e.m)+'\n  Rating: '+(e.rating?e.rating+'/5':'—')+'\n  Chips: '+(e.chips.join(', ')||'—')+'\n  Note: '+(e.note||'—')+'\n  Build: '+e.build).join('\n\n')+'\n\n(Sent from my phone. No location included.)';
+function mailto(list){const sub='WispWalk feedback ('+(list.length>1?list.length+' hunts':list[0].theme+', '+list[0].diff)+')';
+const body='Hi! Here is my WispWalk feedback.\n\n'+list.map(e=>'• '+new Date(e.t).toLocaleString()+'\n  Result: '+(e.res==='win'?'treasure found':'hunt ended early')+'\n  Theme: '+e.theme+' ('+e.tod+')\n  Difficulty: '+e.diff+'\n  Duration: '+dur(e.ms)+'\n  Distance: '+mi(e.m)+'\n  Rating: '+(e.rating?e.rating+'/5':'—')+'\n  Chips: '+(e.chips.join(', ')||'—')+'\n  Note: '+(e.note||'—')+'\n  Build: '+e.build).join('\n\n')+'\n\n(Sent from my phone. No location included.)';
 return 'mailto:'+TO+'?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body)}
 window.TTU_FB={load,mailto,line};
 let cur=null;
@@ -2137,12 +2137,12 @@ async function draw(h,hide){const th=document.body.dataset.th||'story',a=A[th]||
  const mi=(h.m/1609.34).toFixed(2)+' mi',mn=Math.max(1,Math.round(h.ms/60000))+' min',dd={easy:'easy',medium:'medium',hard:'hard'}[h.d]||h.d,dt=new Date(h.t).toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'});
  F('italic',44);x.fillText(mi+'  ·  '+mn+'  ·  '+dd,W/2,y2);F('',32);x.globalAlpha=.6;x.fillText(dt,W/2,y2+56);x.globalAlpha=1;
  const ms=window.TTU_MS&&TTU_MS.latest&&TTU_MS.latest();if(ms){F('italic',34);x.globalAlpha=.8;x.fillText('✦ '+Cap(ms),W/2,y2+120);x.globalAlpha=1}
- x.shadowColor='rgba(0,0,0,.45)';x.shadowBlur=14;x.fillStyle=th==='haunted'||night?'#ffffffdd':'#ffffffee';F('bold',54);x.fillText('Wispwalk',W/2,H-118);F('italic',30);x.globalAlpha=.85;x.fillText(URL,W/2,H-70);x.globalAlpha=1;x.shadowBlur=0;
+ x.shadowColor='rgba(0,0,0,.45)';x.shadowBlur=14;x.fillStyle=th==='haunted'||night?'#ffffffdd':'#ffffffee';F('bold',54);x.fillText('WispWalk',W/2,H-118);F('italic',30);x.globalAlpha=.85;x.fillText(URL,W/2,H-70);x.globalAlpha=1;x.shadowBlur=0;
  return c}
 async function share(){const msg=document.getElementById('shMsg');const h=P.hist[P.hist.length-1];if(!h){msg.textContent='finish a hunt first, then we can share it';return}
  const hide=document.getElementById('shHideC').checked;msg.textContent='painting your card…';const c=await draw(h,hide);
  const blob=await new Promise(r=>c.toBlob(r,'image/png'));const f=new File([blob],'wispwalk.png',{type:'image/png'});
- const txt=(h.r==='win'?'I found the '+(hide?'treasure':(document.getElementById('prize').textContent.replace(/^Mock:\s*/i,'')||'treasure'))+'!':'Out on a little treasure hunt!')+' '+(h.m/1609.34).toFixed(2)+' mi on Wispwalk · https://'+URL+'/';
+ const txt=(h.r==='win'?'I found the '+(hide?'treasure':(document.getElementById('prize').textContent.replace(/^Mock:\s*/i,'')||'treasure'))+'!':'Out on a little treasure hunt!')+' '+(h.m/1609.34).toFixed(2)+' mi on WispWalk · https://'+URL+'/';
  try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],text:txt});msg.textContent='off it goes, safe travels, little card';return}}catch(e){if(e&&e.name==='AbortError'){msg.textContent='';return}}
  const u=URL_.createObjectURL(blob),l=document.createElement('a');l.href=u;l.download='wispwalk.png';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL_.revokeObjectURL(u),4000);
  try{await navigator.clipboard.writeText(txt);msg.textContent='saved the picture, and the words are copied for you'}catch(e){msg.textContent='saved the picture to your downloads'}}
@@ -2291,7 +2291,7 @@ body.msTop header,body.msTop #resetAll{opacity:0;transition:opacity .5s}
 <script id="simpleJS">
 (function(){const $$=s=>document.querySelector(s),LS=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}};
 /* 1) plain first screen: title + one line + Begin + agreement + safety link */
-function plain(){const hi=$$('#sxHi'),lv=$$('#sxLv');if(!hi||!lv)return;hi.textContent='Wispwalk';lv.classList.add('plain');lv.textContent=P.fan?'Follow the compass to a treasure hidden in the realm.':'Follow the compass to hidden treasure nearby.'}
+function plain(){const hi=$$('#sxHi'),lv=$$('#sxLv');if(!hi||!lv)return;hi.textContent='WispWalk';lv.classList.add('plain');lv.textContent=P.fan?'Follow the compass to a treasure hidden in the realm.':'Follow the compass to hidden treasure nearby.'}
 const _p=window.sxPaint;if(_p){window.sxPaint=function(){_p();plain()}}
 const _h=hdr;hdr=function(){_h();plain()};plain();setInterval(()=>{if(document.body.classList.contains('setupv'))plain()},1500);
 /* 2) one gentle step after Begin, smart defaults */
