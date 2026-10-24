@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241245"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241245"><link rel="icon" href="icon-192.png?v=202610241245"><link rel="apple-touch-icon" href="icon-192.png?v=202610241245"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241315"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241315"><link rel="icon" href="favicon.ico?v=202610241315" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=202610241315"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=202610241315"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -2694,4 +2694,45 @@ const gap=()=>(90-fav()*6)*1000+Math.random()*30000;let nx=gap();
 setInterval(()=>{if(hunting()&&Date.now()-last>nx){nx=gap();show()}},4000);setTimeout(()=>{pj();tint()},1500);
 window.TTU_PHOTO={show,done,P,Q};})();</script>
 
+<script id="wispPlay">(()=>{/* Playful wisps: tap = giggle and dart, rapid taps = spin and sparkles, hold nearby = curious follow, idle quirks. Animations use the individual translate/rotate/scale properties so they layer over drift; listeners are passive and never block the compass. */
+const b=document.body,RM=matchMedia('(prefers-reduced-motion: reduce)');let ac=null;
+const sndOn=()=>{try{return localStorage.getItem('ttu_profile_snd')!=='off'}catch(e){return true}};
+const A=()=>{if(!sndOn())return null;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();return ac}catch(e){return null}};
+const PITCH={haunted:.8,winter:1.25,summer:1.1,golden:.95,spring:1.15,story:1};
+function tone(f,t0,d,type,v,glide){const a=A();if(!a)return;const o=a.createOscillator(),g=a.createGain(),t=a.currentTime+t0;o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(glide)o.frequency.exponentialRampToValueAtTime(glide,t+d);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v||.05,t+.015);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d+.05)}
+const pf=()=>PITCH[b.dataset.th]||1;
+const SND={giggle(){const p=pf();[0,.07,.13,.2].forEach((t,i)=>tone((1250+i*170)*p,t,.11,'sine',.045,(1500+i*170)*p))},
+ sparkle(){const p=pf();for(let i=0;i<7;i++)tone((1800+Math.random()*1400)*p,i*.04,.22,'triangle',.025)},
+ hum(){const p=pf();tone(520*p,0,.6,'sine',.03,780*p)},
+ yawn(){const p=pf();tone(700*p,0,.7,'sine',.025,330*p)},
+ rasp(){const a=A();if(!a)return;const o=a.createOscillator(),l=a.createOscillator(),lg=a.createGain(),g=a.createGain(),t=a.currentTime;o.type='sawtooth';o.frequency.setValueAtTime(190,t);o.frequency.linearRampToValueAtTime(120,t+.35);l.frequency.value=32;lg.gain.value=60;l.connect(lg);lg.connect(o.frequency);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.03,t+.03);g.gain.exponentialRampToValueAtTime(.0001,t+.4);const f=a.createBiquadFilter();f.frequency.value=900;o.connect(f);f.connect(g);g.connect(a.destination);o.start(t);l.start(t);o.stop(t+.45);l.stop(t+.45)},
+ snicker(){[0,.09,.18].forEach((t,i)=>tone(900-i*120,t,.07,'square',.015,700-i*120))}};
+window.TTU_WSND=SND;
+const anim=(el,k,o)=>RM.matches?null:el.animate(k,Object.assign({duration:700,easing:'cubic-bezier(.2,.8,.3,1)'},o));
+function burst(el){if(RM.matches)return;const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+ for(let i=0;i<9;i++){const s=document.createElement('i');s.className='wspSpk';s.style.left=cx+'px';s.style.top=cy+'px';b.appendChild(s);const a=i/9*6.283,d=26+Math.random()*22;
+  s.animate([{translate:'0 0',opacity:1,scale:1},{translate:Math.cos(a)*d+'px '+Math.sin(a)*d+'px',opacity:0,scale:.3}],{duration:650+Math.random()*250,easing:'ease-out'}).onfinish=()=>s.remove()}}
+const good=el=>el&&(el.id==='wspS'||el.id==='wspC');
+const taps=new WeakMap();let busy=false;
+function tapGood(el){const n=Date.now(),L=(taps.get(el)||[]).filter(t=>n-t<900);L.push(n);taps.set(el,L);
+ if(L.length>=3){taps.set(el,[]);SND.sparkle();burst(el);anim(el,[{rotate:'0deg',scale:1},{rotate:'540deg',scale:1.35},{rotate:'720deg',scale:1}],{duration:900});return}
+ SND.giggle();const dx=(Math.random()<.5?-1:1)*(34+Math.random()*16),dy=-18-Math.random()*14;
+ anim(el,[{translate:'0 0',offset:0},{translate:dx+'px '+dy+'px',offset:.25},{translate:dx+'px '+dy+'px',offset:.6},{translate:dx*.35+'px '+dy*.2+'px',offset:.8},{translate:'0 0'}],{duration:1900,easing:'ease-in-out'})}
+function tapEvil(el){Math.random()<.5?SND.rasp():SND.snicker();anim(el,[{opacity:.9},{opacity:.1},{opacity:.8},{opacity:0},{opacity:.7}],{duration:600,easing:'steps(5)'})}
+document.addEventListener('pointerdown',e=>{const el=e.target.closest&&e.target.closest('.wsp');if(!el)return;if(el.id==='wspX')tapEvil(el);else if(good(el))tapGood(el)},{passive:true});
+/* curious follow: finger held/dragged within 140px of a helpful wisp */
+let fol=null,hold=false;
+document.addEventListener('pointerdown',()=>hold=true,{passive:true});['pointerup','pointercancel'].forEach(t=>document.addEventListener(t,()=>{hold=false;if(fol){fol.el.style.translate='';fol=null}},{passive:true}));
+document.addEventListener('pointermove',e=>{if(!hold||RM.matches)return;const els=[document.getElementById('wspC'),document.getElementById('wspS')].filter(x=>x&&x.getClientRects().length);
+ for(const el of els){const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=e.clientX-cx,dy=e.clientY-cy,d=Math.hypot(dx,dy);
+  if(d<140){if(!fol){fol={el,x:0,y:0};SND.hum()}const k=Math.min(1,40/Math.max(d,1));fol.x+=(dx*k*.9-fol.x)*.25;fol.y+=(dy*k*.9-fol.y)*.25;el.style.transition='translate .25s ease-out';el.style.translate=fol.x.toFixed(1)+'px '+fol.y.toFixed(1)+'px';return}}},{passive:true});
+/* idle quirks */
+const Q={peek(el){const w=el.parentNode,r=el.getBoundingClientRect(),c=w.getBoundingClientRect(),dx=(c.left+c.width/2-r.left)*.12,dy=(c.top+c.height/2-r.top)*.12;anim(el,[{translate:'0 0'},{translate:dx+'px '+dy+'px',offset:.4},{translate:dx+'px '+dy+'px',offset:.7},{translate:'0 0'}],{duration:2600,easing:'ease-in-out'})},
+ bob(el){anim(el,[{translate:'0 0'},{translate:'0 -9px'},{translate:'0 2px'},{translate:'0 -5px'},{translate:'0 0'}],{duration:1800,easing:'ease-in-out'})},
+ yawn(el){if(Math.random()<.4)SND.yawn();anim(el,[{scale:1,opacity:1},{scale:1.25,opacity:.85,offset:.35},{scale:.9,opacity:.45,offset:.7},{scale:1,opacity:1}],{duration:2400,easing:'ease-in-out'})},
+ twirl(el){anim(el,[{rotate:'0deg'},{rotate:'360deg'}],{duration:1400,easing:'ease-in-out'})}};
+const PERS={haunted:['peek','bob','yawn','twirl','peek'],winter:['twirl','bob','peek'],summer:['bob','bob','twirl','peek'],golden:['yawn','peek','bob'],spring:['twirl','bob','peek','bob'],story:['peek','yawn','bob']};
+setInterval(()=>{if(document.hidden||hold)return;const el=[document.getElementById('wspC'),document.getElementById('wspS')].find(x=>x&&x.getClientRects().length);if(!el||Math.random()<.45)return;const L=PERS[b.dataset.th]||PERS.story;Q[L[Math.floor(Math.random()*L.length)]](el)},9000);
+window.TTU_WPLAY={Q,tapGood,tapEvil,burst};})();</script>
+<style>.wspSpk{position:fixed;width:5px;height:5px;margin:-2.5px 0 0 -2.5px;border-radius:50%;background:var(--wm,#fff);box-shadow:0 0 6px var(--wc,#ffd98a);pointer-events:none;z-index:9}</style>
 </body></html>
