@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232302"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232302"><link rel="icon" href="icon-192.png?v=202610232302"><link rel="apple-touch-icon" href="icon-192.png?v=202610232302"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610232308"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trail Trade-Up · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610232308"><link rel="icon" href="icon-192.png?v=202610232308"><link rel="apple-touch-icon" href="icon-192.png?v=202610232308"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Trail Hunt">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -152,9 +152,9 @@ html body[data-th] .pnl .sxH:not(.pT),html body[data-th] .pnl h2,html body[data-
 </head><body>
 <button id="resetAll" style="position:fixed;top:10px;right:10px;z-index:50;background:#fffdf7;color:#1f4d3a;padding:8px 10px;font-size:.85rem">↺ Start fresh</button>
 <div id="ask" class="hidden" style="position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fffdf7;padding:16px;box-shadow:0 -6px 18px rgba(0,0,0,.25)"><p id="askmsg" style="margin:0 0 10px"></p><div class="row" id="askbtns"></div></div>
-<header><h1>🥾 Trail Trade-Up</h1><p>Solo Hunt · Tier 1 prototype</p><button id="profBtn" class="sec" style="margin-top:8px;padding:6px 12px;font-size:.9rem">👤 Profile</button></header>
+<header><h1>🥾 Trail Trade-Up</h1><p>Solo hunt · Tier 1 prototype</p><button id="profBtn" class="sec" style="margin-top:8px;padding:6px 12px;font-size:.9rem">👤 Profile</button></header>
 <main>
-<div class="card safety"><b>Stay safe out there:</b> stay on marked trails, respect private property and closed areas, and watch your step instead of your screen. If the pin lands somewhere you can't reach safely, just hit <b>Reroll</b>.</div>
+<div class="card safety"><b>Stay safe out there:</b> stay on marked trails, respect private property and closed areas, and watch your step instead of your screen. If the pin lands somewhere you can’t reach safely, just hit <b>Reroll</b>.</div>
 
 <section id="setup" class="card"><h2>Start a hunt</h2>
 <div class="modes"><button class="r m sel" data-mode="radius">📍 Near me</button><button class="r m" data-mode="public">✏️ Draw public area</button><button class="r m" data-mode="property">🏡 My property</button></div>
@@ -165,7 +165,7 @@ html body[data-th] .pnl .sxH:not(.pT),html body[data-th] .pnl h2,html body[data-
 <div class="radii" style="grid-template-columns:repeat(3,1fr)"><button class="r rr" data-mi="5">5 mi</button><button class="r rr" data-mi="10">10 mi</button><button class="r rr" data-mi="25">25 mi</button></div></div>
 <div id="drawBox" class="hidden"><div class="muted" id="drawHelp">Tap the map to add corners of your hunt area (at least 3). Keep it to public land, or land you have permission to use.</div>
 <div id="drawmap" class="map"></div><div class="row"><button id="undoPt" class="sec">↶ Undo point</button><button id="clearPts" class="sec">✕ Clear</button><button id="meBtn" class="sec">◎ My location</button></div>
-<label id="ownBox" class="hidden" style="display:flex;gap:8px;align-items:flex-start;font-weight:600;margin-top:10px"><input type="checkbox" id="own" style="width:22px;height:22px"> I own this property or have the owner's permission to use it for this hunt.</label></div>
+<label id="ownBox" class="hidden" style="display:flex;gap:8px;align-items:flex-start;font-weight:600;margin-top:10px"><input type="checkbox" id="own" style="width:22px;height:22px"> I own this property or have the owner’s permission to use it for this hunt.</label></div>
 <p class="muted">Map data © OpenStreetMap contributors. Approved zones cover roughly 40 mi around Birnamwood (Wausau, Antigo, Shawano, Wittenberg…).</p>
 <div class="card safety" style="box-shadow:none;margin:12px 0"><b>⚠️ Play at your own risk</b>
 <ul style="padding-left:18px;margin:8px 0;font-size:.9rem">
@@ -213,7 +213,7 @@ html body[data-th] .pnl .sxH:not(.pT),html body[data-th] .pnl h2,html body[data-
 <label class="pl">Avatar <select id="pAv"></select></label>
 <label class="pl">Getting around <select id="pMove"><option value="walk">🚶 Walk</option><option value="drive">🚗 Drive to start</option></select></label>
 <label class="pl">Preferred radius <select id="pRad"><option>0.25</option><option>0.5</option><option>1</option><option>2</option><option>5</option><option>10</option><option>25</option></select> mi</label>
-<label class="pl">Fitness / skill (1 easy-going – 5 very fit) <input id="pFit" type="range" min="1" max="5"></label>
+<label class="pl">Fitness or skill (1 = easy-going, 5 = very fit) <input id="pFit" type="range" min="1" max="5"></label>
 <label class="pl">Accessibility notes <textarea id="pAcc" rows="2" placeholder="e.g. prefer paved paths, no steep hills"></textarea></label>
 <div class="muted">Favorite places</div><div id="pZt" style="display:flex;flex-wrap:wrap;gap:6px"></div>
 <label class="pl" style="display:flex;gap:8px;align-items:center;font-weight:700;margin-top:10px"><input type="checkbox" id="pFan" style="width:22px;height:22px"> 🐉 Fantasy mode (XP, levels, gear)</label>
@@ -369,7 +369,7 @@ const AVS=['🧭','🦊','🐻','🦉','🦌','🐺','🧙','🧝','🏹','🌲'
 const LEVELS=[[0,'Wanderer','Wanderer'],[100,'Scout','Trail Scout'],[250,'Pathfinder','Pathfinder of the Pines'],[500,'Ranger','Ranger of the Northwoods'],[900,'Trailblazer','Trailblazer'],[1500,'Legend','Legend of the Wilds']];
 function lvl(xp){let i=0;LEVELS.forEach((l,j)=>{if(xp>=l[0])i=j});return{n:i+1,t:LEVELS[i][P.fan?2:1],next:LEVELS[i+1]?LEVELS[i+1][0]:null,cur:LEVELS[i][0]}}
 const BADGES={first:['🏅','First find','Find your first treasure'],mi5:['👣','5 miles','Walk 5 miles total'],hard:['🔥','Hard find','Find a treasure on Hard'],variety:['🗺️','Trail variety','Find treasure at 3 kinds of places'],streak:['📅','Streak','Hunt 3 days in a row'],ten:['💎','Ten finds','Find 10 treasures']};
-const GEAR=[['boots','🥾',"Wanderer's Boots",'Reach level 2',p=>lvl(p.xp).n>=2],['lantern','🏮','Lantern','Earn 3 badges',p=>p.badges.length>=3],['cloak','🧥',"Explorer's Cloak",'Find a treasure on Hard',p=>p.badges.includes('hard')]];
+const GEAR=[['boots','🥾',"Wanderer’s Boots",'Reach level 2',p=>lvl(p.xp).n>=2],['lantern','🏮','Lantern','Earn 3 badges',p=>p.badges.length>=3],['cloak','🧥',"Explorer’s Cloak",'Find a treasure on Hard',p=>p.badges.includes('hard')]];
 function dayKey(t){const d=new Date(t);return d.getFullYear()*400+d.getMonth()*32+d.getDate()}
 function evalBadges(){const wins=P.hist.filter(h=>h.r==='win'),nb=[],add=k=>{if(!P.badges.includes(k)){P.badges.push(k);nb.push(k)}};
 if(wins.length)add('first');if(wins.length>=10)add('ten');if(P.walkedM>=5*1609.34)add('mi5');if(wins.some(h=>h.d==='hard'))add('hard');
@@ -464,7 +464,7 @@ const ITEMS=[
 /* nature (always) */
 ['acorn','🌰','Acorn Charm','charm','common','nature'],['feather','🪶','Feathered Cap','head','common','nature'],['staff','🦯','Trail Staff','hand','common','nature'],['pinecone','🌲','Pinecone Pin','charm','common','nature'],['mushroom','🍄','Toadstool Hat','head','rare','nature'],['compass','🧭','Brass Compass','hand','rare','nature'],['firefly','✨','Firefly Aura','aura','epic','nature'],['owl','🦉','Owl Companion','pet','epic','nature'],['stag','🦌','Spirit Stag','pet','legendary','nature'],['fern','🌿','Fern Cloak','back','rare','nature'],['river','💧','River Stone','charm','common','nature'],['fox','🦊','Fox Companion','pet','legendary','nature'],
 /* seasonal */
-['pumpkin','🎃','Pumpkin Head','head','rare','halloween'],['wlantern','🏮','Witch\'s Lantern','hand','epic','halloween'],['batcloak','🦇','Bat Cloak','back','epic','halloween'],['ghost','👻','Ghostly Aura','aura','legendary','halloween'],['candy','🍬','Candy Charm','charm','common','halloween'],
+['pumpkin','🎃','Pumpkin Head','head','rare','halloween'],['wlantern','🏮','Witch’s Lantern','hand','epic','halloween'],['batcloak','🦇','Bat Cloak','back','epic','halloween'],['ghost','👻','Ghostly Aura','aura','legendary','halloween'],['candy','🍬','Candy Charm','charm','common','halloween'],
 ['maple','🍁','Maple Leaf Crown','head','rare','autumn'],['harvest','🌾','Harvest Satchel','back','common','autumn'],['apple','🍎','Orchard Charm','charm','common','autumn'],['moon','🌕','Harvest Moon Aura','aura','legendary','autumn'],
 ['snow','❄️','Snowflake Aura','aura','epic','winter'],['scarf','🧣','Cozy Scarf','back','common','winter'],['santa','🎅','Holiday Cap','head','rare','winter'],['star','⭐','Star Lantern','hand','legendary','winter'],
 ['blossom','🌸','Blossom Crown','head','rare','spring'],['butterfly','🦋','Butterfly Companion','pet','epic','spring'],['tulip','🌷','Tulip Charm','charm','common','spring'],['rainbow','🌈','Rainbow Aura','aura','legendary','spring'],
@@ -549,15 +549,15 @@ $('giveup').addEventListener('click',()=>setTimeout(()=>{if(!$('reveal').classLi
 <script>
 /* Greeting pool: time-of-day + season aware, no recent repeats */
 const GR={n:[
-['any','Ready for a new hunt{,n}?'],['any','The trail is calling{,n}.'],['any','Fresh air and a fresh hunt await{,n}.'],['any','Let\'s find something good out there{,n}.'],['any','Lace up{,n} — adventure time.'],['any','Somewhere out there, a treasure is waiting{,n}.'],['any','Another adventure, another find{,n}?'],['any','Good to see you{,n}. Let\'s explore.'],['any','Every path leads somewhere{,n}.'],['any','Out you go{,n} — the woods are waiting.'],['any','Here\'s to a great hunt{,n}.'],['any','Step outside{,n}; the hunt is on.'],['any','Pockets ready{,n}? A new treasure is hidden.'],['any','The next find could be just around the bend{,n}.'],['any','Let\'s make some tracks{,n}.'],
-['am','Good morning{,n}! A perfect start for a hunt.'],['am','Rise and roam{,n}.'],['am','Morning{,n} — the birds are already out searching.'],['am','An early adventure suits you{,n}.'],['am','Coffee in hand{,n}? Let\'s hunt.'],
-['pm','Good afternoon{,n}! Time for an adventure.'],['pm','An afternoon wander{,n}?'],['pm','The afternoon is wide open{,n}. Let\'s hunt.'],['pm','Perfect time for a stroll and a find{,n}.'],
+['any','Ready for a new hunt{,n}?'],['any','The trail is calling{,n}.'],['any','Fresh air and a fresh hunt await{,n}.'],['any','Let’s find something good out there{,n}.'],['any','Lace up{,n} — adventure time.'],['any','Somewhere out there, a treasure is waiting{,n}.'],['any','Another adventure, another find{,n}?'],['any','Good to see you{,n}. Let’s explore.'],['any','Every path leads somewhere{,n}.'],['any','Out you go{,n} — the woods are waiting.'],['any','Here’s to a great hunt{,n}.'],['any','Step outside{,n}; the hunt is on.'],['any','Pockets ready{,n}? A new treasure is hidden.'],['any','The next find could be just around the bend{,n}.'],['any','Let’s make some tracks{,n}.'],
+['am','Good morning{,n}! A perfect start for a hunt.'],['am','Rise and roam{,n}.'],['am','Morning{,n} — the birds are already out searching.'],['am','An early adventure suits you{,n}.'],['am','Coffee in hand{,n}? Let’s hunt.'],
+['pm','Good afternoon{,n}! Time for an adventure.'],['pm','An afternoon wander{,n}?'],['pm','The afternoon is wide open{,n}. Let’s hunt.'],['pm','Perfect time for a stroll and a find{,n}.'],
 ['eve','Good evening{,n}. One more hunt before dark?'],['eve','Evening{,n} — a quiet hunt sounds nice.'],['eve','Golden hour adventure{,n}?'],['eve','Grab a light{,n}; an evening hunt awaits.'],
 ['autumn','Crunchy leaves and a fresh hunt{,n}.'],['autumn','Autumn colors make the best hunting grounds{,n}.'],['autumn','Sweater weather adventure{,n}?'],['autumn','The woods are wearing their best colors{,n}.'],
 ['halloween','Something spooky is hidden out there{,n}… 🎃'],['halloween','A Halloween hunt{,n}? Watch for friendly ghosts. 👻'],['halloween','Pumpkin season treasure awaits{,n}. 🎃'],
 ['winter','Bundle up{,n} — a winter hunt awaits.'],['winter','Snowy trails tell great stories{,n}.'],['winter','Cozy layers, fresh adventure{,n}.'],
 ['spring','Spring is waking up the trails{,n}.'],['spring','New buds, new hunt{,n}.'],['spring','Mud on the boots means a good adventure{,n}.'],
-['summer','Long days, great hunts{,n}.'],['summer','Sunscreen, water, adventure{,n}.'],['summer','The summer woods are humming{,n}. Let\'s go.']],
+['summer','Long days, great hunts{,n}.'],['summer','Sunscreen, water, adventure{,n}.'],['summer','The summer woods are humming{,n}. Let’s go.']],
 f:[
 ['any','Hail{,n}! A new quest awaits.'],['any','Your quest begins{,n}.'],['any','The realm has hidden a new treasure{,n}.'],['any','Ready your boots{,n}; adventure calls.'],['any','The old paths remember you{,n}.'],['any','Fortune favors the wanderer{,n}.'],['any','A new legend starts with a single step{,n}.'],['any','The map has changed{,n}. A quest awaits.'],['any','Greetings, brave explorer{,n}.'],['any','The forest spirits have hidden something for you{,n}.'],['any','Sharpen your wits{,n}; the quest is set.'],['any','The guild has a new quest for you{,n}.'],['any','The wind carries rumors of treasure{,n}.'],['any','Onward{,n}! Glory waits beyond the trees.'],['any','Another chapter of your saga begins{,n}.'],
 ['am','Dawn breaks over the realm{,n}. Your quest begins.'],['am','The morning mist hides secrets{,n}.'],['am','A fair morning for questing{,n}.'],['am','The rooster has crowed{,n}; to adventure!'],
@@ -565,7 +565,7 @@ f:[
 ['eve','Light your lantern{,n}; an evening quest awaits.'],['eve','The stars are waking{,n}. One more quest?'],['eve','Twilight quests are the stuff of legend{,n}.'],['eve','The owls keep watch{,n}. Go softly.'],
 ['autumn','The Harvest Moon rises{,n}. A quest awaits.'],['autumn','Leaves of gold mark the path{,n}.'],['autumn','The autumn realm hides its treasures well{,n}.'],['autumn','Harvest season brings new quests{,n}.'],
 ['halloween','On All Hallows\' Eve, treasures glow{,n}. 🎃'],['halloween','The veil is thin{,n}; seek boldly. 👻'],['halloween','A spectral quest beckons{,n}. 🕯️'],
-['winter','The frost giants sleep{,n}. Quest quietly.'],['winter','Winter\'s quest favors the bold{,n}.'],['winter','A hearth awaits after this quest{,n}.'],
+['winter','The frost giants sleep{,n}. Quest quietly.'],['winter','Winter’s quest favors the bold{,n}.'],['winter','A hearth awaits after this quest{,n}.'],
 ['spring','The realm blooms anew{,n}. Quest on.'],['spring','Spring spirits stir in the glades{,n}.'],['spring','A fresh season, a fresh quest{,n}.'],
 ['summer','Midsummer magic is afoot{,n}.'],['summer','Long sunlit days make for long legends{,n}.'],['summer','The summer court has a quest for you{,n}.']]};
 function greetTags(d){d=d||new Date();const h=d.getHours(),m=d.getMonth(),day=d.getDate(),t=['any',h>=4&&h<12?'am':h<17&&h>=12?'pm':'eve'];
@@ -583,7 +583,7 @@ sx.innerHTML=`<div id="sxCore"><button class="hh dn" data-p="dn" aria-label="Set
 <div class="sxMid"><div id="sxHi"></div><div id="sxLv"></div>
 <button id="sxSug" aria-label="Adjust hunt"><span id="sxLine"></span><small>tap to adjust</small></button>
 <button id="sxGo">Begin<br>hunt</button><p id="sxMsg"></p>
-<div id="sxAgree"></div><button id="sxRead" class="lnk">read the safety agreement</button></div>
+<div id="sxAgree"></div><button id="sxRead" class="lnk">Read the safety agreement</button></div>
 <button class="hh up" data-p="up" aria-label="Adjust hunt">︿<span>adjust</span></button>
 <p id="sxSoon">Coming soon: group · local · world · holiday &amp; themed hunts</p></div>
 <div class="pnl" id="s_up"><button class="grab" data-c>︾ done</button><div class="pb"></div></div>
@@ -871,7 +871,7 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden){paint();f
 /* Field notes: occasional true facts, themed by mode / visual theme */
 (function(){
 const N=[
-"A woodpecker's tongue can wrap around the back of its skull, cushioning its brain as it hammers.",
+"A woodpecker’s tongue can wrap around the back of its skull, cushioning its brain as it hammers.",
 "Wisconsin has more than 15,000 lakes.",
 "Chipmunks can stuff their cheek pouches until the pouches are about three times the size of their head.",
 "Some trees share sugars and chemical signals through underground fungal networks.",
@@ -884,19 +884,19 @@ const N=[
 "Wombats produce cube-shaped poop.",
 "Bananas are berries, but strawberries are not, botanically speaking.",
 "Lightning strikes Earth roughly 40 to 50 times every second.",
-"Sea otters sometimes hold hands while sleeping so they don't drift apart.",
+"Sea otters sometimes hold hands while sleeping so they don’t drift apart.",
 "A day on Venus is longer than its year.",
 "Honey found in ancient Egyptian tombs was still edible thousands of years later.",
 "Oxford University is older than the Aztec Empire.",
 "Cleopatra lived closer in time to the Moon landing than to the building of the Great Pyramid.",
 "Wisconsin produces roughly a quarter of all cheese made in the United States.",
 "The ice cream sundae is often credited to Two Rivers, Wisconsin, in 1881.",
-"Wisconsin's state dog is the American Water Spaniel, a breed developed there.",
+"Wisconsin’s state dog is the American Water Spaniel, a breed developed there.",
 "Loons have solid, heavy bones, which help them dive as deep as 200 feet.",
-"A loon's legs are set so far back that it can barely walk on land.",
+"A loon’s legs are set so far back that it can barely walk on land.",
 "Black bears are not true hibernators; their body temperature drops only a few degrees.",
 "White-tailed deer flash their white tails as an alarm signal to other deer.",
-"Porcupines can't shoot their quills, but quills detach easily on contact.",
+"Porcupines can’t shoot their quills, but quills detach easily on contact.",
 "Beavers' front teeth are orange because they contain iron.",
 "The tallest known tree, a coast redwood named Hyperion, is about 380 feet tall.",
 "Birch bark contains oils that let it burn even when wet.",
@@ -912,18 +912,18 @@ const N=[
 "Walking just 10 minutes outdoors can measurably lift your mood.",
 "Your nose can tell apart a huge range of smells; one study suggested over a trillion.",
 "Petrichor is the name for the earthy smell after rain.",
-"Lake Superior holds about 10% of the world's surface fresh water.",
+"Lake Superior holds about 10% of the world’s surface fresh water.",
 "Lake Superior is big enough to cover all of North and South America in about a foot of water.",
-"Glaciers shaped most of Wisconsin's lakes, hills, and kettle ponds.",
+"Glaciers shaped most of Wisconsin’s lakes, hills, and kettle ponds.",
 "Some frogs can freeze solid in winter and thaw back to life in spring.",
 "Snapping turtles can live more than 100 years.",
 "Ravens can mimic human speech and even other animals' calls.",
 "Pigeons can recognize themselves in a mirror and tell apart paintings by different artists.",
 "A cloud can weigh more than a million pounds.",
-"The world's oldest known living tree, a bristlecone pine, is over 4,800 years old.",
+"The world’s oldest known living tree, a bristlecone pine, is over 4,800 years old.",
 "Trees lose water through their leaves; a large oak can release over 40,000 gallons a year.",
 "Raccoons wash food partly to feel it better; their paws get more sensitive when wet.",
-"Owls can't move their eyes, so they turn their heads up to about 270 degrees.",
+"Owls can’t move their eyes, so they turn their heads up to about 270 degrees.",
 "Squirrels forget where they bury many nuts, which helps plant new trees.",
 "Blue jays mimic hawk calls, possibly to scare other birds away from food.",
 "Moose are excellent swimmers and can dive to eat underwater plants.",
@@ -954,10 +954,10 @@ const F=[
 "The Kraken legend likely came from sightings of giant squid, which can grow over 40 feet long.",
 "Vikings did not wear horned helmets; that look came from 1800s costume designers.",
 "Vikings reached North America around the year 1000, nearly 500 years before Columbus.",
-"Vikings may have navigated with 'sunstones', crystals that reveal the sun's position through clouds.",
+"Vikings may have navigated with 'sunstones', crystals that reveal the sun’s position through clouds.",
 "Ancient Polynesians navigated thousands of miles of ocean using stars, swells, and birds.",
-"Magellan's expedition was the first to sail around the world, but Magellan died partway through.",
-"Ship's biscuits, called hardtack, were so hard sailors soaked them before eating.",
+"Magellan’s expedition was the first to sail around the world, but Magellan died partway through.",
+"Ship’s biscuits, called hardtack, were so hard sailors soaked them before eating.",
 "Weevils in hardtack were so common that sailors tapped biscuits on the table to knock them out.",
 "Medieval cathedrals could take more than a century to build.",
 "Medieval Europeans held trials for animals, including pigs accused of crimes.",
@@ -978,10 +978,10 @@ const F=[
 "The Great Library of Alexandria declined over centuries rather than burning in a single fire.",
 "Medieval minstrels and troubadours spread news as well as songs from town to town.",
 "Mead, made from honey, is one of the oldest known alcoholic drinks.",
-"Explorers measured a ship's speed by tossing a knotted rope overboard, which is why speed at sea is in 'knots'.",
+"Explorers measured a ship’s speed by tossing a knotted rope overboard, which is why speed at sea is in 'knots'.",
 "Before clocks at sea were accurate, sailors could not reliably find longitude, causing many shipwrecks.",
 "John Harrison, a carpenter, built the sea clock that finally solved longitude in the 1700s.",
-"Fur trappers called voyageurs paddled canoes through Wisconsin's waters for the fur trade.",
+"Fur trappers called voyageurs paddled canoes through Wisconsin’s waters for the fur trade.",
 "Voyageurs sang paddling songs to keep rhythm and could paddle for 14 or more hours a day.",
 "Medieval people believed barnacle geese grew from barnacles on driftwood, so some ate them on fast days as 'fish'.",
 "Merlin first appears in writing in the 1100s, in the work of Geoffrey of Monmouth.",
@@ -993,20 +993,20 @@ const F=[
 "A 'grog' ration was rum mixed with water, introduced in the British navy in 1740.",
 "Gunpowder was discovered by Chinese alchemists seeking an elixir of life.",
 "The magnetic compass was first used for navigation in China around the 11th century.",
-"Marco Polo's tales of paper money in China astonished Europeans who used only coins.",
+"Marco Polo’s tales of paper money in China astonished Europeans who used only coins.",
 "Blackbeard reportedly tucked slow-burning fuses under his hat to look fearsome in battle.",
 "Early knightly tournaments were chaotic mock battles called melees, long before tidy jousting.",
-"Roman numerals were Europe's standard until Hindu-Arabic numerals spread after about 1200."];
+"Roman numerals were Europe’s standard until Hindu-Arabic numerals spread after about 1200."];
 const T={haunted:[
 "Jack-o'-lanterns began in Ireland and Scotland carved from turnips; immigrants switched to pumpkins in America.",
-"Halloween traces back to Samhain, an ancient Celtic festival marking summer's end.",
+"Halloween traces back to Samhain, an ancient Celtic festival marking summer’s end.",
 "Bats are not blind; many species see quite well and also use echolocation.",
-"Only three of the world's 1,400+ bat species feed on blood.",
+"Only three of the world’s 1,400+ bat species feed on blood.",
 "Candy corn was invented in the 1880s and was originally called 'Chicken Feed'.",
 "The fear of Halloween has a name: samhainophobia."],winter:[
 "No two snowflakes are proven identical, but nearly all have six sides.",
 "Snow looks white, but each ice crystal is actually clear.",
-"Wisconsin's coldest recorded temperature was -55°F, at Couderay in 1996.",
+"Wisconsin’s coldest recorded temperature was -55°F, at Couderay in 1996.",
 "Chickadees grow new brain cells each fall to help remember where they stored food.",
 "Fresh snow can absorb sound, making winter woods feel extra quiet."],golden:[
 "Leaves' yellow and orange are there all summer, hidden by green chlorophyll.",
@@ -1018,11 +1018,11 @@ const T={haunted:[
 "Old mapmakers sometimes added fake 'trap streets' to catch copycats."]};
 const CTX=[
 // seasons
-['b','fall',"Many birds migrate at night, navigating partly by the stars and Earth's magnetic field."],
+['b','fall',"Many birds migrate at night, navigating partly by the stars and Earth’s magnetic field."],
 ['n','fall',"Squirrels may bury thousands of nuts each fall, and the forgotten ones grow into trees."],
 ['n','fall',"Canada geese fly in a V so each bird gets lift from the wingtip swirl of the one ahead."],
 ['n','fall',"Black bears can eat around 20,000 calories a day in fall to fatten up for winter."],
-['f','fall',"Medieval villages slaughtered and salted much of their livestock in November, since there wasn't enough feed for winter."],
+['f','fall',"Medieval villages slaughtered and salted much of their livestock in November, since there wasn’t enough feed for winter."],
 ['f','fall',"The harvest moon is the full moon closest to the autumn equinox; its early evening light helped farmers work late."],
 ['n','winter',"Wood frogs survive winter with up to about two-thirds of their body water frozen."],
 ['n','winter',"Ruffed grouse dive into soft snow to sleep, using it as an insulated burrow."],
@@ -1041,10 +1041,10 @@ const CTX=[
 ['f','summer',"The 'dog days' of summer are named for Sirius, the Dog Star, which rises with the sun in late summer."],
 ['f','summer',"Midsummer bonfires were lit across old Europe on the shortest night of the year."],
 // weather
-['n','rain',"Raindrops aren't teardrop shaped; small ones are round and larger ones flatten like a bun."],
-['n','rain',"Earthworms come to the surface in rain, possibly because moving above ground is easier when it's wet."],
+['n','rain',"Raindrops aren’t teardrop shaped; small ones are round and larger ones flatten like a bun."],
+['n','rain',"Earthworms come to the surface in rain, possibly because moving above ground is easier when it’s wet."],
 ['n','rain',"Many plants release oils during dry spells; rain knocks them loose, part of the smell of petrichor."],
-['f','rain',"Sailors read the sky with rhymes like 'Red sky at night, sailor's delight; red sky at morning, sailors take warning.'"],
+['f','rain',"Sailors read the sky with rhymes like 'Red sky at night, sailor’s delight; red sky at morning, sailors take warning.'"],
 ['f','rain',"In Norse myth, rain and good harvests were linked to Freyr, and thunder to Thor."],
 ['n','snow',"A typical snowflake falls at only about 1 to 4 miles per hour."],
 ['n','snow',"Fresh snow can be over 90% trapped air, which is why it insulates so well."],
@@ -1057,13 +1057,13 @@ const CTX=[
 ['n','storm',"Count the seconds between lightning and thunder and divide by five to estimate the distance in miles."],
 ['n','storm',"A lightning bolt can be about five times hotter than the surface of the sun."],
 ['n','storm',"Thunder is the sound of air expanding explosively as lightning heats it."],
-['f','storm',"Sailors called the glowing plasma on masts during storms 'St. Elmo's fire' and took it as a sign of protection."],
-['f','storm',"Benjamin Franklin's lightning rod was one of the first inventions to tame a force once blamed on angry gods."],
+['f','storm',"Sailors called the glowing plasma on masts during storms 'St. Elmo’s fire' and took it as a sign of protection."],
+['f','storm',"Benjamin Franklin’s lightning rod was one of the first inventions to tame a force once blamed on angry gods."],
 ['n','clear',"On a clear dark night, the human eye can see a few thousand stars."],
 ['n','clear',"The sky is blue because air scatters blue sunlight more than red light."],
 ['f','clear',"Polynesian navigators memorized the rising points of dozens of stars to steer across the Pacific."],
 ['n','cloudy',"Clouds look white because their droplets scatter all colors of light equally."],
-['n','cloudy',"Even on cloudy days, much of the sun's UV light still gets through."],
+['n','cloudy',"Even on cloudy days, much of the sun’s UV light still gets through."],
 // time of day
 ['n','dawn',"Robins are among the first birds to sing at dawn, often before sunrise."],
 ['n','dawn',"Deer are most active at dawn and dusk, which scientists call being crepuscular."],
@@ -1083,7 +1083,7 @@ const CTX=[
 ['f','halloween',"In Celtic belief, the boundary between worlds was thinnest at Samhain, letting spirits pass through."],
 ['n','thanksgiving',"Benjamin Franklin once wrote that he considered the turkey a more respectable bird than the bald eagle."],
 ['n','thanksgiving',"Thanksgiving became a national holiday in 1863 under Abraham Lincoln."],
-['f','thanksgiving',"Harvest festivals of thanks are ancient; England's Harvest Home dates back centuries."],
+['f','thanksgiving',"Harvest festivals of thanks are ancient; England’s Harvest Home dates back centuries."],
 ['n','christmas',"Wisconsin is one of the top Christmas tree producing states."],
 ['n','christmas',"Reindeer are the same species as caribou."],
 ['n','christmas',"Reindeer eyes change color from gold in summer to blue in winter, helping them see in the dark months."],
@@ -1092,7 +1092,7 @@ const CTX=[
 ['b','newyear',"The Babylonians celebrated the new year about 4,000 years ago, in spring."],
 ['f','newyear',"January is named for Janus, the two-faced Roman god who looks both back and forward."],
 ['n','valentine',"Prairie voles are one of the few mammals that usually pair for life."],
-['f','valentine',"Chaucer was one of the first writers to link St. Valentine's Day with romance, in the 1300s."],
+['f','valentine',"Chaucer was one of the first writers to link St. Valentine’s Day with romance, in the 1300s."],
 ['n','stpatrick',"There are no native snakes in Ireland, though the reason is the Ice Age, not St. Patrick."],
 ['f','stpatrick',"The shamrock was reportedly used by St. Patrick to explain the Christian Trinity."],
 ['n','easter',"Eggs were often decorated in spring festivals long before modern Easter traditions."],
@@ -1111,20 +1111,20 @@ const CTX=[
 ['n','trail',"Many hiking trails follow paths first worn by animals or Native travel routes."],
 ['n','trail',"The Ice Age National Scenic Trail winds roughly 1,200 miles across Wisconsin along glacial landforms."],
 ['f','trail',"Roman roads were so well built that some are still used as paths today."],
-['n','park',"Wisconsin's first state park, Interstate Park, was established in 1900."],
+['n','park',"Wisconsin’s first state park, Interstate Park, was established in 1900."],
 ['f','park',"Many old European parks began as private deer parks walled off for nobles' hunting."],
-['n','wi',"Wisconsin's state animal is the badger, named after lead miners who dug into hillsides like badgers."],
+['n','wi',"Wisconsin’s state animal is the badger, named after lead miners who dug into hillsides like badgers."],
 ['n','wi',"The first practical typewriter was developed in Milwaukee in the 1860s."],
 ['n','wi',"Wisconsin was the first state to number its highways."],
 ['f','wi',"French fur traders and voyageurs gave many Wisconsin places their names, like Eau Claire and Fond du Lac."],
-['n','northwoods',"Northern Wisconsin was heavily logged in the late 1800s; much of today's forest regrew after that."],
+['n','northwoods',"Northern Wisconsin was heavily logged in the late 1800s; much of today’s forest regrew after that."],
 ['n','northwoods',"The Northwoods has one of the highest concentrations of freshwater lakes in the world."],
 ['n','northwoods',"Gray wolves returned to Wisconsin on their own from Minnesota in the 1970s."],
 ['f','northwoods',"Lumberjack camps had cooks called 'cookees' and tall tales like Paul Bunyan grew from them."],
-['n','birnamwood',"Birnamwood, Wisconsin is named after Birnam Wood from Shakespeare's Macbeth."],
-['f','birnamwood',"In Macbeth, the witches promise Macbeth he's safe until Birnam Wood comes to Dunsinane, and then soldiers carry its branches."]];
+['n','birnamwood',"Birnamwood, Wisconsin is named after Birnam Wood from Shakespeare’s Macbeth."],
+['f','birnamwood',"In Macbeth, the witches promise Macbeth he’s safe until Birnam Wood comes to Dunsinane, and then soldiers carry its branches."]];
 
-const LBL={fall:'🍂 Autumn note',winter:'❄️ Winter note',spring:'🌱 Spring note',summer:'☀️ Summer note',rain:'🌧 Rainy-day note',snow:'🌨 Snowy-day note',fog:'🌫 Foggy-day note',storm:'⛈ Stormy-day note',clear:'✨ Clear-sky note',cloudy:'☁️ Cloudy-day note',dawn:'🌅 Dawn note',dusk:'🌇 Dusk note',night:'🌙 Night note',halloween:'🎃 Halloween note',thanksgiving:'🦃 Thanksgiving note',christmas:'🎄 Christmas note',newyear:'🎆 New Year note',valentine:'💌 Valentine note',stpatrick:'☘️ St. Patrick\'s note',easter:'🥚 Spring holiday note',july4:'🎇 Fourth of July note',water:'💧 Waterside note',forest:'🌲 Forest note',trail:'🥾 Trail note',park:'🏞 Park note',wi:'🧀 Wisconsin note',northwoods:'🌲 Northwoods note',birnamwood:'🏡 Local note'};
+const LBL={fall:'🍂 Autumn note',winter:'❄️ Winter note',spring:'🌱 Spring note',summer:'☀️ Summer note',rain:'🌧 Rainy-day note',snow:'🌨 Snowy-day note',fog:'🌫 Foggy-day note',storm:'⛈ Stormy-day note',clear:'✨ Clear-sky note',cloudy:'☁️ Cloudy-day note',dawn:'🌅 Dawn note',dusk:'🌇 Dusk note',night:'🌙 Night note',halloween:'🎃 Halloween note',thanksgiving:'🦃 Thanksgiving note',christmas:'🎄 Christmas note',newyear:'🎆 New Year note',valentine:'💌 Valentine note',stpatrick:'☘️ St. Patrick’s note',easter:'🥚 Spring holiday note',july4:'🎇 Fourth of July note',water:'💧 Waterside note',forest:'🌲 Forest note',trail:'🥾 Trail note',park:'🏞 Park note',wi:'🧀 Wisconsin note',northwoods:'🌲 Northwoods note',birnamwood:'🏡 Local note'};
 const dq=new URLSearchParams(location.search).get('date');
 const now=()=>{if(dq&&/^\d{4}-\d\d-\d\d$/.test(dq)){const d=new Date(dq+'T12:00:00');return d}return new Date()};
 function here(){try{if(typeof last!=='undefined'&&last&&last.lat)return last}catch(e){}try{const l=JSON.parse(localStorage.getItem('ttu_profile_lastloc'));if(l&&l.lat)return l}catch(e){}return null}
@@ -1735,8 +1735,8 @@ html body[data-th] .pnl label small,html body[data-th] .pnl .muted{font-style:it
 (function(){
 const BEGIN={haunted:[['the lantern is lit…','shall we?'],['the old spell stirs…','shall we?']],winter:[['the snow is waiting','off we go'],['the frost road is open','off we go']],golden:[['the woods are ready…','come along'],['the golden road awaits','onward']],spring:[['something’s blooming…','let’s go see'],['the fae path is open','let’s go see']],summer:[['the lake is calling…','let’s answer'],['the tide carries a quest','cast off']],story:[['once upon a walk…','turn the page'],['and so the quest begins…','turn the page']]};
 const ADJ={haunted:[['you,','tonight'],['who carries','the lantern?']],winter:[['bundled up','just right?'],['your','winter tale']],golden:[['a little about','today'],['your','traveller’s tale']],spring:[['how the','day feels'],['your','enchanted wander']],summer:[['your kind of','afternoon'],['your voyage,','your way']],story:[['your','chapter'],['your chapter of','the quest']]};
-const T={'Look':'how the world looks','Sound':'what you’ll hear','Screen':'your window','Field notes':'little notes along the way','Your adventure':'your story so far','Safety':'keeping you safe','Where':'where shall we wander?','Challenge':'how tricky?','How far':'how far to roam','This hunt':'this hunt','More':'a few more things',
-'Sky effects':'Let the sky follow the day','time of day & local weather':'sunrise, dusk and the real weather','Little surprises':'Little surprises along the way','rare critter moments':'now and then, a critter says hello','Sounds':'Soft sounds','Soft sound cues':'Soft sounds','Random fact pop-ups':'Little facts as you walk','Keep controls visible':'Keep the controls close by','Full screen by default (turns on with your first tap)':'Fill the whole screen when I tap','Go full screen':'Fill the screen now','Show one':'tell me one','Facts you discover on hunts collect here.':'Nothing here yet. The trail will fill these pages.','Not set up':'Tell us a little about yourself','no setup · finds a safe park near you':'we’ll find a friendly park close by · public paths only, please','Coming soon: group · local · world · holiday & themed hunts':'one day soon: hunts with friends, neighbours and holidays'};
+const T={'Look':'How the world looks','Sound':'What you’ll hear','Screen':'Your window','Field notes':'Little notes along the way','Your adventure':'Your story so far','Safety':'Keeping you safe','Where':'Where shall we wander?','Challenge':'How tricky?','How far':'How far to roam','This hunt':'This hunt','More':'A few more things',
+'Sky effects':'Let the sky follow the day','time of day & local weather':'sunrise, dusk and the real weather','Little surprises':'Little surprises along the way','rare critter moments':'now and then, a critter says hello','Sounds':'Soft sounds','Soft sound cues':'Soft sounds','Random fact pop-ups':'Little facts as you walk','Keep controls visible':'Keep the controls close by','Full screen by default (turns on with your first tap)':'Fill the whole screen when I tap','Go full screen':'Fill the screen now','Show one':'Tell me one','Facts you discover on hunts collect here.':'Nothing here yet. The trail will fill these pages.','Not set up':'Tell us a little about yourself','no setup · finds a safe park near you':'we’ll find a friendly park close by · public paths only, please','Coming soon: group · local · world · holiday & themed hunts':'one day soon: hunts with friends, neighbors and holidays'};
 const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]);
 function run(){try{const b=document.body,th=b.dataset.th||'story',f=(typeof P!=='undefined'&&P&&P.fan)?1:0;
 const B=(BEGIN[th]||BEGIN.story)[f],A=(ADJ[th]||ADJ.story)[f];
@@ -1782,19 +1782,19 @@ let cur=null;
 function card(h){if(document.getElementById('fbCard'))document.getElementById('fbCard').remove();const th=document.body.dataset.th||'story',ic=ICON[th]||'⭐';
 cur={t:Date.now(),res:h.r,theme:th,tod:document.body.dataset.tod||'',diff:h.d,ms:h.ms,m:h.m,rating:0,chips:[],note:'',build:build()};
 const d=document.createElement('div');d.id='fbCard';d.setAttribute('role','dialog');d.setAttribute('aria-label','How was it?');
-d.innerHTML='<h3>'+(TITLE[th]||'How was it?')+'</h3><p class="fbS">'+(h.r==='win'?'treasure in hand':'home early, and that’s just fine')+' · '+mi(h.m)+' · '+dur(h.ms)+'</p><div id="fbStars">'+[1,2,3,4,5].map(n=>'<button type="button" data-n="'+n+'" aria-label="'+n+' of 5">'+ic+'</button>').join('')+'</div><div id="fbChips">'+CHIPS.map(c=>'<button type="button">'+c+'</button>').join('')+'</div><textarea id="fbNote" maxlength="280" placeholder="anything you’d like to tell us? (optional)"></textarea><div class="fbB"><button id="fbSkip" type="button">maybe later</button><button id="fbSave" type="button">keep this note</button></div>';
+d.innerHTML='<h3>'+(TITLE[th]||'How was it?')+'</h3><p class="fbS">'+(h.r==='win'?'treasure in hand':'home early, and that’s just fine')+' · '+mi(h.m)+' · '+dur(h.ms)+'</p><div id="fbStars">'+[1,2,3,4,5].map(n=>'<button type="button" data-n="'+n+'" aria-label="'+n+' of 5">'+ic+'</button>').join('')+'</div><div id="fbChips">'+CHIPS.map(c=>'<button type="button">'+c+'</button>').join('')+'</div><textarea id="fbNote" maxlength="280" placeholder="anything you’d like to tell us? (optional)"></textarea><div class="fbB"><button id="fbSkip" type="button">Maybe later</button><button id="fbSave" type="button">Keep this note</button></div>';
 document.body.appendChild(d);requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add('on')));
 d.querySelectorAll('#fbStars button').forEach(b=>b.onclick=()=>{cur.rating=+b.dataset.n;d.querySelectorAll('#fbStars button').forEach(x=>x.classList.toggle('on',+x.dataset.n<=cur.rating));try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}});
 d.querySelectorAll('#fbChips button').forEach(b=>b.onclick=()=>{b.classList.toggle('on');cur.chips=[...d.querySelectorAll('#fbChips button.on')].map(x=>x.textContent)});
 document.getElementById('fbSkip').onclick=close;
 document.getElementById('fbSave').onclick=()=>{cur.note=document.getElementById('fbNote').value.trim();const a=load();a.push(cur);saveL(a);list();
-d.querySelector('.fbB').outerHTML='<p class="fbS" style="margin-top:12px">thank you, tucked away on this phone</p><div class="fbB"><button id="fbSkip" type="button">all done</button><a id="fbShare" href="'+mailto([cur])+'">send it our way ✉</a></div>';
+d.querySelector('.fbB').outerHTML='<p class="fbS" style="margin-top:12px">thank you, tucked away on this phone</p><div class="fbB"><button id="fbSkip" type="button">All done</button><a id="fbShare" href="'+mailto([cur])+'">send it our way ✉</a></div>';
 document.getElementById('fbSkip').onclick=close;document.getElementById('fbShare').addEventListener('click',()=>setTimeout(close,400))}}
 function close(){const d=document.getElementById('fbCard');if(!d)return;d.classList.remove('on');setTimeout(()=>d.remove(),500)}
 window.TTU_FB.card=card;window.TTU_FB.close=close;
 function list(){const p=document.getElementById('s_dn');if(!p)return;let el=document.getElementById('fbList');const a=load();
 if(!el){el=document.createElement('details');el.id='fbList';el.className='more';const at=document.getElementById('sxProf');(at&&at.parentNode?at.parentNode:p).appendChild(el)}
-const open=el.open;el.innerHTML='<summary>your notes from the trail'+(a.length?' ('+a.length+')':'')+'</summary>'+(a.length?a.slice(-8).reverse().map(e=>'<div class="fbE">'+(ICON[e.theme]||'⭐').repeat(e.rating||0)+' '+(e.res==='win'?'Found it':'Ended early')+'<small>'+new Date(e.t).toLocaleDateString()+' · '+line(e).split(' · ').slice(1).join(' · ')+'</small></div>').join('')+'<div class="fbA"><a href="'+mailto(a.slice(-10))+'">send them our way ✉</a><button type="button" id="fbClr">clear the notes</button></div>':'<div class="fbE"><small>nothing here yet. After a hunt you can leave a little note, and it stays on this phone unless you choose to send it.</small></div>');el.open=open;
+const open=el.open;el.innerHTML='<summary>Your notes from the trail'+(a.length?' ('+a.length+')':'')+'</summary>'+(a.length?a.slice(-8).reverse().map(e=>'<div class="fbE">'+(ICON[e.theme]||'⭐').repeat(e.rating||0)+' '+(e.res==='win'?'Found it':'Ended early')+'<small>'+new Date(e.t).toLocaleDateString()+' · '+line(e).split(' · ').slice(1).join(' · ')+'</small></div>').join('')+'<div class="fbA"><a href="'+mailto(a.slice(-10))+'">send them our way ✉</a><button type="button" id="fbClr">Clear the notes</button></div>':'<div class="fbE"><small>nothing here yet. After a hunt you can leave a little note, and it stays on this phone unless you choose to send it.</small></div>');el.open=open;
 const c=document.getElementById('fbClr');c&&(c.onclick=async e=>{e.preventDefault();if(await ask('Clear your saved feedback?',[['Clear','y','primary'],['Keep','n']])==='y'){saveL([]);list()}})}
 window.TTU_FB.list=list;
 const orig=record;record=function(res){const r=orig.apply(this,arguments);try{if(r!==null){const h=P.hist[P.hist.length-1];if(h)setTimeout(()=>card(h),res==='win'?1600:900)}}catch(e){}return r};
@@ -1845,7 +1845,7 @@ html body #win .stats>div{background:none!important;box-shadow:none!important;bo
 #shMsg{font-size:.85rem;font-style:italic;opacity:.6;min-height:1.2em}
 </style>
 <script id="shJS">
-/* Share card: canvas PNG in the theme's art; Web Share with file, fallback download + copied text. No location. */
+/* Share card: canvas PNG in the theme’s art; Web Share with file, fallback download + copied text. No location. */
 (function(){const W=1080,H=1350,URL='artisalivalor1591-cell.github.io/trail-trade-up',HK='ttu_profile_shhide';
 const A={story:{sky:['#f6e7c8','#e9c99a'],hill:['#9a7a52','#6e5534','#4a3820'],ink:'#3b2a18',sel:'#9b2d20',font:'IM Fell DW Pica',orb:'#fff4d6',fx:'quill',greet:'a little tale, walked'},
 haunted:{sky:['#1c1430','#3a2450'],hill:['#2a1f3a','#1a1326','#0e0a16'],ink:'#efe6ff',sel:'#f0a640',font:'IM Fell English',orb:'#f3ead0',fx:'bats',greet:'a lantern-lit haunt'},
@@ -1873,14 +1873,14 @@ async function draw(h,hide){const th=document.body.dataset.th||'story',a=A[th]||
  fx(x,a);for(let i=0;i<3;i++)hills(x,a,i);
  const vg=x.createLinearGradient(0,H*.08,0,H*.62);const vc=(th==='haunted')?'20,12,32':'255,250,240';vg.addColorStop(0,'rgba('+vc+',0)');vg.addColorStop(.25,'rgba('+vc+',.55)');vg.addColorStop(.8,'rgba('+vc+',.55)');vg.addColorStop(1,'rgba('+vc+',0)');x.fillStyle=vg;x.fillRect(0,H*.08,W,H*.56);
  x.textAlign='center';x.fillStyle=a.ink;const F=(st,sz)=>x.font=st+' '+sz+'px "'+a.font+'", Georgia, serif';
- F('italic',46);x.globalAlpha=.75;x.fillText((P&&P.fan?FAN[th]:a.greet)||'',W/2,H*.17);x.globalAlpha=1;
+ F('italic',46);x.globalAlpha=.75;window.Cap=t=>t?String(t).charAt(0).toUpperCase()+String(t).slice(1):t;x.fillText(Cap((P&&P.fan?FAN[th]:a.greet)||''),W/2,H*.17);x.globalAlpha=1;
  const prize=hide?'treasure':(document.getElementById('prize')||{}).textContent.replace(/^Mock:\s*/i,'')||'treasure';
- F('',30);x.globalAlpha=.6;x.fillText(h.r==='win'?'i found the':'i went looking for the',W/2,H*.235);x.globalAlpha=1;
+ F('',30);x.globalAlpha=.6;x.fillText(h.r==='win'?'I found the':'I went looking for the',W/2,H*.235);x.globalAlpha=1;
  F('bold',prize.length>18?84:110);x.fillStyle=a.sel;const n=wrap(x,prize+(h.r==='win'?'!':''),W/2,H*.33,W*.84,prize.length>18?96:120);
  x.fillStyle=a.ink;const y2=H*.33+n*(prize.length>18?96:120)+30;
  const mi=(h.m/1609.34).toFixed(2)+' mi',mn=Math.max(1,Math.round(h.ms/60000))+' min',dd={easy:'easy',medium:'medium',hard:'hard'}[h.d]||h.d,dt=new Date(h.t).toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'});
  F('italic',44);x.fillText(mi+'  ·  '+mn+'  ·  '+dd,W/2,y2);F('',32);x.globalAlpha=.6;x.fillText(dt,W/2,y2+56);x.globalAlpha=1;
- const ms=window.TTU_MS&&TTU_MS.latest&&TTU_MS.latest();if(ms){F('italic',34);x.globalAlpha=.8;x.fillText('✦ '+ms,W/2,y2+120);x.globalAlpha=1}
+ const ms=window.TTU_MS&&TTU_MS.latest&&TTU_MS.latest();if(ms){F('italic',34);x.globalAlpha=.8;x.fillText('✦ '+Cap(ms),W/2,y2+120);x.globalAlpha=1}
  x.shadowColor='rgba(0,0,0,.45)';x.shadowBlur=14;x.fillStyle=th==='haunted'||night?'#ffffffdd':'#ffffffee';F('bold',54);x.fillText('Trail Trade-Up',W/2,H-118);F('italic',30);x.globalAlpha=.85;x.fillText(URL,W/2,H-70);x.globalAlpha=1;x.shadowBlur=0;
  return c}
 async function share(){const msg=document.getElementById('shMsg');const h=P.hist[P.hist.length-1];if(!h){msg.textContent='finish a hunt first, then we can share it';return}
@@ -1893,7 +1893,7 @@ async function share(){const msg=document.getElementById('shMsg');const h=P.hist
 const URL_=window.URL;
 function mount(){const w=document.getElementById('again');if(!w||document.getElementById('shRow'))return;const d=document.createElement('div');d.id='shRow';
  let hd=false;try{hd=localStorage.getItem(HK)==='1'}catch(e){}
- d.innerHTML='<button id="shGo" type="button"><i>tell someone about it</i> <b>share the find</b></button><label id="shHide"><input type="checkbox" id="shHideC"'+(hd?' checked':'')+'> keep the real prize a secret</label><div id="shMsg" aria-live="polite"></div>';
+ d.innerHTML='<button id="shGo" type="button"><i>Tell someone about it</i> <b>Share the find</b></button><label id="shHide"><input type="checkbox" id="shHideC"'+(hd?' checked':'')+'> keep the real prize a secret</label><div id="shMsg" aria-live="polite"></div>';
  w.before(d);document.getElementById('shGo').onclick=share;document.getElementById('shHideC').onchange=e=>{try{localStorage.setItem(HK,e.target.checked?'1':'0')}catch(_){}}}
 window.TTU_SHARE={draw,share,A};mount();setTimeout(mount,800);
 })();
@@ -1927,7 +1927,7 @@ for(const n of [.25,.5,1,2,3])add('h_mi'+n,'one hunt',n+' mile'+(n>1?'s':'')+' i
 for(const n of [1000,5000,10000,25000,50000,100000,250000,500000,1000000])add('st'+n,'steps',fmt(n)+' steps','about 0.76 m a step, give or take',n,s=>Math.round(s.m/.76),'steps');
 for(const n of [1,3,5,10,25,50,100])add('hu'+n,'hunts',n===1?'your very first hunt':n+' hunts begun and ended','every one counts',n,s=>s.hunts,'hunts');
 for(const n of [1,5,10,25,50,100])add('tr'+n,'treasure',n===1?'the first treasure':n+' treasures found','dug up, fair and square',n,s=>s.wins,'finds');
-for(const n of [1,5])add('gu'+n,'hunts',n===1?'home early, and that’s fine':'five gentle turn-backs','knowing when to head home is a skill',n,s=>s.gives,'hunts');
+for(const n of [1,5])add('gu'+n,'hunts',n===1?'home early, and that’s just fine':'five gentle turn-backs','knowing when to head home is a skill',n,s=>s.gives,'hunts');
 for(const n of [2,3,5,7,14,30])add('sk'+n,'streaks',n+' days in a row','a little wander every day',n,s=>s.streak,'days');
 for(const n of [1,5,10]){add('eb'+n,'early bird',n===1?'out before eight':n+' early-morning hunts','the world is quiet before 8 am',n,s=>s.early,'hunts');add('no'+n,'night owl',n===1?'out after eight in the evening':n+' evening hunts','the woods after 8 pm are a different place',n,s=>s.night,'hunts')}
 const WXN={clear:'under clear skies',cloudy:'under grey clouds',rain:'soggy but unstoppable',snow:'in the falling snow',fog:'through the fog'};
@@ -1990,9 +1990,9 @@ function check(silent){const s=stats(),E=J(EK,{}),nw=[];for(const m of M)if(!E[m
 function journal(){const p=document.getElementById('s_dn');if(!p)return;let el=document.getElementById('msJ');const s=stats(),E=J(EK,{});
  if(!el){el=document.createElement('details');el.id='msJ';el.className='more';const fb=document.getElementById('fbList');fb&&fb.parentNode?fb.parentNode.insertBefore(el,fb):p.appendChild(el)}
  const got=M.filter(m=>E[m.id]).sort((a,b)=>E[b.id]-E[a.id]),near=M.filter(m=>!E[m.id]).map(m=>[m,prog(m,s)]).sort((a,b)=>b[1]-a[1]).slice(0,5);const op=el.open;
- el.innerHTML='<summary>your trail journal ('+got.length+' of '+M.length+')</summary><div class="msH">just ahead on the trail</div>'+near.map(([m,f])=>'<div class="msP"><span>'+m.title+'</span><small>'+left(m,s)+'</small><div class="msBar"><u style="width:'+Math.round(f*100)+'%"></u></div></div>').join('')+
- '<div class="msH">already behind you</div>'+(got.length?got.slice(0,12).map(m=>'<div class="msE">'+m.title+'<small>'+new Date(E[m.id]).toLocaleDateString()+'</small></div>').join(''):'<div class="msE"><small>your first hunt will write the first line</small></div>')+
- '<label style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;margin-top:10px;min-height:44px"><span><i>a voice now and then</i> <b style="color:var(--sel)">spoken milestones</b><br><small style="opacity:.6">voices vary from phone to phone</small></span><input type="checkbox" id="msVoice"'+(spOn()?' checked':'')+'></label>';el.open=op;
+ el.innerHTML='<summary>Your trail journal ('+got.length+' of '+M.length+')</summary><div class="msH">Just ahead on the trail</div>'+near.map(([m,f])=>'<div class="msP"><span>'+m.title+'</span><small>'+left(m,s)+'</small><div class="msBar"><u style="width:'+Math.round(f*100)+'%"></u></div></div>').join('')+
+ '<div class="msH">Already behind you</div>'+(got.length?got.slice(0,12).map(m=>'<div class="msE">'+m.title+'<small>'+new Date(E[m.id]).toLocaleDateString()+'</small></div>').join(''):'<div class="msE"><small>your first hunt will write the first line</small></div>')+
+ '<label style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;margin-top:10px;min-height:44px"><span><i>A voice now and then</i> <b style="color:var(--sel)">Spoken milestones</b><br><small style="opacity:.6">voices vary from phone to phone</small></span><input type="checkbox" id="msVoice"'+(spOn()?' checked':'')+'></label>';el.open=op;
  document.getElementById('msVoice').onchange=e=>{try{localStorage.setItem(VK,e.target.checked?'on':'off')}catch(_){}}}
 const orig=record;record=function(res){const r=orig.apply(this,arguments);try{if(r!==null){const h=P.hist[P.hist.length-1],L=J(LK,[]);L.push({t:h.t,res:h.r,d:h.d,m:h.m,ms:h.ms,th:b.dataset.th,tod:b.dataset.tod,wx:b.dataset.wx,fan:P.fan?1:0});SV(LK,L.slice(-1000));setTimeout(()=>check(false),res==='win'?4200:3000)}}catch(e){}return r};
 // backfill once from past hunts
@@ -2005,6 +2005,10 @@ const vq=/[?&]voice=([a-z]+)/.exec(location.search);if(vq&&CH[vq[1]]){let vd=fal
 })();
 </script>
 <style id="simpleCSS">
+/* sentence case for in-world microcopy (source stays lowercase where it is reused mid-sentence) */
+:is(p,h1,h2,h3,h4,summary,button,label,small,li,dt,dd,b,i,em,strong,div)::first-letter{text-transform:uppercase}
+#msT *::first-letter,#msJ *::first-letter{text-transform:uppercase}
+.nocap::first-letter,input::first-letter,textarea::first-letter{text-transform:none}
 body.setupv #sx .hh,body.setupv #profBtn,body.setupv #sxSug,body.setupv #sxWander,body.setupv #sxSoon,body.setupv #fsBtn,body.setupv #resetAll{display:none!important}
 #sxLv.plain{font-size:1.02rem;opacity:.85;font-style:italic;margin:10px auto 0;max-width:22em}
 #sxStep,#sxIntro{position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 26px;color:var(--fg);background:radial-gradient(ellipse 90% 70% at 50% 50%,var(--veil,rgba(250,244,230,.78)),rgba(0,0,0,.15));backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);opacity:0;pointer-events:none;transition:opacity .45s;text-shadow:0 1px 2px var(--tsh,transparent)}
@@ -2057,8 +2061,8 @@ function clk(s){const b=document.querySelector(s);b&&b.click()}
 function launch(){LS('ttu_profile_how',how);LS('ttu_profile_dist',String(dist));LS('ttu_profile_dif',dif);clk('.dd[data-d="'+dif+'"]');close();
  if(how==='wander'){clk('.m[data-mode="radius"]');window.TTU_WANDER&&TTU_WANDER.go();return}
  if(how==='public'){clk('.m[data-mode="public"]');window.sxOpen&&sxOpen('up');how='publicReady';return}
- clk('.m[data-mode="radius"]');clk('.rr[data-mi="'+dist+'"]');orig&&orig.call(go)}
-go.onclick=function(e){if(!$('agree').checked||(how==='publicReady')){if(how==='publicReady'){how='public';LS('ttu_profile_how','public')}return orig&&orig.call(go,e)}open()};
+ clk('.m[data-mode="radius"]');clk('.rr[data-mi="'+dist+'"]');{const g=$$('#sxGo');(g.onclick||orig).call(g)}}
+document.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest('#sxGo');if(!g||!$('agree').checked)return;if(how==='publicReady'){how='public';LS('ttu_profile_how','public');return}e.stopImmediatePropagation();e.preventDefault();open()},true);
 window.TTU_STEP={open,close,launch};
 /* 3) first-run 3-card intro, skippable, once */
 const CARDS=[['🧭','A treasure hunt, close to home','We hide a little treasure somewhere safe and public nearby. You go find it.'],
