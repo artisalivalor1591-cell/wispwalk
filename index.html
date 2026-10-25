@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610241540"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610241540"><link rel="icon" href="favicon.ico?v=202610241345" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=202610241345"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=202610241345"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610251500"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610251500"><link rel="icon" href="favicon.ico?v=202610241345" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=202610241345"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=202610241345"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -610,7 +610,7 @@ sx.innerHTML=`<div id="sxCore"><button class="hh dn" data-p="dn" aria-label="Set
 <div id="sxAv"></div>
 <div class="sxMid"><div id="sxHi"></div><div id="sxLv"></div>
 <button id="sxSug" aria-label="Adjust hunt"><span id="sxLine"></span><small>tap to adjust</small></button>
-<button id="sxGo">Begin<br>hunt</button><p id="sxMsg"></p>
+<button id="sxGo">Begin<br>hunt</button><small id="sxGoSub">Tap to hide a treasure nearby and start</small><p id="sxMsg"></p>
 <div id="sxAgree"></div><button id="sxRead" class="lnk">Read the safety agreement</button></div>
 <button class="hh up" data-p="up" aria-label="Adjust hunt">︿<span>adjust</span></button>
 <p id="sxSoon">Coming soon: group · local · world · holiday &amp; themed hunts</p></div>
@@ -1351,7 +1351,7 @@ window.TTU_CRIT={play,list:Object.keys(C)};
 #tapL svg{position:absolute;inset:0;width:100%;height:100%}
 #tapL g,#tapL path,#tapL circle,#tapL rect,#tapL ellipse{transform-box:fill-box}
 
-#secT{position:fixed;left:50%;bottom:calc(140px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:60;pointer-events:none;font:600 .8rem system-ui;padding:6px 12px;border-radius:14px;background:var(--chipbg,rgba(0,0,0,.5));color:var(--chipfg,#fff);opacity:0;transition:opacity .4s}
+#secT{position:fixed;left:50%;bottom:calc(140px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:99999;pointer-events:none;font:600 .8rem system-ui;padding:6px 12px;border-radius:14px;background:var(--chipbg,rgba(0,0,0,.5));color:var(--chipfg,#fff);opacity:0;transition:opacity .4s}
 #secT.on{opacity:.92}
 </style>
 <script>
@@ -2386,7 +2386,7 @@ const mlab=v=>(v===1?'1 mile':(+v.toFixed(1))+' miles');
 let mv=['walk','drive','combo'].includes(P.move)?P.move:'walk';const fit=()=>{if(cOn()){dist=cV();return}if(!MV[mv].includes(dist))dist=MD[mv]};fit();
 const rowH=()=>'<div class="row">'+MV[mv].map(k=>`<button class="opt${!cOn()&&+k===dist?' sel':''}" data-mi="${k}"><b>${FM[k]}</b></button>`).join('')+`<button class="opt${cOn()?' sel':''}" data-cu="1"><b>Custom</b></button></div>`+(cOn()?`<div class="cus"><input type="range" id="stCu" min="0" max="${VA[mv].length-1}" step="1" value="${ci(cV())}" aria-label="Custom distance"><output id="stCuL">${mlab(cV())}</output></div>`:'');
 function draw(){fit();st.innerHTML=`<p class="ld">How will you travel?</p>
-<div class="row">${[['walk','On foot'],['drive','By car'],['combo','A bit of both']].map(([k,l])=>`<button class="opt${k===mv?' sel':''}" data-mv="${k}"><b>${l}</b></button>`).join('')}</div>
+<div class="row">${[['walk','On foot','Walk the whole way'],['drive','By car','Drive, park, look'],['combo','A bit of both','Drive, then walk']].map(([k,l,t])=>`<button class="opt${k===mv?' sel':''}" data-mv="${k}"><b>${l}</b><small>${t}</small></button>`).join('')}</div>
 ${mv==='walk'?'':'<p class="nt">'+(mv==='drive'?'Drive to the area, park somewhere safe, then look around on foot.':'Drive partway, park somewhere safe, then walk the rest.')+'</p>'}
 <div class="hr"></div><p class="ld">${P.fan?'Where shall the quest lead?':'Where shall we wander?'}</p>
 <button class="opt" data-h="radius"><b>A set distance</b><small>${mv==='walk'?'Hidden somewhere within a walk you choose.':mv==='drive'?'Hidden at a public spot within a short drive.':'A short drive, then a walk to the treasure.'}</small></button>
@@ -2397,8 +2397,8 @@ ${how==='else'?`<div class="elw"><form id="elF" autocomplete="off"><span class="
 <button class="opt" data-h="wander"><b><span class="wG">❦</span> Wander nearby</b><small>No setup. We’ll find a friendly park close by.</small></button>
 <button class="opt" data-h="public"><b>Draw my own area</b><small>Outline your yard, or land you have permission to use.</small></button>
 <div class="hr"></div><p class="ld">How tricky?</p>
-<div class="row">${['easy','medium','hard'].map(d=>`<button class="opt${d===dif?' sel':''}" data-d="${d}"><b>${d[0].toUpperCase()+d.slice(1)}</b></button>`).join('')}</div>
-<p class="nt" id="elM" role="status"></p><button class="go" id="stGo">${how==='else'?'Save this hunt':how==='public'?'Open the map':P.fan?'Onward!':'Off we go'}</button>
+<div class="row">${['easy','medium','hard'].map(d=>`<button class="opt${d===dif?' sel':''}" data-d="${d}"><b>${d[0].toUpperCase()+d.slice(1)}</b><small>${{easy:'Area shown on map',medium:'Big search circle',hard:'Arrow and glow only'}[d]}</small></button>`).join('')}</div>
+<p class="nt" id="elM" role="status"></p><button class="go" id="stGo">${how==='else'?'Save this hunt':how==='public'?'Open the map':P.fan?'Onward!':'Off we go'}</button><p class="nt stSub">${how==='else'?'Saves it for when you get there.':how==='public'?'Outline the area on a map next.':'Back to the start screen to begin.'}</p>
 <div><button class="lnk2" id="stBack">Back</button><button class="lnk2" id="stMore">More settings</button></div>`;
 st.querySelectorAll('[data-h]').forEach(b=>{b.classList.toggle('sel',b.dataset.h===how);b.onclick=()=>{how=b.dataset.h;tick();draw()}});
 st.querySelectorAll('[data-mv]').forEach(b=>b.onclick=()=>{mv=b.dataset.mv;P.move=mv;try{pSave()}catch(e){}tick();draw()});
@@ -2485,12 +2485,12 @@ showPlan();setTimeout(showPlan,900);
 window.TTU_PLAN={get:getPl,show:showPlan,check:checkPlan,geo};
 window.TTU_STEP={open,close,launch};
 /* 3) first-run 3-card intro, skippable, once */
-const CARDS=[['🧭','A treasure hunt, close to home','We hide a little treasure somewhere safe and public nearby. You go find it.'],
-['✨','The compass knows the way','Follow the needle. The glow grows warmer as you get close. Tap “claim” when you arrive.'],
+const CARDS=[['🧭','Find the hidden treasure','A treasure is hidden somewhere nearby. Follow the compass to find it, then claim your prize. Wisps along the way may help you, or trick you.'],
+['✨','How the compass works','The arrow points toward the treasure. The closer you get, the brighter the glow. When you arrive, tap “Claim treasure.”'],
 ['🌿','Safety first, always','Public paths only. Keep your eyes up, mind traffic and never trespass. Head home whenever you like.']];
 function intro(){if(LS('ttu_intro')||!document.body.classList.contains('setupv'))return;const it=document.createElement('div');it.id='sxIntro';document.body.appendChild(it);let i=0;
  const done=()=>{LS('ttu_intro','1');document.body.classList.remove('stepOn');it.classList.remove('on');setTimeout(()=>it.remove(),500)};
- const show=()=>{const c=CARDS[i];it.innerHTML=`<div class="cd"><div class="ic">${c[0]}</div><p class="ld">${['first, the idea','then, the compass','and above all'][i]}</p><h2>${c[1]}</h2><p class="sub">${c[2]}</p></div>
+ const show=()=>{const c=CARDS[i];it.innerHTML=`<div class="cd"><div class="ic">${c[0]}</div><p class="ld">${['the point','the compass','and above all'][i]}</p><h2>${c[1]}</h2><p class="sub">${c[2]}</p></div>
  <div class="dots">${CARDS.map((_,k)=>`<i class="${k===i?'on':''}">●</i>`).join('')}</div><div><button class="lnk2" id="inNext" style="opacity:1;color:var(--sel);font-style:normal;font-family:var(--fh);font-size:1.15rem">${i<2?'Next →':'Let’s begin'}</button></div>`;
  it.querySelector('#inNext').onclick=nx};
  const nx=()=>{if(i>=2)return done();const cd=it.querySelector('.cd');cd.classList.add('out');setTimeout(()=>{i++;show()},300)};
@@ -2809,5 +2809,31 @@ function fly(){if(!night()||document.hidden||document.getElementById('sStar'))re
 function plan(){setTimeout(()=>{fly();plan()},dbg?(fst?(fst=0,1500):9000):(180+Math.random()*240)*1000)}let fst=1;plan();
 window.TTU_STAR={fly,caught,name};
 if(window.TTU_MS&&TTU_MS.M&&!TTU_MS.M.some(m=>m.id==='w_star'))TTU_MS.M.push({id:'w_star',cat:'wisps',title:'Star-caught',sub:'caught a shooting star mid-flight',need:1,val:()=>+localStorage.getItem(KS)||0,unit:'stars'});
+})();</script>
+<style id="coachcss">#sxGoSub{display:block;text-align:center;font-size:.8rem;opacity:.8;margin:4px 0;text-shadow:0 1px 3px rgba(0,0,0,.45)}.stSub{margin:4px 0 0;font-size:.8rem;opacity:.75;text-align:center}
+.opt small{display:block}
+#coach,#idleH{position:fixed;left:50%;transform:translateX(-50%);z-index:99999;max-width:80vw;width:max-content;text-align:center;font-family:var(--fh,inherit);color:#fff8e6;text-shadow:0 1px 4px rgba(0,0,0,.8),0 0 12px rgba(0,0,0,.5);font-size:1.05rem;line-height:1.35;opacity:0;transition:opacity .8s;pointer-events:none}
+#coach.on{opacity:1}#coach{pointer-events:auto}#coach small{display:block;font-size:.75rem;opacity:.7;margin-top:4px}
+#idleH{font-size:.95rem}#idleH.on{opacity:.85}</style>
+<script>(function(){const CK='ttu_profile_coach',$=i=>document.getElementById(i);
+const vis=e=>!!e&&e.getClientRects().length>0&&getComputedStyle(e).visibility!=='hidden';
+function place(el,a,below){const r=a.getBoundingClientRect(),H=innerHeight;let y=below?r.bottom+12:r.top-el.offsetHeight-12;if(y<60)y=r.bottom+12;if(y>H-90)y=H-130;el.style.top=y+'px'}
+const TIPS=[['cmp','The arrow points to the treasure. Follow it.'],['cmp','The closer you get, the brighter the glow and the shorter the distance.'],['wspC','Wisps sometimes ask a small favor. Tap one to see what it wants.'],['hxClaim','When you arrive, tap “Claim treasure” to collect your prize.']];
+let cOn=false;function coach(){if(cOn||localStorage.getItem(CK))return;if(!vis($('hx'))||!vis($('cmp')))return;cOn=true;let i=0;const el=document.createElement('div');el.id='coach';document.body.appendChild(el);
+ const show=()=>{const t=TIPS[i];let a=$(t[0]);if(!vis(a)||a.getBoundingClientRect().top>innerHeight)a=$('cmp');el.innerHTML=t[1]+'<small>tap to continue · '+(i+1)+'/'+TIPS.length+'</small>';el.classList.remove('on');requestAnimationFrame(()=>{place(el,a,0);el.classList.add('on')})};
+ const nx=e=>{e&&e.stopPropagation();i++;if(i>=TIPS.length){try{localStorage.setItem(CK,'1')}catch(_){}el.classList.remove('on');setTimeout(()=>el.remove(),800);cOn=false;return}show()};
+ el.addEventListener('click',nx);show()}
+window.TTU_COACH=coach;setInterval(coach,1500);
+let last=Date.now(),shown=0,lastKey='';const h=document.createElement('div');h.id='idleH';document.body.appendChild(h);
+const reset=()=>{last=Date.now();h.classList.remove('on')};['pointerdown','keydown','touchstart','wheel'].forEach(t=>addEventListener(t,reset,{passive:true,capture:true}));
+function pick(){if(cOn||$('sxIntro')||vis($('win'))||vis($('ask')))return null;const st=$('sxStep');
+ if(st&&vis(st)&&vis($('stGo'))&&!vis($('drawGo')))return [$('stBack')||$('stGo'),'Pick your options, then tap “'+($('stGo').textContent.trim())+'”','step',1];
+ if(vis($('drawGo')))return [$('drawGo'),'Tap the map to drop points around your area','draw'];
+ if(vis($('sxGo')))return [$('sxRead')||$('sxGo'),'Tick the box, then tap the lantern to begin','begin'];
+ if(vis($('hx'))&&vis($('cmp'))){const w=$('wspC');if(vis(w)&&w.getBoundingClientRect().width>0)return [w,'Tap the wisp to see what it wants','wisp'];const c=$('hxClaim');if(c&&c.classList.contains('rise'))return [c,'Tap “Claim treasure” to collect it','claim'];return [$('cmp'),'Turn slowly; the arrow follows you','hunt']}
+ return null}
+setInterval(()=>{if(h.classList.contains('on')||Date.now()-last<7000)return;const p=pick();if(!p||!p[0])return;
+ let n=0;try{n=+(sessionStorage.getItem('ttu_idle_'+p[2])||0)}catch(_){}if(n>=2||(p[2]===lastKey&&Date.now()-shown<45000))return;
+ try{sessionStorage.setItem('ttu_idle_'+p[2],n+1)}catch(_){}lastKey=p[2];shown=Date.now();h.textContent=p[1];place(h,p[0],p[3]||p[2]==='hunt'||p[2]==='begin');h.classList.add('on');setTimeout(()=>h.classList.remove('on'),6000)},1000);
 })();</script>
 </body></html>
