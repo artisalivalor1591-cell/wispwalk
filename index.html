@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610251500"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610251500"><link rel="icon" href="favicon.ico?v=202610241345" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=202610241345"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=202610241345"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="ttu-build" content="202610252345"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WispWalk · Solo Hunt</title><meta name="theme-color" content="#1f4d3a"><link rel="manifest" href="manifest.json?v=202610252345"><link rel="icon" href="favicon.ico?v=202610241345" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=202610241345"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=202610241345"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="WispWalk">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Creepster&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Nunito:wght@400;600;700&family=Pacifico&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
@@ -1183,7 +1183,7 @@ let el,hideT=0,lastShow=0;
 function card(){if(el)return el;el=document.createElement('div');el.id='fct';el.setAttribute('role','status');el.innerHTML='<i>✕</i><b></b><p></p>';document.body.appendChild(el);
  let y0=null;el.addEventListener('click',hide);el.addEventListener('touchstart',e=>{y0=e.touches[0].clientY},{passive:true});el.addEventListener('touchend',e=>{if(y0!==null&&Math.abs(e.changedTouches[0].clientY-y0)>20)hide();y0=null});return el}
 function hide(){if(el)el.classList.remove('on');clearTimeout(hideT)}
-function show(where,force){if(!st.on&&!force)return;const id=pick();if(!id)return;card();st.seen.push(id);if(!st.j.includes(id))st.j.push(id);save();lastShow=Date.now();
+function show(where,force){if(!st.on&&!force)return;if(window.TTU_TIPBUSY&&TTU_TIPBUSY()){clearTimeout(show.q);show.q=setTimeout(()=>show(where,force),2500);return}const id=pick();if(!id)return;card();st.seen.push(id);if(!st.j.includes(id))st.j.push(id);save();lastShow=Date.now();
  el.querySelector('b').textContent=lastCtx?LBL[lastCtx]:fan()?'📜 From the old tomes':'🌿 Field note';el.querySelector('p').textContent=txt(id);el.classList.toggle('low',where==='low');
  requestAnimationFrame(()=>el.classList.add('on'));clearTimeout(hideT);hideT=setTimeout(hide,Math.max(9000,txt(id).length*90));paintJ()}
 // hooks: hunt start, periodic while hunting, treasure found
@@ -2817,23 +2817,23 @@ if(window.TTU_MS&&TTU_MS.M&&!TTU_MS.M.some(m=>m.id==='w_star'))TTU_MS.M.push({id
 #idleH{font-size:.95rem}#idleH.on{opacity:.85}</style>
 <script>(function(){const CK='ttu_profile_coach',$=i=>document.getElementById(i);
 const vis=e=>!!e&&e.getClientRects().length>0&&getComputedStyle(e).visibility!=='hidden';
-function place(el,a,below){const r=a.getBoundingClientRect(),H=innerHeight;let y=below?r.bottom+12:r.top-el.offsetHeight-12;if(y<60)y=r.bottom+12;if(y>H-90)y=H-130;el.style.top=y+'px'}
+function place(el,a,below){const r=a.getBoundingClientRect(),H=innerHeight;let y=below?r.bottom+12:r.top-el.offsetHeight-12;if(y<190)y=r.bottom+12;if(y>H-90)y=H-130;el.style.top=y+'px'}
 const TIPS=[['cmp','The arrow points to the treasure. Follow it.'],['cmp','The closer you get, the brighter the glow and the shorter the distance.'],['wspC','Wisps sometimes ask a small favor. Tap one to see what it wants.'],['hxClaim','When you arrive, tap “Claim treasure” to collect your prize.']];
-let cOn=false;function coach(){if(cOn||localStorage.getItem(CK))return;if(!vis($('hx'))||!vis($('cmp')))return;cOn=true;let i=0;const el=document.createElement('div');el.id='coach';document.body.appendChild(el);
+let cOn=false;window.TTU_TIPBUSY=()=>cOn||h.classList.contains('on');function coach(){if(cOn||localStorage.getItem(CK))return;const F=$('fct');if(F&&F.classList.contains('on'))return;if(!vis($('hx'))||!vis($('cmp')))return;cOn=true;let i=0;const el=document.createElement('div');el.id='coach';document.body.appendChild(el);
  const show=()=>{const t=TIPS[i];let a=$(t[0]);if(!vis(a)||a.getBoundingClientRect().top>innerHeight)a=$('cmp');el.innerHTML=t[1]+'<small>tap to continue · '+(i+1)+'/'+TIPS.length+'</small>';el.classList.remove('on');requestAnimationFrame(()=>{place(el,a,0);el.classList.add('on')})};
  const nx=e=>{e&&e.stopPropagation();i++;if(i>=TIPS.length){try{localStorage.setItem(CK,'1')}catch(_){}el.classList.remove('on');setTimeout(()=>el.remove(),800);cOn=false;return}show()};
  el.addEventListener('click',nx);show()}
-window.TTU_COACH=coach;setInterval(coach,1500);
+window.TTU_COACH=coach;const hunt0=()=>vis($('hx'))&&vis($('cmp'));setInterval(coach,1500);
 let last=Date.now(),shown=0,lastKey='';const h=document.createElement('div');h.id='idleH';document.body.appendChild(h);
 const reset=()=>{last=Date.now();h.classList.remove('on')};['pointerdown','keydown','touchstart','wheel'].forEach(t=>addEventListener(t,reset,{passive:true,capture:true}));
-function pick(){if(cOn||$('sxIntro')||vis($('win'))||vis($('ask')))return null;const st=$('sxStep');
- if(st&&vis(st)&&vis($('stGo'))&&!vis($('drawGo')))return [$('stBack')||$('stGo'),'Pick your options, then tap “'+($('stGo').textContent.trim())+'”','step',1];
- if(vis($('drawGo')))return [$('drawGo'),'Tap the map to drop points around your area','draw'];
- if(vis($('sxGo')))return [$('sxRead')||$('sxGo'),'Tick the box, then tap the lantern to begin','begin'];
+function pick(){if(vis($('fct'))&&$('fct').classList.contains('on'))return null;if(cOn||$('sxIntro')||vis($('win'))||vis($('ask')))return null;const st=$('sxStep'),hunt=vis($('hx'))&&vis($('cmp'));
+ if(!hunt&&st&&vis(st)&&vis($('stGo'))&&!vis($('drawGo')))return [$('stBack')||$('stGo'),'Pick your options, then tap “'+($('stGo').textContent.trim())+'”','step',1];
+ if(!hunt&&vis($('drawGo')))return [$('drawGo'),'Tap the map to drop points around your area','draw'];
+ if(!hunt&&vis($('sxGo')))return [$('sxRead')||$('sxGo'),'Tick the box, then tap the lantern to begin','begin'];
  if(vis($('hx'))&&vis($('cmp'))){const w=$('wspC');if(vis(w)&&w.getBoundingClientRect().width>0)return [w,'Tap the wisp to see what it wants','wisp'];const c=$('hxClaim');if(c&&c.classList.contains('rise'))return [c,'Tap “Claim treasure” to collect it','claim'];return [$('cmp'),'Turn slowly; the arrow follows you','hunt']}
  return null}
 setInterval(()=>{if(h.classList.contains('on')||Date.now()-last<7000)return;const p=pick();if(!p||!p[0])return;
  let n=0;try{n=+(sessionStorage.getItem('ttu_idle_'+p[2])||0)}catch(_){}if(n>=2||(p[2]===lastKey&&Date.now()-shown<45000))return;
- try{sessionStorage.setItem('ttu_idle_'+p[2],n+1)}catch(_){}lastKey=p[2];shown=Date.now();h.textContent=p[1];place(h,p[0],p[3]||p[2]==='hunt'||p[2]==='begin');h.classList.add('on');setTimeout(()=>h.classList.remove('on'),6000)},1000);
+ try{sessionStorage.setItem('ttu_idle_'+p[2],n+1)}catch(_){}lastKey=p[2];shown=Date.now();h.textContent=p[1];place(h,hunt0()?$('cmp'):p[0],hunt0()||p[3]||p[2]==='begin');h.classList.add('on');setTimeout(()=>h.classList.remove('on'),6000)},1000);
 })();</script>
 </body></html>
